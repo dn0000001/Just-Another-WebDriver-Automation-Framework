@@ -1,0 +1,26 @@
+<suite name="Multiple Parallel Threads" verbose="1" group-by-instances="true" preserve-order="true" parallel="methods" thread-count="5">
+
+	<!-- These test suites are executed first in order -->
+	<!-- <suite-files> <suite-file path="testng.xml" /> </suite-files> -->
+
+	<!-- This will override the parameter value if set an another file -->
+	<!-- <parameter name="sUseConfigFile" value="config.xml" />  -->
+	<!-- <parameter name="sAllContexts" value="true" /> -->
+	
+	<test name="Multiple Parallel Threads Test" group-by-instances="true" preserve-order="true">
+		<groups>
+			<run>
+				<include name="setup" />
+				<include name="results" />
+			</run>
+		</groups>
+		<classes>
+			<class name="com.automation.ui.common.sampleProject.tests.MultipleParallelThreads">
+				<methods>
+					<include name="something" />
+					<include name="something2" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+</suite>

@@ -1,0 +1,560 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Advanced WebDriver Test</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+   <script src="jquery-1.11.0.min.js"></script>
+   <script src="jquery.mockjax.js"></script>
+</script>
+<script type="text/JavaScript">
+
+$.mockjax({
+  url: '/server/*',
+  responseTime: randomInt(1000, 5000),
+  responseText: 'success'
+});
+
+var currentCaptcha = "";
+
+var IFRAME_MESSAGE = "";
+
+function listener(event){
+	IFRAME_MESSAGE = event.data;
+}
+
+if (window.addEventListener){
+  addEventListener("message", listener, false)
+} else {
+  attachEvent("onmessage", listener)
+}
+
+function getCaptcha(){
+	return currentCaptcha;
+}
+
+function updateProv(){
+	var options = "";
+	var dd = document.getElementById("Country").options;
+	var index = document.getElementById("Country").selectedIndex;
+	
+	var data = dd[index].value;
+	if(data == null || data == "")
+		options =  getBlank();
+	else if(data == "CAN")
+		options = getProvinces();
+	else if(data == "US")
+		options = getStates();
+	else if(data == "OTHER")
+		options = getOther();
+	else 
+		options = getBlank();
+
+  // Does not work in IE8 as not allowed to update innerHTML on tables
+	//var update = document.getElementById("Prov");
+	//update.innerHTML = options;
+	
+	$("#Prov").html(options);
+}
+
+function getProvinces(){
+	var provinces = '<option id="blankOption" value="" selected="selected"></option>';
+	provinces += '<option value="AB">Alberta</option>';
+	provinces += '<option value="ON">Ontario</option>';
+	provinces += '<option value="QC">Quebec</option>';
+	provinces += '<option value="MB">Manitoba</option>';
+	provinces += '<option value="BC">British Columbia</option>';
+	return provinces;
+}
+
+function getStates(){
+	var states = '<option id="blankOption" value="" selected="selected"></option>';
+	states += '<option value="CA">California</option>';
+	states += '<option value="OH">Ohio</option>';
+	states += '<option value="FL">Florida</option>';
+	states += '<option value="TX">Texas</option>';
+	states += '<option value="NY">New York</option>';
+	return states;
+}
+
+function getOther(){
+	var misc = '<option id="blankOption" value="" selected="selected"></option>';
+	misc += '<option value="LD">London</option>';
+	misc += '<option value="PS">Paris</option>';
+	return misc;
+}
+
+function getBlank(){
+	return '<option id="blankOption" value="" selected="selected"></option>';
+}
+
+function randomString(len, charSet) {
+	charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	var randomString = '';
+	for (var i = 0; i < len; i++) {
+		var randomPoz = Math.floor(Math.random() * charSet.length);
+		randomString += charSet.substring(randomPoz,randomPoz+1);
+	}
+	return randomString;
+}
+
+function randomInt(min, max){
+	return Math.floor((Math.random() * max) + min); 
+}
+
+function pausecomp(millis)
+ {
+  var date = new Date();
+  var curDate = null;
+  do { curDate = new Date(); }
+  while(curDate - date < millis);
+}
+
+function simulateAJAX2(maxMilli){
+  //alert("Delay (ms):  " + maxMilli);
+	pausecomp(maxMilli);
+	//alert("Done");
+}
+
+function simulateAJAXonProv(){
+	$.get( "/server/test.html", function( data ) {
+		updateProv();
+	});
+}
+
+function simulateAJAXonCaptcha(){
+	document.getElementById("GeneratedCode").value = "";
+	
+	$.get( "/server/test.html", function( data ) {
+		generateCaptcha();
+	});
+}
+
+function simulateAJAXonSubmit(){
+	document.getElementById("results").value = "Verifying ...";
+	document.getElementById("reason").value = "";
+	
+	// Debug information
+	document.getElementById("reason2").value = "";
+	
+	IFRAME_MESSAGE = null;
+	var win = document.getElementById("iframe_a").contentWindow;
+	win.postMessage("__getCapcha__", "*");
+
+	$.get( "/server/test.html", function( data ) {
+		if(validationForm())
+			document.getElementById("results").value = "Successful";
+		else
+			document.getElementById("results").value = "Failure";
+	});
+}
+
+function generateCaptcha(){
+	currentCaptcha = randomString(10);
+	document.getElementById("GeneratedCode").value = currentCaptcha;
+}
+
+function isCaptchaValid(){
+	// Does not work in Chrome due new measure to prevent cross site scripting
+	//var enteredCaptcha = window.frames[0].document.getElementById("Code").value;
+	
+	var enteredCaptcha = IFRAME_MESSAGE;
+	var code = document.getElementById("GeneratedCode").value;
+	
+	// Debug information
+	document.getElementById("reason2").value = enteredCaptcha;
+	
+	if(code == null || code == "" || enteredCaptcha == null || enteredCaptcha == "")
+		return false;
+	
+	if(enteredCaptcha == code)
+		return true;
+	else
+		return false;
+}
+
+function isValidOption(dropdown){
+	var dd = document.getElementById(dropdown).options;
+	var index = document.getElementById(dropdown).selectedIndex;
+	var data = dd[index].value;
+	if(data == null || data == "")
+		return false;
+	else
+		return true;
+}
+
+function isEmailValid(){
+	var email = document.getElementsByTagName("input")[4].value;
+	if(email == null || email == "")
+		return false;
+	else
+		return true;
+}
+
+function isPostalZipValid(){
+	var data = document.getElementsByTagName("input")[7].value;
+	if(data == null || data == ""){
+		document.getElementById("reason").value = "Postal/Zip required";
+		return false;
+	}
+
+	var _country = document.getElementById("Country").options;
+	var _index = document.getElementById("Country").selectedIndex;
+	var _CountryData = _country[_index].value;
+	if(_CountryData == null || _CountryData == ""){
+		document.getElementById("reason").value = "Country required";
+		return false;
+	}
+	
+	if(_CountryData == "CAN")
+		return isPostalValid(data);
+	
+	if(_CountryData == "US")
+		return isZipValid(data)
+	
+	if(_CountryData == "OTHER")
+		return true;
+	else
+		return false;
+}
+
+function isNumeric(num){
+    return !isNaN(num);
+}
+
+function isZipValid(zip){
+	if(isNumeric(zip))
+		return true;
+	else{
+		document.getElementById("reason").value = "Zip code must be numeric";
+		return false;
+	}
+}
+
+function isPostalValid(zip){
+	if(zip.length != 6){
+		document.getElementById("reason").value = "Postal code must be length 6";
+		return false;
+	}
+	
+	var valid = true;
+	for(i = 0; i <zip.length; i++){
+		if(i % 2 == 0){
+			if(isNumeric(zip[i])){
+				valid = false;
+				break;
+			}
+		}
+		else{
+			if(!isNumeric(zip[i])){
+				valid = false;
+				break;
+			}
+		}
+	}
+	
+	if(valid)
+		return true;
+	else{
+		document.getElementById("reason").value = "Postal code was invalid";
+		return false;
+	}
+}
+
+function validationForm(){
+	if(!isEmailValid()){
+		document.getElementById("reason").value = "Email required";
+		return false;
+	}
+
+	if(!isValidOption("Country")){
+		document.getElementById("reason").value = "Country required";
+		return false;
+	}
+
+	if(!isValidOption("Prov")){
+		document.getElementById("reason").value = "Province/State required";
+		return false;
+	}
+	
+	if(!isPostalZipValid())
+		return false;
+
+	if(!isCaptchaValid()){
+		document.getElementById("reason").value = "Captcha wrong";
+		return false;
+	}
+
+	return true;
+}
+
+</script>
+  <link href="../../../../style/tnhc.css" rel="stylesheet" type="text/css" />
+  <style media="print" type="text/css">
+/*<![CDATA[*/
+    .NoDisplay{display:none;}
+    .Display{display:block;}
+  /*]]>*/
+  </style>
+  <style type="text/css">
+/*<![CDATA[*/
+    
+  body {
+        background: #000000;
+  }
+  body.famegameshame a {
+        color: #CCCCCC;
+        text-decoration: none;
+        }
+  body.famegameshame h2 {
+        color: #FFF;
+  }
+  /* centering for ie */
+  div.rim {
+        text-align: center;
+  }
+  /* centering for mozilla */
+  div.rim table {
+        margin-left: auto;
+        margin-right: auto;
+  }
+  div.rim a:link {
+        color: #CCCCCC;
+        text-decoration: none;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+  }
+  div.rim a:visited {
+        color: #CCCCCC;
+        text-decoration: none;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+  }
+  div.rim a:hover {
+        color: #FFFFF;
+        text-decoration: underline;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+  }
+  div.core {
+        background-color: #000;
+        color: #FFF;
+        width: 560px;
+  }
+  div.core h1, div.core h2 {
+        text-align: center;
+  }
+  /* centering for ie */
+  div.core {
+        text-align: center;
+  }
+  /* centering for mozilla */
+  div.core table {
+        margin-left: auto;
+        margin-right: auto;
+  }
+  div.core table caption {
+        margin-left: auto;
+        margin-right: auto;
+  }
+  div.core a {
+        color: #003366;
+        text-decoration: underline;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+  }
+  div.core a:link {
+        color: #003333;
+        text-decoration: none;
+  }
+  div.core a:visited {
+        color: #003333;
+        text-decoration: none;
+  }
+  div.core a:hover {
+        color: #666666;
+        text-decoration: underline;
+  }
+  div.core p a {
+        color: #FFF;
+        text-decoration: underline;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+  }
+  div.core p a:link {
+        color: #FFF;
+        text-decoration: none;
+  }
+  div.core p a:visited {
+        color: #FFF;
+        text-decoration: none;
+  }
+  div.core p a:hover {
+        color: #CCC;
+        text-decoration: underline;
+  }
+  div.core caption a {
+        color: #FFF;
+        text-decoration: underline;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+  }
+  div.core caption a:link {
+        color: #FFF;
+        text-decoration: none;
+  }
+  div.core caption a:visited {
+        color: #FFF;
+        text-decoration: none;
+  }
+  div.core caption a:hover {
+        color: #CCC;
+        text-decoration: underline;
+  }
+  div.core td {
+        font-size: 70%;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+  }
+  div.core th {
+        font-size: 70%;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+  }
+  /*]]>*/
+  </style>
+  <style type="text/css">
+/*<![CDATA[*/
+
+  input {
+        background-color: #999999;
+        font-size: xx-small;
+  }
+  select {
+        background-color: #999999;
+        font-size: xx-small;
+  }
+  a:link {
+        // color: #999999;
+        text-decoration: none;
+  }
+  a:visited {
+        color: #999999;
+        text-decoration: none;
+  }
+  a:hover {
+        color: #dddddd;
+        text-decoration: underline;
+  }
+
+  /*]]>*/
+  </style>
+</head>
+
+<body bgcolor="#000000" class="famegameshame">
+  <a name="top" id="top"></a>
+
+  <div class="rim">
+    <div id="TopDiv">
+      <table width="500" cellspacing="2" cellpadding="10" align="center">
+      	<tr>
+      		<td>
+      			<div align="left">
+      				<font color="#FFCC33" size="2" face="Geneva, Arial, Helvetica, sans-serif">
+      				  <h1>Instructions:</h1>
+								<p>The goal is to enter all the required information needed to submit the form successfully</p>
+								<p>The following trigger AJAX calls that are mocked & complete within a variable amount of time.  For testing purposes ONLY the variance is 1 to 5 seconds:</p>
+						    <ol>
+						      <li>The Country drop down</li>
+						      <li>The Generate Captcha button</li>
+						      <li>The Submit button</li>
+						    </ol>
+      				</font>
+      			</div>
+      		</td>
+      	</tr>
+        <tr>
+          <td height="199" align="center" valign="top" bgcolor="#666666">
+            <div align="right">
+
+              <table width="460" border="0" align="center" cellpadding="10" cellspacing=
+              "0">
+                <tr>
+                  <td align="center" valign="top" bgcolor="#333333">
+                    <div align="right">
+                      <p align="left"><font color="#FFCC33" size="2" face=
+                      "Geneva, Arial, Helvetica, sans-serif">Personal Contact
+                      Information:</font></p>
+
+                      <p><font color="#FFFFFF" size="2" face=
+                      "Geneva, Arial, Helvetica, sans-serif">
+                      First Name: <input type="text" size="20" data-bind="FirstName" /><br />
+                      Last Name: <input type="text" size="20" data-bind="LastName" /></font> 
+                      <font size="2" face="Geneva, Arial, Helvetica, sans-serif"><br />
+                      <font color="#FFFFFF">Contact Phone Number (10 digit):</font>
+                      <input type="text" size="15" data-bind="Phone" /><br />
+                      <!-- <font color="#FFFFFF">Fax:</font>  -->
+                       <input name="Fax" id="Fax" size="15" type="hidden" value="" /> 
+                      <!-- <BR /> -->
+                      <font color="#FF0000" size="2" face="Geneva, Arial, Helvetica, sans-serif">*</font>
+                      <font color="#FFFFFF">Email:</font> <input type="text" size="25" data-bind="Email" /><br /></font>
+                      <font size="2" face="Geneva, Arial, Helvetica, sans-serif"><br />
+                      <font color="#FFFFFF">Address:</font> <input type="text" size="45" data-bind="Address" /><br />
+                      <font color="#FF0000" size="2" face="Geneva, Arial, Helvetica, sans-serif">*</font>
+                      <font color="#FFFFFF">Country:</font> 
+                      
+				              <select id="Country" onchange="simulateAJAXonProv()" >
+												<option value="" selected="selected"></option>
+												<option value="CAN">Canada</option>
+												<option value="US">United States</option>
+												<option value="OTHER">Other</option>
+											</select>
+                      
+                      <br />
+                      <font color="#FF0000" size="2" face="Geneva, Arial, Helvetica, sans-serif">*</font>
+                      <font color="#FFFFFF">Province/State:</font> <!-- <input type="text" size="20" name="Prov" /> -->
+                      
+				              <select id="Prov" >
+												<option id="blankOption" value="" selected="selected"></option>
+											</select>
+                      
+                      
+                      <br />
+                      <font color="#FFFFFF">City:</font> <input type="text" size="20" data-bind="City" /><br />
+                      <font color="#FF0000" size="2" face="Geneva, Arial, Helvetica, sans-serif">*</font>
+                      <font color="#FFFFFF">Postal Code/Zip Code:</font> <input type="text" size="20" data-bind="PostalCode" /></font> 
+                      <font color="#000000" size="3"><strong><br /></strong> 
+                      <BR>
+                      <font color="#FFFFFF" size="2" face="Geneva, Arial, Helvetica, sans-serif">
+                      <input type="button" size="20" data-bind="GenerateCaptcha" value="Generate Captcha" onclick="simulateAJAXonCaptcha()" /><br /><BR></font> 
+                      
+                      
+                      <font color="#FFFFFF" size="2" face="Geneva, Arial, Helvetica, sans-serif">Code:  
+                      <input id="GeneratedCode" type="text" size="20" data-bind="Code" value="" readonly /><br /><BR></font> 
+                      
+                      <font color="#FFFFFF" size="2" face="Geneva, Arial, Helvetica, sans-serif">
+                      <input type="button" size="20" name="Submit" value="Submit" onclick="simulateAJAXonSubmit()" /><br /></font> 
+
+											<BR>
+											<BR>
+											<BR>
+                      <font color="#FFFFFF" size="2" face="Geneva, Arial, Helvetica, sans-serif">Submit Result:  
+                      <input id="results" type="text" size="45" value="" readonly /><br /></font>
+                      <font color="#FFFFFF" size="2" face="Geneva, Arial, Helvetica, sans-serif">Failure Reason:  
+                      <input id="reason" type="text" size="45" value="" readonly /></font>
+                      
+                      <br />
+                      <font color="#FFFFFF" size="2" face="Geneva, Arial, Helvetica, sans-serif">Entered Captcha For Debugging:  
+                      <input id="reason2" type="text" size="45" value="" readonly /></font> 
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <iframe id="iframe_a" src="Captcha.htm" name="iframe_a" width="1000" height="100" ></iframe>
+  <!-- <p><a href="Captcha.htm" target="iframe_a">Load IFrame</a></p> -->
+  
+  <!--   
+  window.frames[0].document.getElementById("Code").value
+  http://appendto.com/2010/07/mock-your-ajax-requests-with-mockjax-for-rapid-development/
+  
+  -->
+  
+</body>
+</html>

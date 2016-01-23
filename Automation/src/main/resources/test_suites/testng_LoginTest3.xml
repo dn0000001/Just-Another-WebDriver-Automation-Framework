@@ -1,0 +1,103 @@
+<suite name="A1" verbose="1" group-by-instances="true" preserve-order="true" time-out="12600000">
+
+	<!-- These test suites are executed first in order -->
+	<!-- <suite-files> <suite-file path="testng.xml" /> </suite-files> -->
+
+	<!-- This will override the parameter value if set an another file -->
+	<!-- <parameter name="sUseConfigFile" value="config.xml" />  -->
+	<!-- <parameter name="sAllContexts" value="true" /> -->
+	
+	<test name="Login Positive Tests" group-by-instances="true" preserve-order="true">
+		<!-- 		 -->
+		<groups>
+			<run>
+				<include name="setup" />
+				<include name="results" />
+			</run>
+		</groups>
+		<classes>
+			<class name="com.automation.ui.common.sampleProject.tests.LoginTest">
+				<methods>
+					<include name="runLoginPositiveFlow" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+	<test name="Change Password - New Password Mismatch Tests" group-by-instances="true" preserve-order="true">
+		<groups>
+			<run>
+				<include name="setup" />
+				<include name="results" />
+				<include name="LoginTest.runChangePasswordAlertFlow" />
+			</run>
+		</groups>
+		<classes>
+			<class name="com.automation.ui.common.sampleProject.tests.LoginTest">
+				<methods>
+					<include name="runChangePasswordAlertFlow" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+	<test name="User Name Blank Tests" group-by-instances="true" preserve-order="true">
+		<groups>
+			<run>
+				<include name="setup" />
+				<include name="results" />
+			</run>
+		</groups>
+		<classes>
+			<class name="com.automation.ui.common.sampleProject.tests.LoginTest">
+				<methods>
+					<include name="runUserNameBlankFlow" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+	
+	<test name="Password Blank Tests" group-by-instances="true" preserve-order="true">
+		<groups>
+			<run>
+				<include name="setup" />
+				<include name="results" />
+			</run>
+		</groups>
+		<classes>
+			<class name="com.automation.ui.common.sampleProject.tests.LoginTest">
+				<methods>
+					<include name="runPasswordBlankFlow" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+	<test name="Credentials Wrong Tests" group-by-instances="true" preserve-order="true">
+		<groups>
+			<run>
+				<include name="setup" />
+				<include name="results" />
+			</run>
+		</groups>
+		<classes>
+			<class name="com.automation.ui.common.sampleProject.tests.LoginTest">
+				<methods>
+					<include name="runCredentialsWrongFlow" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+	<test name="Change Password - Cannot reuse password Tests" group-by-instances="true" preserve-order="true">
+		<groups>
+			<run>
+				<include name="setup" />
+				<include name="results" />
+			</run>
+		</groups>
+		<classes>
+			<class name="com.automation.ui.common.sampleProject.tests.LoginTest">
+				<methods>
+					<include name="runChangePasswordReuseErrorFlow" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+</suite>

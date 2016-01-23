@@ -1,0 +1,36 @@
+<translations>
+	<LanguageLink>
+		<EN>Français</EN>
+		<FR>English</FR>
+	</LanguageLink>
+	<anErrorOccurred>
+		<EN>An error occurred</EN>
+		<FR>Une erreur est</FR>
+	</anErrorOccurred>
+
+	<sError_Login_UserName_Blank>
+		<EN>Please enter User ID</EN>
+		<FR>Veuillez entrer l'ID d'utilisateur</FR>
+	</sError_Login_UserName_Blank>
+	<sError_Login_Password_Blank>
+		<EN>Please enter Password</EN>
+		<FR>Veuillez entrer le mot de passe</FR>
+	</sError_Login_Password_Blank>
+	<sError_Login_CredentialsWrong>
+		<EN>Invalid user ID or password</EN>
+		<FR>L'identification de l'utilisateur ou le mot de passe est invalide</FR>
+	</sError_Login_CredentialsWrong>
+	<sError_Login_CannotUseSamePassword>
+		<EN>You cannot use the same password again</EN>
+		<FR>Vous ne pouvez utiliser le même mot de passe à nouveau</FR>
+	</sError_Login_CannotUseSamePassword>
+	<sError_Login_NewPasswordMismatch>
+		<EN>Your new password values do not match</EN>
+		<FR>Les valeurs de votre nouveau mot de passe ne correspondent pas</FR>
+	</sError_Login_NewPasswordMismatch>
+	
+	<REPLACE>
+		<EN></EN>
+		<FR></FR>
+	</REPLACE>
+</translations>

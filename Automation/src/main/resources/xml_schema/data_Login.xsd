@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:complexType name="DropDown">
+		<!-- How to locate the drop down option to select -->
+		<!-- 0 to use Visible Text                        -->
+		<!-- 1 to use HTML value                          -->
+		<!-- 2 to use Index (zero based)                  -->
+		<!-- 3 to use Regular Expression                  -->
+		<!-- 4 to SKIP                                    -->
+		<xs:attribute name="Using" use="required" />
+		<!-- Based on Using option which drop down option will be selected -->
+		<xs:attribute name="Option" use="required" />
+		<!-- If using random index, then you can specific the minimum index to use -->
+		<xs:attribute name="MinIndex" use="optional" />
+		<!-- true to log success as well, false only a failure is logged (only applies if verification in script) -->
+		<xs:attribute name="LogAll" use="optional" />
+	</xs:complexType>
+	
+	<xs:complexType name="InputField">
+		<!-- true to SKIP entering field -->
+		<xs:attribute name="Skip" use="required" />
+		<!-- Value to enter into field -->
+		<xs:attribute name="Value" use="optional" />
+		<!-- Random Value to enter into field may be appended with random data -->
+		<xs:attribute name="RandomValue" use="optional" />
+		
+		<!--  -->
+		<!-- There should be no reason to change these values -->
+		<!--  -->
+		<!-- true to perform case sensitive compare (only applies if verification in script) -->
+		<xs:attribute name="CaseSensitive" use="optional" />
+		<!-- true to log success as well, false only a failure is logged (only applies if verification in script) -->
+		<xs:attribute name="LogAll" use="optional" />
+		<!-- Mask applied during verification -->
+		<xs:attribute name="VerifyMask" use="optional" />
+		<!-- Max Length applied during verification if greater than 0 -->
+		<xs:attribute name="MaxLength" use="optional" />
+	</xs:complexType>
+	
+	<xs:complexType name="CheckBox">
+		<!-- true to SKIP entering check box -->
+		<xs:attribute name="Skip" type="xs:boolean" use="required" />
+		<!-- true to select check box -->
+		<xs:attribute name="Check" type="xs:boolean" use="optional" />
+
+		<!--  -->
+		<!-- There should be no reason to change these values -->
+		<!--  -->
+		<!-- true to require check box in correct state such that end state is Check -->
+		<xs:attribute name="VerifyInitialState" type="xs:boolean" use="optional" />
+		<!-- true to verify check box is enabled before taking the action -->
+		<xs:attribute name="VerifyEnabled" type="xs:boolean" use="optional" />
+		<!-- if true then log error else log warning (only applies if action is to be taken) -->
+		<xs:attribute name="LogError" type="xs:boolean" use="optional" />
+		<!-- true to log success as well, false only a failure is logged (only applies if verification in script) -->
+		<xs:attribute name="LogAll" use="optional" />
+	</xs:complexType>
+	
+	<xs:complexType name="AutoCompleteField">
+		<!-- true to SKIP entering field -->
+		<xs:attribute name="Skip" use="required" />
+		<!-- Value to enter into field to trigger auto complete drop down -->
+		<xs:attribute name="Value" use="optional" />
+		<!-- true to cancel auto complete drop down selection -->
+		<xs:attribute name="CancelSelection" use="optional" />
+		<!-- true to use index to select auto complete option else visible text -->
+		<xs:attribute name="UseIndex" use="optional" />
+		<!-- Option to select from the auto complete drop down that appears -->
+		<xs:attribute name="SelectOption" use="optional" />
+		<!-- Number of characters that make the auto complete drop down appear -->
+		<xs:attribute name="TriggerLength" use="optional" />
+	</xs:complexType>
+	
+	<xs:complexType name="GenericDate">
+		<!-- true to SKIP entering date -->
+		<xs:attribute name="Skip" type="xs:boolean" use="required" />
+		
+		<!-- Precedence Order: -->
+		<!-- 1) If UseCurrentDate is true, then current date will be used -->
+		<!-- 2) If UseRandomDate is true and UseCurrentDate is false, then random date will be used -->
+		<!-- 3) If UseRandomDate is false and UseCurrentDate is false, then Specified Month, Day, Year will be used -->
+		
+		<!-- true to use the Current Date -->
+		<xs:attribute name="UseCurrentDate" type="xs:boolean" use="optional" />
+		
+		<!-- true to use a Random Date -->
+		<xs:attribute name="UseRandomDate" type="xs:boolean" use="optional" />
+		<!-- if using Random Date, then ensure that the random date is Min days from current date -->
+		<xs:attribute name="Min" type="xs:int" use="optional" />
+		<!-- if using Random Date, then ensure that the random date is Max days from current date -->
+		<xs:attribute name="Max" type="xs:int" use="optional" />
+
+		<!-- Specific Month to use -->
+		<xs:attribute name="Month" type="xs:string" use="optional" />
+		<!-- Specific Day to use -->
+		<xs:attribute name="Day" type="xs:string" use="optional" />
+		<!-- Specific Year to use -->
+		<xs:attribute name="Year" type="xs:string" use="optional" />
+	</xs:complexType>
+	
+	<xs:complexType name="SelectionCriteriaNode">
+		<!-- true indicates Value is a integer, false indicates Value is a regular expression -->
+		<xs:attribute name="UseIndex" type="xs:boolean" use="required" />
+		<!-- One based index of option to select or regular expression based on UseIndex -->
+		<!-- If index < 1, then random selection -->
+		<xs:attribute name="Value" use="required" />
+	</xs:complexType>
+	
+	<xs:complexType name="UploadFileData">
+		<!-- Location to the file to be uploaded -->
+		<xs:attribute name="File" use="required" />
+		<!-- This value may be used to save the file on the server -->
+		<xs:attribute name="Alias" use="optional" />
+		<!-- Unique ID that may be used to make the file unique on the server -->
+		<xs:attribute name="UniqueID" use="optional" />
+		<!-- The size of the file that may be used during upload process -->
+		<xs:attribute name="Size" use="optional" />
+	</xs:complexType>
+	
+	<xs:complexType name="NodeType">
+		<xs:simpleContent>
+			<xs:extension base="NodeValues">
+				<!-- true to SKIP entering check box -->
+				<xs:attribute name="Skip" type="xs:boolean" use="required" />
+				<!-- true to select check box -->
+				<xs:attribute name="Check" type="xs:boolean" use="optional" />
+		
+				<!-- -->
+				<!-- There should be no reason to change these values -->
+				<!-- -->
+				<!-- true to require check box in correct state such that end state is Check -->
+				<xs:attribute name="VerifyInitialState" type="xs:boolean" use="optional" />
+				<!-- true to verify check box is enabled before taking the action -->
+				<xs:attribute name="VerifyEnabled" type="xs:boolean" use="optional" />
+				<!-- if true then log error else log warning (only applies if action is to be taken) -->
+				<xs:attribute name="LogError" type="xs:boolean" use="optional" />	
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:simpleType name="NodeValues">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="NHL" />
+			<xs:pattern value="NBA" />
+			<xs:pattern value="NFL" />
+			<xs:pattern value="MLB" />
+			<xs:pattern value="" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="NodeType2">
+		<xs:all>
+			<xs:element name="ChildNode1" type="xs:string" />
+			<xs:element name="ChildNode2" type="CheckBox" />
+		</xs:all>
+		<!-- required attribute -->
+		<xs:attribute name="Configure" type="xs:boolean" use="required" />
+		<!-- optional attribute -->
+		<xs:attribute name="Check" type="xs:boolean" use="optional" />
+	</xs:complexType>
+	
+	<xs:group name="TestOptions">
+		<xs:sequence>
+			<xs:element name="TestOptions">
+				<xs:complexType>
+					<xs:all>
+						<!-- Login User Name to use -->
+						<xs:element name="UserName" type="xs:string" />
+						<!-- Login Password to use -->
+						<xs:element name="Password" type="xs:string" />
+						<!-- Language of user (if not specified it is assumed English) -->
+						<xs:element name="Language" minOccurs="0" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string" >
+									<xs:pattern value="English" />
+									<xs:pattern value="French" />
+									<xs:pattern value="EN" />
+									<xs:pattern value="FR" />
+									<xs:pattern value="" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<!-- Whether to click Change Password Link (defaults to false) -->
+						<xs:element name="ChangePassword" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+						<!-- New Password to enter -->
+						<xs:element name="NewPassword" type="xs:string" minOccurs="0" maxOccurs="1" />
+						<!-- Confirm New Password to enter -->
+						<xs:element name="ConfirmPassword" type="xs:string" minOccurs="0" maxOccurs="1" />
+						
+						
+						<!-- Example of how to have a node that has attributes and restricts values of the node -->
+						<xs:element name="NodeTest" type="NodeType" minOccurs="0" maxOccurs="1" />
+						
+						<!-- Example of how to have a node that has attributes and child nodes -->
+						<xs:element name="NodeTest2" type="NodeType2" minOccurs="0" maxOccurs="1" />
+					</xs:all>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="node">
+		<xs:sequence>
+			<!-- Unique ID for the test case -->
+			<xs:element name="UniqueID" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:group ref="TestOptions" minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:group>
+	<xs:element name="data">
+		<xs:complexType>
+			<xs:sequence>
+				<!-- Positive tests of the Login functionality -->
+				<xs:element name="Login" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:group ref="node" />
+					</xs:complexType>
+				</xs:element>
+				<!-- Tests that Login fails when during Change Password, New Password does not match Confirm Password -->
+				<xs:element name="ChangePasswordAlert" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:group ref="node" />
+					</xs:complexType>
+				</xs:element>
+				<!-- Tests that Login fails when the User Name is blank -->
+				<xs:element name="UsernameBlank" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:group ref="node" />
+					</xs:complexType>
+				</xs:element>
+				<!-- Tests that Login fails when the Password is blank -->
+				<xs:element name="PasswordBlank" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:group ref="node" />
+					</xs:complexType>
+				</xs:element>
+				<!-- Tests that Login fails when the Credentials are wrong -->
+				<xs:element name="CredentialsWrong" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:group ref="node" />
+					</xs:complexType>
+				</xs:element>
+				<!-- Tests that Login fails when during Change Password, the New Password cannot be reused again -->
+				<xs:element name="CannotReusePassword" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:group ref="node" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,13 @@
+<Parameters>
+	<Parameter>
+		<Param>REPLACE</Param>
+		<Value>90210</Value>
+	</Parameter>
+	<Parameter>
+		<Value>something</Value>
+	</Parameter>
+	<Parameter>
+		<Param>ALL</Param>
+		<Value>aaa</Value>
+	</Parameter>
+</Parameters>

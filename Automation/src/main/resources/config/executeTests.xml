@@ -1,0 +1,65 @@
+<ExecuteTests>
+	<!-- Process Configuration -->
+	<!-- 
+	<Processes>
+		<MaxProcesses>5</MaxProcesses>
+		<MaxProcessTimeout>12600000</MaxProcessTimeout>
+		<ProcessCompletePollInterval>30000</ProcessCompletePollInterval>
+		<ProcessStartDelay>100</ProcessStartDelay>
+		<TestNG_BaseReportFolder>../output/</TestNG_BaseReportFolder>
+		<ID_Prefix></ID_Prefix>
+		<ID_Suffix></ID_Suffix>
+	</Processes>
+	 -->
+
+	<!-- System Properties to be used for all tests unless otherwise indicated by the user -->
+	<!-- 
+	<SystemProperties>
+		<SystemProperty Name="env.config" Value="src/main/resources/config/config.xml" />
+		<SystemProperty Name="env.basePath" Value="src/main/resources/data/" />
+		<SystemProperty Name="env.log.prop" Value="src/main/resources/config/logger.properties" />
+		<SystemProperty Name="env.translations" Value="src/main/resources/config/translations.xml" />
+
+		<SystemProperty Name="browser.name" Value="FF" />
+		<SystemProperty Name="ops.browser.name" Value="C" />
+		<SystemProperty Name="ops.browser.driver" Value="../WebDriver/chromedriver.exe" />
+
+		<SystemProperty Name="grid.hub" Value="http://test/wd/hub" />
+		<SystemProperty Name="grid.browser.platform" Value="WINDOWS" />
+
+		<SystemProperty Name="delay.element.timeout" Value="60" />
+		<SystemProperty Name="delay.max.timeout" Value="15" />
+
+		<SystemProperty Name="url" Value="https://test.com" />
+
+		<SystemProperty Name="env.log.folderFile" Value="../output/" />
+	</SystemProperties>
+	 -->
+   
+	 <!-- Bypass 'javax.net.ssl.SSLProtocolException: handshake alert:  unrecognized_name' until server configuration is fixed -->
+	 <SystemProperties>
+	 	<SystemProperty Name="jsse.enableSNIExtension" Value="false" />
+	 </SystemProperties>
+
+	<!-- ClassPath to be used for all tests -->
+	<!-- <ClassPath>target/classes;target/*</ClassPath> -->
+	
+	<!-- This value is used to launch java for each test (default java) -->
+	<!-- <JavaCommand>java</JavaCommand> -->
+
+	<!-- The Tests to be executed -->
+	<Tests>
+		<Test>
+			<ID>Test 1</ID>
+			<TestNG_ReportFolder>T1</TestNG_ReportFolder>
+			<SystemProperty Name="env.log.subfolder" Value="T1/" />
+			<TestNG_XML>src/main/resources/test_suites/testng_Test1.xml</TestNG_XML>
+		</Test>
+		<Test>
+			<ID>Test 2</ID>
+			<TestNG_ReportFolder>T2</TestNG_ReportFolder>
+			<SystemProperty Name="env.log.subfolder" Value="T2/" />
+			<TestNG_XML>src/main/resources/test_suites/testng_Test2.xml</TestNG_XML>
+		</Test>
+	</Tests>
+</ExecuteTests>

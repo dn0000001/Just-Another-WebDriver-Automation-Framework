@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Basic WebDriver Test</title>
+  <script>
+		function randomString(len, charSet) {
+		    charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		    var randomString = '';
+		    for (var i = 0; i < len; i++) {
+		    	var randomPoz = Math.floor(Math.random() * charSet.length);
+		    	randomString += charSet.substring(randomPoz,randomPoz+1);
+		    }
+		    return randomString;
+		}
+		
+		function randomInt(min, max){
+			return Math.floor((Math.random() * max) + min); 
+		}
+		
+		function randomLang(){
+			value = randomInt(1, 3);
+			if(value == 1){
+				return "EN";
+			}
+			else if(value == 2){
+				return "FR";
+			}
+			else{
+				return "O";
+			}
+		}
+		
+  	function getObject(u, p, l){
+  		temp = new Object();
+  		temp.username = u;
+  		temp.password = p;
+  		temp.language = l;
+  		return temp;
+  	}
+  	
+  	function generateValidValues(){
+  	  expected.username = randomString(10);
+  		expected.password = randomString(10);
+  		expected.language = randomLang();
+  	}
+  	
+  	function getLanguage(){
+  		if(document.getElementById('lang_EN').checked)
+  			return "EN";
+  		else if (document.getElementById('lang_FR').checked)
+  			return "FR";
+  		else if (document.getElementById('lang_O').checked)
+  			return "O";
+  		else
+  			return "";
+  	}
+  	
+  	function getInfo(){
+  		var display = "Default value";
+  		var dd = document.getElementsByTagName("select")[0].options;
+  		var index = document.getElementsByTagName("select")[0].selectedIndex;
+  		
+			var data = dd[index].value;
+  		if(data == null || data == "")
+  			display = "Please make a selection";
+  		
+  		if(data == "user")
+  			display = expected.username;
+  		
+  		if(data == "pass")
+  			display = expected.password;
+  			
+  		if(data == "lang")
+  			display = getLanguageLabel(expected.language);
+  		
+  		alert(display);
+  	}
+  	
+  	function getLanguageLabel(code){
+  		if(code == null || code == "")
+  			return "Unknown Language";
+  			
+  		if(code == "EN")
+  			return "English";
+  			
+  		if(code == "FR")
+  			return "French";
+  			
+  		if(code == "O")
+  			return "Other";
+  			
+  		return "Unknown Language";
+  	}
+  	
+  	function loginFailure(){
+  		failureCount++;
+  		document.getElementById("update").innerHTML = "Login Failed (" + failureCount + ")";
+  	}
+  	
+  	function compare(actual){
+  		if(actual.username != expected.username)
+  			return false;
+  			
+  		if(actual.password != expected.password)
+  			return false;
+  			
+			if(actual.language != expected.language)
+  			return false;
+
+  		return true;
+  	}
+  	
+  	function manualTest(){
+  		alert("To Login the following information needs to be entered. This is only for manual testing\n" 
+  			+ "Username:  " + expected.username + "\nPassword:  " + expected.password + "\nLanguage:  " + expected.language);
+  	}
+  	
+  	function validateLogin(){
+  		actual = getObject(document.getElementById("username").value, document.getElementById("password").value, getLanguage());
+  		if(compare(actual))
+  			loginSuccess();
+  		else
+  			loginFailure();
+  	}
+  	
+  	function loginSuccess(){
+  		document.getElementById("update").innerText = "Login Successful";
+  		window.location.href = 'AdvancedWebDriverTest.htm';
+  	}
+  	
+  	function updateText(putText){
+  		document.getElementById("update").innerHTML = putText;
+  	}
+
+  	var expected = getObject(randomString(10), randomString(20, 'MNOPQRSTUVWXYZabcdefghijklmnopqrstuvw'), randomString(5));
+  	var failureCount = 0;
+  </script>
+</head>
+
+<body>
+  <div class="h1-info-area">
+    <h1>Instructions:</h1>
+		<p>The goal is to gather the information needed to login successfully</p>
+    <ol>
+      <li>Click the Generate button</li>
+      <li>Select the Field from the drop down that you want to get</li>
+      <li>Click Lookup and an alert will appear with the information</li>
+      <li>Repeat until you have all the necessary information to login</li>
+      <li>Set the information</li>
+      <li>Click Login</li>
+    </ol>
+
+    <form action="http://tsn.ca/members/login.php" method="post" name="form1" id="form1">
+      <input type="hidden" name="return_url" value="http://www.tsn.ca/login/" />
+
+      <table align="center" border="0" cellspacing="0" cellpadding="5">
+      	<tr>
+      		<td>
+				<input id="expert" type="checkbox" name="expert" value="expert1" onchange="updateText('Expert Option Modified')" /><span id="labelExpert">Automation Expert</span><br>
+      		</td>
+      	</tr>
+        
+      	<tr>
+      		<td>
+      			Set valid login values
+      			<input id="generate" style="cursor:pointer;" type="button" value="Generate" onclick="generateValidValues()" />
+      		</td>
+      	</tr>
+
+      	<tr>
+      		<td>
+      			<BR>
+      		</td>
+      	</tr>
+      	
+      	<tr>
+      		<td>
+      			<div align="center">
+	      			Field:
+							<select>
+								<option value="" selected="selected"></option>
+								<option value="user">Username</option>
+								<option value="pass">Password</option>
+								<option value="lang">Language</option>
+							</select>
+							<input id="field" style="cursor:pointer;" type="button" value="Lookup" onclick="getInfo()" />
+						</div>
+					</td>
+      	</tr>
+      	
+      	<tr>
+      		<td>
+      			<BR>
+      		</td>
+      	</tr>
+      
+      	<tr>
+      		<td>
+	      		<input id="lang_EN" type="radio" name="lang" value="EN">English</input>
+						<input id="lang_FR" type="radio" name="lang" value="FR">French</input>
+						<input id="lang_O" type="radio" name="lang" value="O">Other</input>
+					</td>
+      	</tr>
+      
+        <tr>
+          <td>Username:<br />
+          <input id="username" name="username" style="width:240px;" type="text" /></td>
+        </tr>
+
+        <tr>
+          <td>Password:<br />
+          <input id="password" name="password" style="width:240px;" type="password" /></td>
+        </tr>
+
+        <tr>
+          <td>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td><a href="http://www.tsn.ca" onmouseover="updateText('Mouse Over Lost Password')" onmouseout="updateText('')">Lost Password?</a></td>
+                <td align="right"><input id="login" style="cursor:pointer;" type="button" value="Login" onclick="validateLogin()" /></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        
+        <tr>
+      		<td>
+      			<BR>
+      		</td>
+      	</tr>
+      	
+      	<tr>
+      		<td>
+      			<div id="update"></div>
+      		</td>
+      	</tr>
+
+      </table>
+    </form>
+  </div>
+</body>
+</html>

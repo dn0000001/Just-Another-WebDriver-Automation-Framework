@@ -1,0 +1,21 @@
+1)  Selenium Server - http://code.google.com/p/selenium/downloads/list
+2)  InternetExplorerDriver standalone server for IE - http://code.google.com/p/selenium/downloads/list
+3)  ChromeDriver2 - http://chromedriver.storage.googleapis.com/index.html
+4)  TestNG - http://testng.org/doc/index.html or download plugin from within eclipse
+5)  Cobra HTML parser (http://lobobrowser.org/cobra.jsp) - 
+http://sourceforge.net/projects/xamj/files/Cobra%20HTML%20Toolkit/
+6)  Commons Exec 1.1 - http://commons.apache.org/proper/commons-exec/download_exec.cgi
+7)  Commons Lang 2.6 - http://commons.apache.org/proper/commons-lang/release-history.html
+8)  Jackson JSON 2.2.0 - http://wiki.fasterxml.com/JacksonDownload
+9)  jexcel - http://sourceforge.net/projects/jexcelapi/files/jexcelapi/2.6.12/
+10) log4j 1.2.16 - http://logging.apache.org/log4j/1.2/download.html
+11) JavaMail 1.4.4 - http://www.oracle.com/technetwork/java/index-138643.html
+12) Open CSV - http://sourceforge.net/projects/opencsv/
+13) PDF Box App 1.8.2 - http://pdfbox.apache.org/downloads.html
+14) Microsoft JDBC Driver for SQL Server 4 - http://msdn.microsoft.com/en-us/sqlserver/aa937724.aspx
+15) VTD-XML - http://sourceforge.net/projects/vtd-xml/files/
+16) cloning (Java Deep-Cloning library) - http://code.google.com/p/cloning/
+17) Objenesis - A library for instantiating Java objects (This is part of the cloning download in the lib folder but just in case) - https://code.google.com/p/objenesis/
+18) Allure - A library for reporting. A Standalone JAR does not appear to be provided as such it was necessary to get use maven to 
+get all JAR files for inclusion in the project - https://github.com/allure-framework/allure-core
+

@@ -1,0 +1,25 @@
+<suite name="Client Search Test" verbose="1" group-by-instances="true" preserve-order="true" time-out="12600000">
+
+	<!-- These test suites are executed first in order -->
+	<!-- <suite-files> <suite-file path="testng.xml" /> </suite-files> -->
+
+	<!-- This will override the parameter value if set an another file -->
+	<!-- <parameter name="sUseConfigFile" value="config.xml" />  -->
+	<!-- <parameter name="sAllContexts" value="true" /> -->
+	
+	<test name="Login Tests" group-by-instances="true" preserve-order="true">
+		<groups>
+			<run>
+				<include name="setup" />
+				<include name="results" />
+			</run>
+		</groups>
+		<classes>
+			<class name="com.automation.ui.common.sampleProject.tests.LoginTest">
+				<methods>
+					<include name="runLoginPositiveFlow" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+</suite>

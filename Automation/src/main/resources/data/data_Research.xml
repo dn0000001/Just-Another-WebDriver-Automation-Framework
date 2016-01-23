@@ -1,0 +1,69 @@
+<data>
+	<Research>
+		<Debug>
+			<DebugMode>true</DebugMode>
+			<Run Key="TS1" Value="1" />
+			<Run Key="TS2" Value="0" />
+		</Debug>
+		<UniqueID>LOGIN001</UniqueID>
+		<TestOptions>
+			<UserName>dneill</UserName>
+			<Password>password12345</Password>
+			<Language>English</Language>
+			<ChangePassword>false</ChangePassword>
+			<NewPassword></NewPassword>
+			<ConfirmPassword></ConfirmPassword>
+			<NodeTest Skip="false" Check="true" >NHL</NodeTest>
+			<NodeTest2 Configure="true">
+				<ChildNode1>test</ChildNode1>
+				<ChildNode2 Skip="false" Check="true" />
+			</NodeTest2>
+			<MathActions>
+				<Action Expression="2+4+3*5" >
+					<Operations>
+						<Operation Key="Digit" Value="2" />
+						<Operation Key="Operand" Value="+" />
+						<Operation Key="Digit" Value="4" />
+						<Operation Key="Operand" Value="+" />
+						<Operation Key="Digit" Value="3" />
+						<Operation Key="Operand" Value="*" />
+						<Operation Key="Digit" Value="5" />
+					</Operations>
+				</Action>
+				<Action Expression="10/2-3+18" >
+					<Operations>
+						<Operation Key="Digit" Value="10" />
+						<Operation Key="Operand" Value="/" />
+						<Operation Key="Digit" Value="2" />
+						<Operation Key="Operand" Value="-" />
+						<Operation Key="Digit" Value="3" />
+						<Operation Key="Operand" Value="+" />
+						<Operation Key="Digit" Value="18" />
+					</Operations>
+				</Action>
+				<Action>
+					<Memory>
+						<Store Key="M1" Value="150" />
+						<Store Key="M2" Value="200" />
+						<Store Key="M3" Value="-1" />
+						<Store Key="M4" Value="-90" />
+					</Memory>
+				</Action>
+				<Action>
+					<Memory>
+						<Remove>M3</Remove>
+						<Remove>M4</Remove>
+						<Update Key="M1" Value="8" />
+					</Memory>
+				</Action>
+				<Action Expression="2 + M1" >
+					<Operations>
+						<Operation Key="Digit" Value="2" />
+						<Operation Key="Operand" Value="+" />
+						<Operation Key="Memory" Value="M1" />
+					</Operations>
+				</Action>
+			</MathActions>
+		</TestOptions>
+	</Research>
+</data>

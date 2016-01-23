@@ -1,0 +1,225 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.automation</groupId>
+	<artifactId>automation</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Automation</name>
+	<description>Just Another Automation Framework</description>
+	<dependencies>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.8.5</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>jexcelapi</groupId>
+			<artifactId>jxl</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox-app</artifactId>
+			<version>1.8.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ximpleware</groupId>
+			<artifactId>vtd-xml</artifactId>
+			<version>2.11</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-server</artifactId>
+			<version>2.35.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-exec</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>uk.com.robust-it</groupId>
+			<artifactId>cloning</artifactId>
+			<version>1.9.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.objenesis</groupId>
+			<artifactId>objenesis</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.32</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.oracle</groupId>
+		  <artifactId>ojdbc14</artifactId>
+		  <version>10.2.0.4.0</version>
+		  <type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>ru.yandex.qatools.allure</groupId>
+			<artifactId>allure-testng-adaptor</artifactId>
+			<version>1.5.0-RC1</version>
+		</dependency>
+		<!-- Problem Libraries that need to be manually installed to the repository -->
+		
+		<!-- 
+			Adding Unmanaged Dependencies to a Maven Project
+		 	https://devcenter.heroku.com/articles/local-maven-dependencies
+		 -->
+		<!-- 
+		mvn deploy:deploy-file -Durl="file://C:/Project Folder/workspace/Automation/repo/" -Dfile=cobra.jar -DgroupId=org.lobobrowser -DartifactId=cobra -Dpackaging=jar -Dversion=0.98.4
+		 -->
+		<dependency>
+			<groupId>org.lobobrowser</groupId>
+			<artifactId>cobra</artifactId>
+			<version>0.98.4</version>
+		</dependency>
+		<!-- 
+		mvn deploy:deploy-file -Durl="file://C:/Project Folder/workspace/Automation/repo/" -Dfile=sqljdbc4.jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dpackaging=jar -Dversion=4
+		 -->
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>sqljdbc4</artifactId>
+			<version>4</version>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<!-- specify source and encodings, lest compilation fail -->
+		<!-- Controls Java Version in project -->
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+				<source>1.8</source>
+				<target>1.8</target>
+				<encoding>ISO-8859-1</encoding>
+				</configuration>
+			</plugin>
+			
+			<!-- gather dependent jars in one place, necessary for running our unit tests -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+				<outputDirectory>${project.build.directory}</outputDirectory>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19</version>
+				<configuration>
+				<parallel>classes</parallel>
+				<threadCount>10</threadCount>
+				</configuration>
+			</plugin>
+			
+			<!-- integrating testng here -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.16</version>
+				<configuration>
+				<forkCount>2C</forkCount>
+				<reuseForks>false</reuseForks>
+				<suiteXmlFiles>
+				<suiteXmlFile>src/main/resources/test_suites/testng_Test.xml</suiteXmlFile>
+				</suiteXmlFiles>
+				<systemPropertyVariables>
+				<!-- Basic Process Variables for Launcher -->
+				<processes.testng.output>${processes.testng.output}</processes.testng.output>
+				<env.log.folderFile>${processes.testng.output}</env.log.folderFile>
+				<processes.config>${processes.config}</processes.config>
+				<processes.max>${processes.max}</processes.max>
+				<processes.start.delay>${processes.start.delay}</processes.start.delay>
+				<processes.poll.interval>${processes.poll.interval}</processes.poll.interval>
+				
+				<!-- Variables for the test -->
+				<env.config>src/main/resources/config/config.xml</env.config>
+				<env.basePath>src/main/resources/data/</env.basePath>
+				<env.log.prop>src/main/resources/config/logger.properties</env.log.prop>
+				<env.translations>src/main/resources/config/translations.xml</env.translations>
+				<grid.hub>${grid.hub}</grid.hub>
+				<grid.browser.platform>${grid.browser.platform}</grid.browser.platform>
+				<delay.element.timeout>${delay.element.timeout}</delay.element.timeout>
+				<delay.max.timeout>${delay.max.timeout}</delay.max.timeout>
+				<url>${url}</url>
+				<browser.name>${browser.name}</browser.name>
+				</systemPropertyVariables>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<pluginRepositories>
+		<pluginRepository>
+			<id>public</id>
+			<name>Maven Central</name>
+			<url>http://repo1.maven.org/maven2</url>
+			<layout>default</layout>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+	
+	<repositories>
+		<repository>
+			<id>project.local</id>
+			<name>project</name>
+			<url>file:${project.basedir}/repo</url>
+		</repository>
+		<repository>
+			<id>public</id>
+			<name>Maven Central</name>
+			<url>http://repo1.maven.org/maven2</url>
+		</repository>
+	</repositories>
+</project>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:group name="Processes">
+		<xs:all>
+			<!-- Max number of parallel processes (default 1) -->
+			<xs:element name="MaxProcesses" type="xs:integer" minOccurs="0" />
+			<!-- Max Timeout In MilliSeconds before process is killed (default 12600000) -->
+			<xs:element name="MaxProcessTimeout" type="xs:integer" minOccurs="0" />
+			<!-- Poll Interval In MilliSeconds to check if any processes are complete (default 30000) -->
+			<xs:element name="ProcessCompletePollInterval" type="xs:integer" minOccurs="0" />
+			<!-- Delay after starting process (default 100) -->
+			<xs:element name="ProcessStartDelay" type="xs:integer" minOccurs="0" />
+			<!-- The Base folder to use for TestNG reports -->
+			<xs:element name="TestNG_BaseReportFolder" type="xs:string" minOccurs="0" />
+			<!-- This value is used as a prefix to the (test) ID -->
+			<xs:element name="ID_Prefix" type="xs:string" minOccurs="0" />
+			<!-- This value is used as a suffix to the (test) ID -->
+			<xs:element name="ID_Suffix" type="xs:string" minOccurs="0" />
+		</xs:all>
+	</xs:group>
+	
+	<xs:complexType name="Parameter">
+		<xs:attribute name="Name" use="required" />
+		<xs:attribute name="Value" use="required" />
+	</xs:complexType>
+	
+	<xs:element name="ExecuteTests">
+		<xs:complexType>
+			<xs:all>
+				<!-- Processes configuration -->
+				<xs:element name="Processes" minOccurs="0">
+					<xs:complexType>
+						<xs:group ref="Processes" />
+					</xs:complexType>
+				</xs:element>
+				<!-- Common System Properties -->
+				<xs:element name="SystemProperties" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<!-- (Name, Value) = (System Property, Value)  -->
+							<xs:element name="SystemProperty"  type="Parameter" minOccurs="0" maxOccurs="unbounded" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- ClassPath -->
+				<xs:element name="ClassPath" type="xs:string" minOccurs="0" />
+				<!-- This value is used to launch java for each test (default java) -->
+				<xs:element name="JavaCommand" type="xs:string" minOccurs="0" />
+				<!-- Tests -->
+				<xs:element name="Tests" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Test" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<!-- Test ID (not used only for informational purposes -->
+										<xs:element name="ID" type="xs:string" minOccurs="0" maxOccurs="1" />
+										<!-- Flag to indicate if should use the command line system properties passed to Launcher (defaults to true) -->
+										<xs:element name="UseCommandLineSystemProperties" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+										<!-- Flag to indicate if should use the common system properties (defaults to true) -->
+										<xs:element name="UseCommonSystemProperties" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+										<!-- TestNG Report Folder relative to the base folder -->
+										<xs:element name="TestNG_ReportFolder" type="xs:string" minOccurs="0" maxOccurs="1" />
+										<!-- Specify additional system properties for this test only -->
+										<!-- (Name, Value) = (System Property, Value)  -->
+										<xs:element name="SystemProperty"  type="Parameter" minOccurs="0" maxOccurs="unbounded" />
+										<!-- TestNG XML file to be used -->
+										<xs:element name="TestNG_XML" type="xs:string" minOccurs="0" maxOccurs="1" />
+										<!-- Any additional TestNG options -->
+										<xs:element name="TestNG_Options" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:sequence>
+													<!-- (Name, Value) = (TestNG Option, Value)  -->
+													<xs:element name="Option"  type="Parameter" minOccurs="0" maxOccurs="unbounded" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

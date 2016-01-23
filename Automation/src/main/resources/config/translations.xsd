@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:complexType name="languageTranslations">
+	  <xs:all>
+	    <xs:element name="EN" type="xs:string" minOccurs="0" maxOccurs="1" />
+	    <xs:element name="FR" type="xs:string" minOccurs="0" maxOccurs="1" />
+	  </xs:all>
+	</xs:complexType>
+	<xs:element name="VAR" type="languageTranslations" />
+	<xs:element name="REPLACE" substitutionGroup="VAR"/>
+	<xs:element name="LanguageLink" substitutionGroup="VAR"/>
+	<xs:element name="anErrorOccurred" substitutionGroup="VAR"/>
+
+	<xs:element name="sError_Login_UserName_Blank" substitutionGroup="VAR"/>
+	<xs:element name="sError_Login_Password_Blank" substitutionGroup="VAR"/>
+	<xs:element name="sError_Login_CredentialsWrong" substitutionGroup="VAR"/>
+	<xs:element name="sError_Login_CannotUseSamePassword" substitutionGroup="VAR"/>
+	<xs:element name="sError_Login_NewPasswordMismatch" substitutionGroup="VAR"/>
+
+	<xs:element name="translations">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="REPLACE" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="LanguageLink" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="anErrorOccurred" minOccurs="0" maxOccurs="1" />
+
+				<xs:element ref="sError_Login_UserName_Blank" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="sError_Login_Password_Blank" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="sError_Login_CredentialsWrong" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="sError_Login_CannotUseSamePassword" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="sError_Login_NewPasswordMismatch" minOccurs="0" maxOccurs="1" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

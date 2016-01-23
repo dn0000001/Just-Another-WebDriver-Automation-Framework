@@ -1,0 +1,104 @@
+<data>
+	<Login>
+		<UniqueID>LOGIN001</UniqueID>
+		<TestOptions>
+			<UserName>dneill</UserName>
+			<Password>password12345</Password>
+			<Language>English</Language>
+			<ChangePassword>false</ChangePassword>
+			<NewPassword></NewPassword>
+			<ConfirmPassword></ConfirmPassword>
+			<NodeTest Skip="false" Check="true" >NHL</NodeTest>
+			<NodeTest2 Configure="true">
+				<ChildNode1>test</ChildNode1>
+				<ChildNode2 Skip="false" Check="true" />
+			</NodeTest2>
+			<Field1 Skip="false" Value="abcREPLACEdef" RandomValue="something" CaseSensitive="false" LogAll="false" VerifyMask="REPLACE" MaxLength="5" />
+			<Field2 Skip="false" Value="abcREPLACEdef" RandomValue="something" CaseSensitive="false" LogAll="false" VerifyMask="REPLACE" MaxLength="100" />
+			<Field3 Skip="false" Value="abcREPLACEdef" RandomValue="something" CaseSensitive="false" LogAll="false" VerifyMask="REPLACE" MaxLength="-1" />
+			<Field4 Skip="false" Value="abcREPLACEdef" RandomValue="something" CaseSensitive="false" LogAll="false" VerifyMask="REPLACE" MaxLength="" />
+			<Field5 Skip="false" Value="abcREPLACEdef" RandomValue="something" CaseSensitive="false" LogAll="false" VerifyMask="REPLACE" />
+			<Field6 Skip="false" Value="abcREPLACEdef" RandomValue="something" CaseSensitive="false" LogAll="false" VerifyMask="REPLACE" MaxLength="0" />
+		</TestOptions>
+	</Login>
+	
+	<!-- Change Password and change it back -->
+	<Login>
+		<UniqueID>LOGIN002A</UniqueID>
+		<TestOptions>
+			<UserName>dneill</UserName>
+			<Password>password12345</Password>
+			<Language>English</Language>
+			<ChangePassword>true</ChangePassword>
+			<NewPassword>change001</NewPassword>
+			<ConfirmPassword>change001</ConfirmPassword>
+		</TestOptions>
+	</Login>
+	<Login>
+		<UniqueID>LOGIN002B</UniqueID>
+		<TestOptions>
+			<UserName>dneill</UserName>
+			<Password>change001</Password>
+			<Language>English</Language>
+			<ChangePassword>true</ChangePassword>
+			<NewPassword>password12345</NewPassword>
+			<ConfirmPassword>password12345</ConfirmPassword>
+		</TestOptions>
+	</Login>
+	
+	<ChangePasswordAlert>
+		<UniqueID>LOGIN003</UniqueID>
+		<TestOptions>
+			<UserName>dneill</UserName>
+			<Password></Password>
+			<Language>English</Language>
+			<ChangePassword>true</ChangePassword>
+			<NewPassword>a</NewPassword>
+			<ConfirmPassword>b</ConfirmPassword>
+		</TestOptions>
+	</ChangePasswordAlert>
+	<UsernameBlank>
+		<UniqueID>LOGIN004</UniqueID>
+		<TestOptions>
+			<UserName></UserName>
+			<Password>password12345</Password>
+			<Language>English</Language>
+			<ChangePassword>false</ChangePassword>
+			<NewPassword></NewPassword>
+			<ConfirmPassword></ConfirmPassword>
+		</TestOptions>
+	</UsernameBlank>
+	<PasswordBlank>
+		<UniqueID>LOGIN005</UniqueID>
+		<TestOptions>
+			<UserName>dneill</UserName>
+			<Password></Password>
+			<Language>English</Language>
+			<ChangePassword>false</ChangePassword>
+			<NewPassword></NewPassword>
+			<ConfirmPassword></ConfirmPassword>
+		</TestOptions>
+	</PasswordBlank>
+	<CredentialsWrong>
+		<UniqueID>LOGIN006</UniqueID>
+		<TestOptions>
+			<UserName>dneill</UserName>
+			<Password>abcd12345</Password>
+			<Language>English</Language>
+			<ChangePassword>false</ChangePassword>
+			<NewPassword></NewPassword>
+			<ConfirmPassword></ConfirmPassword>
+		</TestOptions>
+	</CredentialsWrong>
+	<CannotReusePassword>
+		<UniqueID>LOGIN007</UniqueID>
+		<TestOptions>
+			<UserName>dneill</UserName>
+			<Password>password12345</Password>
+			<Language>English</Language>
+			<ChangePassword>true</ChangePassword>
+			<NewPassword>password12345</NewPassword>
+			<ConfirmPassword>password12345</ConfirmPassword>
+		</TestOptions>
+	</CannotReusePassword>
+</data>

@@ -1,0 +1,26 @@
+<suite name="JS_Util Test" verbose="1" group-by-instances="true" preserve-order="true" time-out="12600000">
+
+	<!-- These test suites are executed first in order -->
+	<!-- <suite-files> <suite-file path="testng.xml" /> </suite-files> -->
+
+	<!-- This will override the parameter value if set an another file -->
+	<!-- <parameter name="sUseConfigFile" value="config.xml" /> -->
+	<!-- <parameter name="sAllContexts" value="true" /> -->
+	
+	<test name="JS_Util Tests" group-by-instances="true" preserve-order="true">
+		<groups>
+			<run>
+				<include name="setup" />
+				<include name="results" />
+				<!-- <include name="skip" /> -->
+			</run>
+		</groups>
+		<classes>
+			<class name="com.automation.ui.common.sampleProject.tests.UnitTestJS">
+				<methods>
+					<include name="runJS_Test" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+</suite>

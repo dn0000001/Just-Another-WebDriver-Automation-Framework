@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Advanced WebDriver Test</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+</script>
+  <script type="text/JavaScript">
+  
+	function listener(event){
+		if(event.data == "__getCapcha__"){
+			window.parent.postMessage(document.getElementById("Code").value, "*");
+		}
+	}
+	
+	if (window.addEventListener){
+	  addEventListener("message", listener, false)
+	} else {
+	  attachEvent("onmessage", listener)
+	}
+  
+//<![CDATA[
+  <!--
+        function MM_goToURL() { //v3.0
+            var i, args = MM_goToURL.arguments; document.MM_returnValue = false;
+            for (i = 0; i < (args.length - 1); i += 2) eval(args[i] + ".location='" + args[i + 1] + "'");
+        }
+
+        function MM_findObj(n, d) { //v4.01
+            var p, i, x; if (!d) d = document; if ((p = n.indexOf("?")) > 0 && parent.frames.length) {
+                d = parent.frames[n.substring(p + 1)].document; n = n.substring(0, p);
+            }
+            if (!(x = d[n]) && d.all) x = d.all[n]; for (i = 0; !x && i < d.forms.length; i++) x = d.forms[i][n];
+            for (i = 0; !x && d.layers && i < d.layers.length; i++) x = MM_findObj(n, d.layers[i].document);
+            if (!x && d.getElementById) x = d.getElementById(n); return x;
+        }
+
+        function YY_checkform() { //v4.02
+            var args = YY_checkform.arguments; var myDot = true; var myV = ''; var myErr = ''; var addErr = false;
+            var myForm = MM_findObj(args[0]);
+            for (var i = 1; i < args.length; i = i + 4) {
+                if (args[i + 1].charAt(0) == '#') { var myReq = true; args[i + 1] = args[i + 1].substring(1); } else { myReq = false }
+                var myObj = MM_findObj(args[i].replace(/\[\d+\]/ig, "")); //eval(myForm+'.'+args[i]);
+                myV = myObj.value;
+                if (args[i] == 'Card Number') {
+                    if ((myV.length > 0) && !Mod10(myV)) {
+                        myErr += '* Invalid credit card number\n';
+                        addErr = false;
+                    }
+                }
+                if (myObj.type == 'text' || myObj.type == 'password') {
+                    if (myReq && myObj.value.length == 0) { addErr = true }
+                    if ((myV.length > 0) && (args[i + 2] == 1)) { //fromto
+                        if (isNaN(parseInt(myV)) || myV < args[i + 1].substring(0, args[i + 1].indexOf('_')) / 1 || myV > args[i + 1].substring(args[i + 1].indexOf('_') + 1) / 1) { addErr = true }
+                    }
+                    if ((myV.length > 0) && (args[i + 2] == 2) && !myV.match("^[\\w\\.=-]+@[\\w\\.-]+\\.[a-z]{2,4}$")) { addErr = true } // email
+                    if ((myV.length > 0) && (args[i + 2] == 3)) { // date
+                        var myD = ''; myM = ''; myY = ''; myYY = 0; myDot = true;
+                        for (var j = 0; j < args[i + 1].length; j++) {
+                            var myAt = args[i + 1].charAt(j);
+                            if (myAt == 'D') myD = myD.concat(myObj.value.charAt(j));
+                            if (myAt == 'M') myM = myM.concat(myObj.value.charAt(j));
+                            if (myAt == 'Y') { myY = myY.concat(myObj.value.charAt(j)); myYY++ }
+                            if (myAt == '-' && myObj.value.charAt(j) != '-') myDot = false;
+                            if (myAt == '.' && myObj.value.charAt(j) != '.') myDot = false;
+                            if (myAt == '/' && myObj.value.charAt(j) != '/') myDot = false;
+                        }
+                        if (myD / 1 < 1 || myD / 1 > 31 || myM / 1 < 1 || myM / 1 > 12 || myY.length != myYY) myDot = false;
+                        if (!myDot) { addErr = true }
+                    }
+                    if ((myV.length > 0) && (args[i + 2] == 4)) { // time
+                        myDot = true;
+                        var myH = myObj.value.substr(0, myObj.value.indexOf(':')) / 1;
+                        var myM = myObj.value.substr(myObj.value.indexOf(':') + 1, 2) / 1;
+                        var myP = myObj.value.substr(myObj.value.indexOf(':') + 3, 2);
+                        if ((args[i + 1]) == "12:00pm") { if (myH < 0 || myH > 12 || myM < 0 || myM > 59 || (myP != "pm" && myP != "am") || myObj.value.length > 7) myDot = false; }
+                        if ((args[i + 1]) == "12:00") { if (myH < 0 || myH > 12 || myM < 0 || myM > 59 || myObj.value.length > 5) myDot = false; }
+                        if ((args[i + 1]) == "24:00") { if (myH < 0 || myH > 23 || myM < 0 || myM > 59 || myObj.value.length > 5) myDot = false; }
+                        if (!myDot) { addErr = true }
+                    }
+                    if (myV.length > 0 && args[i + 2] == 5) {
+                        var myObj1 = MM_findObj(args[i + 1].replace(/\[\d+\]/ig, ""));
+                        if (!myObj1[args[i + 1].replace(/(.*\[)|(\].*)/ig, "")].checked) { addErr = true } // check this 2
+                    }
+                    if ((myV.length > 0) && (args[i + 2] == 6)) { // postal code
+                        var regEx = /[a-zA-Z][0-9][a-zA-Z](-| |)[0-9][a-zA-Z][0-9]/;
+                        if (!(regEx.test(myV))) {
+                            addErr = true;
+                        }
+                    }
+                    if ((myV.length > 0) && (args[i + 2] == 7)) { // expiry date  ^((0[1-9])|(1[0-2])|([1-9]))\/((2009)|(20[1-2][0-9]))$
+                        var regEx = /((0[1-9])|(1[0-2])|([1-9]))\/((2009)|(20[1-2][0-9]))/;
+                        if (!(regEx.test(myV))) {
+                            addErr = true;
+                        }
+                    }
+                } else
+                    if (!myObj.type && myObj.length > 0 && myObj[0].type == 'radio') {
+                    if (args[i + 2] == 1 && myObj.checked && MM_findObj(args[i + 1]).value.length / 1 == 0) { addErr = true }
+                    if (args[i + 2] == 2) {
+                        var myDot = false;
+                        for (var j = 0; j < myObj.length; j++) { myDot = myDot || myObj[j].checked }
+                        if (!myDot) { myErr += '* ' + args[i + 3] + '\n' }
+                    }
+                } else
+                    if (myObj.type == 'checkbox') {
+                    if (args[i + 2] == 1 && myObj.checked == false) { addErr = true }
+                    if (args[i + 2] == 2 && myObj.checked && MM_findObj(args[i + 1]).value.length / 1 == 0) { addErr = true }
+                } else
+                    if (myObj.type == 'select-one' || myObj.type == 'select-multiple') {
+                    if (args[i + 2] == 1 && myObj.selectedIndex / 1 == 0) { addErr = true }
+                } else
+                    if (myObj.type == 'textarea') {
+                    if (myV.length < args[i + 1]) { addErr = true }
+                }
+                if (addErr) { myErr += '* ' + args[i + 3] + '\n'; addErr = false }
+            }
+            if (myErr != '') { alert('The required information is incomplete or contains errors:\t\t\t\t\t\n\n' + myErr) }
+            document.MM_returnValue = (myErr == '');
+        }
+  //-->
+  //]]>
+  </script>
+  <link href="../../../../style/tnhc.css" rel="stylesheet" type="text/css" />
+  <style media="print" type="text/css">
+/*<![CDATA[*/
+    .NoDisplay{display:none;}
+    .Display{display:block;}
+  /*]]>*/
+  </style>
+  <style type="text/css">
+/*<![CDATA[*/
+    
+  body {
+        background: #000000;
+  }
+  body.famegameshame a {
+        color: #CCCCCC;
+        text-decoration: none;
+        }
+  body.famegameshame h2 {
+        color: #FFF;
+  }
+  /* centering for ie */
+  div.rim {
+        text-align: center;
+  }
+  /* centering for mozilla */
+  div.rim table {
+        margin-left: auto;
+        margin-right: auto;
+  }
+  div.rim a:link {
+        color: #CCCCCC;
+        text-decoration: none;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+  }
+  div.rim a:visited {
+        color: #CCCCCC;
+        text-decoration: none;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+  }
+  div.rim a:hover {
+        color: #FFFFF;
+        text-decoration: underline;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+  }
+  div.core {
+        background-color: #000;
+        color: #FFF;
+        width: 560px;
+  }
+  div.core h1, div.core h2 {
+        text-align: center;
+  }
+  /* centering for ie */
+  div.core {
+        text-align: center;
+  }
+  /* centering for mozilla */
+  div.core table {
+        margin-left: auto;
+        margin-right: auto;
+  }
+  div.core table caption {
+        margin-left: auto;
+        margin-right: auto;
+  }
+  div.core a {
+        color: #003366;
+        text-decoration: underline;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+  }
+  div.core a:link {
+        color: #003333;
+        text-decoration: none;
+  }
+  div.core a:visited {
+        color: #003333;
+        text-decoration: none;
+  }
+  div.core a:hover {
+        color: #666666;
+        text-decoration: underline;
+  }
+  div.core p a {
+        color: #FFF;
+        text-decoration: underline;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+  }
+  div.core p a:link {
+        color: #FFF;
+        text-decoration: none;
+  }
+  div.core p a:visited {
+        color: #FFF;
+        text-decoration: none;
+  }
+  div.core p a:hover {
+        color: #CCC;
+        text-decoration: underline;
+  }
+  div.core caption a {
+        color: #FFF;
+        text-decoration: underline;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+  }
+  div.core caption a:link {
+        color: #FFF;
+        text-decoration: none;
+  }
+  div.core caption a:visited {
+        color: #FFF;
+        text-decoration: none;
+  }
+  div.core caption a:hover {
+        color: #CCC;
+        text-decoration: underline;
+  }
+  div.core td {
+        font-size: 70%;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+  }
+  div.core th {
+        font-size: 70%;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+  }
+  /*]]>*/
+  </style>
+  <style type="text/css">
+/*<![CDATA[*/
+
+  input {
+        background-color: #999999;
+        font-size: xx-small;
+  }
+  select {
+        background-color: #999999;
+        font-size: xx-small;
+  }
+  a:link {
+        // color: #999999;
+        text-decoration: none;
+  }
+  a:visited {
+        color: #999999;
+        text-decoration: none;
+  }
+  a:hover {
+        color: #dddddd;
+        text-decoration: underline;
+  }
+
+  /*]]>*/
+  </style>
+</head>
+
+<body bgcolor="#000000" class="famegameshame">
+  <a name="top" id="top"></a>
+
+  <div class="rim">
+    <div id="TopDiv">
+      <table width="500" cellspacing="2" cellpadding="10" align="center">
+        <tr>
+          <td height="25" align="center" valign="top" bgcolor="#666666">
+            <div align="right">
+
+              <table width="460" border="0" align="center" cellpadding="10" cellspacing=
+              "0">
+                <tr>
+                  <td align="center" valign="top" bgcolor="#333333">
+                    <div align="right">
+                      
+                      <font color="#FF0000" size="2" face="Geneva, Arial, Helvetica, sans-serif">*</font>
+                      <font color="#FFFFFF" size="2" face="Geneva, Arial, Helvetica, sans-serif">Enter Captcha Code:  
+                      <input id="Code" type="text" size="20" name="Code" value="" /><br /><BR></font> 
+                      
+                      
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

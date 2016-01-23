@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:group name="Execution">
+		<xs:all>
+			<!-- If the test suite supports/implements test execution control, then following are applicable -->
+			<!-- Start Position (defaults to 1) -->
+			<xs:element name="Start" type="xs:int" minOccurs="0" />
+			<!-- Stop Position (default to -1 which indicates all) -->
+			<xs:element name="Stop" type="xs:int" minOccurs="0" />
+		</xs:all>
+	</xs:group>
+	<xs:group name="ENV">
+		<xs:all>
+			<!-- Browser to use ("FF" for Firefox or "CHROME" for Chrome else IE is used) -->
+			<xs:element name="Browser" type="xs:string" minOccurs="0" />
+			<!-- If using the Chrome browser, then you need to specify the path to the ChromeDriver -->
+			<!-- Should any future browsers require a specific driver this node will be used -->
+			<xs:element name="DriverPath" type="xs:string" minOccurs="0" />
+			<!-- If using the Firefox browser, then you can specify the profile to use -->
+			<!-- Should any future browsers require a specific profile this node will be used -->
+			<xs:element name="BrowserProfile" type="xs:string" minOccurs="0" />
+			<!-- All tests use a single URL -->
+			<xs:element name="SingleURL" type="xs:boolean" minOccurs="0" />
+			<!-- URL to run against (Main) -->
+			<xs:element name="URL" type="xs:string" minOccurs="0" />
+			<!-- URL to run against (Secondary)-->
+			<xs:element name="URL2" type="xs:string" minOccurs="0" />
+			<!-- Page Timeout In Minutes (default 5) -->
+			<xs:element name="PageTimeoutInMinutes" type="xs:integer" minOccurs="0" />
+			<!-- Element Timeout In Seconds (default 30) -->
+			<xs:element name="ElementTimeoutInSeconds" type="xs:integer" minOccurs="0" />
+			<!-- Poll Interval In MilliSeconds (default 1000) -->
+			<xs:element name="PollIntervalInMilliSeconds" type="xs:integer" minOccurs="0" />
+			<!-- Max Timeout In Minutes for action that take a lot longer than Element timeout (default 5) -->
+			<xs:element name="MaxTimeoutInMinutes" type="xs:integer" minOccurs="0" />
+			<!-- When the timeout needs to be increased temporarily by a multiplier this value it used (default 4) -->
+			<xs:element name="MultiplierTimeout" type="xs:integer" minOccurs="0" />
+			<!-- Name of temp file that is created when running via a batch file which contains replacement values for the tokens -->
+			<xs:element name="TEMP_FILE" type="xs:string" minOccurs="0" />
+			<!-- Number of retries to prevent stale element exception when working with AJAX (default 5) -->
+			<xs:element name="AJAX_Retries" type="xs:integer" minOccurs="0" />
+			<!-- The amount of time in MilliSeconds to wait for an element to become stable when working with AJAX In  (default 3000) -->
+			<xs:element name="AJAX_Stable" type="xs:integer" minOccurs="0" />
+		</xs:all>
+	</xs:group>
+	<xs:group name="DB">
+		<xs:all>
+			<!-- Database Server -->
+			<xs:element name="Server" type="xs:string" minOccurs="0" />
+			<!-- Database to use on the DB Server -->
+			<xs:element name="Database" type="xs:string" minOccurs="0" />
+			<!-- If not using Integrated Security, then specify the user to connect with -->
+			<xs:element name="User" type="xs:string" minOccurs="0" />
+			<!-- If not using Integrated Security, then specify the password to use for the user -->
+			<xs:element name="Password" type="xs:string" minOccurs="0" />
+			<!-- Password Encrypted?  If true password will be decoded before use (defaults to false) -->
+			<xs:element name="EncodedPassword" type="xs:boolean" minOccurs="0" />
+			<!-- Database Port to connect to, defaults to 1433 -->
+			<xs:element name="Port" type="xs:int" minOccurs="0" />
+			<!-- Database Type -->
+			<xs:element name="Type" type="xs:string" minOccurs="0" />
+			<!-- Based Folder location of SQL files needs to end in slash or backslash if not empty string -->
+			<xs:element name="SQL_Folder" type="xs:string" minOccurs="0" />
+		</xs:all>
+	</xs:group>
+	<xs:group name="Grid">
+		<xs:all>
+			<!-- Selenium Grid Hub URL -->
+			<xs:element name="HubURL" type="xs:string" minOccurs="0" />
+			<!-- Platform to use -->
+			<xs:element name="Platform" type="xs:string" minOccurs="0" />
+			<!-- Browser Version to use -->
+			<xs:element name="Version" type="xs:string" minOccurs="0" />
+		</xs:all>
+	</xs:group>
+	<xs:group name="External">
+		<xs:all>
+			<!-- Based Folder location of SQL files needs to end in slash or backslash if not empty string -->
+			<xs:element name="SQL" type="xs:string" minOccurs="0" />
+			<!-- Based Folder location of JavaScript files needs to end in slash or backslash if not empty string -->
+			<xs:element name="JS" type="xs:string" minOccurs="0" />
+		</xs:all>
+	</xs:group>
+	<xs:group name="Screenshots">
+		<xs:all>
+			<!-- Take screenshots of failures ("true" take screenshots else disabled) -->
+			<xs:element name="Enabled" type="xs:boolean" minOccurs="0" />
+			<!-- Folder to place the screenshots -->
+			<xs:element name="Folder" type="xs:string" minOccurs="0" />
+			<!-- Screenshots file name prefix -->
+			<xs:element name="Prefix" type="xs:string" minOccurs="0" />
+		</xs:all>
+	</xs:group>
+	
+	<xs:complexType name="Context">
+		<xs:all>
+			<xs:element name="Key" type="xs:string" minOccurs="0" />
+			<xs:element name="ENV" minOccurs="0">
+				<xs:complexType>
+					<xs:group ref="ENV" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DB" minOccurs="0">
+				<xs:complexType>
+					<xs:group ref="DB" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Grid" minOccurs="0">
+				<xs:complexType>
+					<xs:group ref="Grid" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Screenshots" minOccurs="0">
+				<xs:complexType>
+					<xs:group ref="Screenshots" />
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	
+	<xs:complexType name="AdditionalContexts">
+		<xs:sequence>
+			<xs:element name="Context" type="Context" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:group name="DataDrivenValues">
+		<xs:all>
+			<!-- 
+			*****
+			All NODES HERE NEED TO BE UNIQUE FOR EACH TEST
+			*****
+			 -->
+		
+			<!-- Base Path prepended to all the locations of the data driven values -->
+			<xs:element name="BasePath" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<!-- Location of XML file with data driven values for Password Lookup -->
+			<xs:element name="PasswordLookup" type="xs:string" minOccurs="0" maxOccurs="1" />
+	
+			<!-- Location of XML file with data driven values for Test -->
+			<xs:element name="Test" type="xs:string" minOccurs="0" maxOccurs="1" />
+		</xs:all>
+	</xs:group>
+	<xs:group name="Notification">
+		<xs:all>
+			<!-- After this number of test suites e-mails will start being sent provided e-mails are enabled -->
+			<xs:element name="SendEmailsAfterTestSuite" type="xs:integer" minOccurs="0" />
+			<!-- Whether to send e-mail or not ("1" sends e-mail) -->
+			<xs:element name="SendEmail" type="xs:boolean" minOccurs="0" />
+			<!-- Mail server to use to send e-mail -->
+			<xs:element name="SMTP_Server" type="xs:string" minOccurs="0" />
+			<!-- From Address for e-mail -->
+			<xs:element name="From_EmailAddress" type="xs:string" minOccurs="0" />
+			<!-- Recipients for e-mail -->
+			<xs:element name="Recipients" type="xs:string" minOccurs="0" />
+			<!-- Subject for e-mail -->
+			<xs:element name="Subject" type="xs:string" minOccurs="0" />
+			<!-- Message for e-mail -->
+			<xs:element name="Message" type="xs:string" minOccurs="0" />
+		</xs:all>
+	</xs:group>
+	<xs:element name="config">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Execution" minOccurs="0">
+					<xs:complexType>
+						<xs:group ref="Execution" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ENV" minOccurs="0">
+					<xs:complexType>
+						<xs:group ref="ENV" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DB" minOccurs="0">
+					<xs:complexType>
+						<xs:group ref="DB" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Grid" minOccurs="0">
+					<xs:complexType>
+						<xs:group ref="Grid" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="External" minOccurs="0">
+					<xs:complexType>
+						<xs:group ref="External" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Screenshots" minOccurs="0">
+					<xs:complexType>
+						<xs:group ref="Screenshots" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AdditionalContexts" type="AdditionalContexts" minOccurs="0" />
+				<xs:element name="DataDrivenValues" minOccurs="0">
+					<xs:complexType>
+						<xs:group ref="DataDrivenValues" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Notification" minOccurs="0">
+					<xs:complexType>
+						<xs:group ref="Notification" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Translations" type="xs:string" minOccurs="0" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,53 @@
+<data>
+	<ExecutionControl>
+		<UniqueID>TEST001</UniqueID>
+		
+		<!-- General read tests -->
+		<User>u1</User>
+		<Password>p1</Password>
+		
+		<!-- Boolean value tests -->
+		<BooleanTrue1>true</BooleanTrue1>
+		<BooleanTrue2>1</BooleanTrue2>
+		<BooleanFalse1>false</BooleanFalse1>
+		<BooleanFalse2>0</BooleanFalse2>
+		<BooleanFalse3>a</BooleanFalse3>
+		
+		<!-- Integer value tests -->
+		<IntegerValid1>100</IntegerValid1>
+		<IntegerValid2>-500</IntegerValid2>
+		<IntegerInvalid>b</IntegerInvalid>
+		
+		<!-- String value tests -->
+		<String>c</String>
+		
+		<!-- Attribute value tests -->
+		<Attribute1 id="abc" num="200" flag="true" value="def" />
+		<Attribute2 num="-40" flag="false" value="ghi" />
+		<Attribute3 num="" flag="" value="" />
+		<Attribute4 num="aa" flag="bb" />
+		<Attribute5 flag="0" />
+		<Attribute6 flag="1" />
+		<Attribute7 num="5" />
+	</ExecutionControl>
+	<ExecutionControl>
+		<UniqueID>TEST002</UniqueID>
+		<User>u2</User>
+		<Password>p2</Password>
+	</ExecutionControl>
+	<ExecutionControl>
+		<UniqueID>TEST003</UniqueID>
+		<User>u3</User>
+		<Password>p3</Password>
+	</ExecutionControl>
+	<ExecutionControl>
+		<UniqueID>TEST004</UniqueID>
+		<User>u4</User>
+		<Password>p4</Password>
+	</ExecutionControl>
+	<ExecutionControl>
+		<UniqueID>TEST005</UniqueID>
+		<User>u5</User>
+		<Password>p5</Password>
+	</ExecutionControl>
+</data>
