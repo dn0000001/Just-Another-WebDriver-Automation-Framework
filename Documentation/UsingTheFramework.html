@@ -1,0 +1,66 @@
+<p>
+    Using the Framework:
+</p>
+<p>
+    1. Create a new class (<strong>com.automation.ui.common.sampleProject.tests.LoginTest</strong>) to hold your test which extends <strong>com.automation.ui.common.utilities.Controller</strong>. 
+The <strong>com.automation.ui.common.utilities.Controller</strong> class uses
+    TestNG to perform setup &amp; tear down of the test. The initialization method readies the environmental variables such as URL for the test and timeouts.
+    The quitBrowser method closes the browser(s) and takes a screenshot(s) as necessary.
+</p>
+<p>
+    a. Add a method (<strong>runLoginPositiveFlow</strong>) for the test. Add the annotation @Test which indicates to TestNG that this is a test.
+</p>
+<p>
+    b. Override the initialization method to read the location of the data file from the config.xml file. Also, it should update the translations if any are
+    needed by the test.
+</p>
+<p>
+    c. Update the config.xml file with the location to the data file for the test.
+</p>
+<p>
+    d. Create the TestNG xml file for the test. (This is the file that TestNG uses to know which tests to execute.)
+</p>
+<p>
+    e. Add a method (<strong>dataForLogin</strong>) to be the data provider in your test class (<strong>com.automation.ui.common.sampleProject.tests.LoginTest</strong>). 
+Add the annotation @DataProvider which
+    indicates to TestNG that this provides the data to the test. The recommended technique is to store the test data in an XML file. To support this, there is
+    the VTD_XML class to provide a simple generic way to read XML files using xpath. (There are a few classes to also read data from Excel, CSV or even a
+    database.)
+</p>
+<p>
+    2. Create a new class (<strong>com.automation.ui.common.sampleProject.dataStructures.TestContext</strong>) to hold all the data for your test. It is recommended 
+to use a single class or a few classes at most to
+    make it easier to maintain and refactor the code. This class needs to contain (or extend) the BasicTestContext class. The BasicTestContext class contains
+    the basic variables needed for every test such as a WebDriver variable, the test URL, timeouts, etc.
+</p>
+<p>
+    a. Update the test method (<strong>runLoginPositiveFlow</strong>) to have parameters for the Test ID and Test Data 
+(<strong>com.automation.ui.common.sampleProject.dataStructures.TestContext</strong>). The Test ID is used to
+    find the test results in the logs.
+</p>
+<p>
+    b. Add the logging of the Test ID to the start &amp; end of the test using the methods <em>writeTestIDtoLog</em> &amp; <em>writeTestSuccessToLog</em>.
+</p>
+<p>
+    3. Create a new class (<strong>com.automation.ui.common.sampleProject.pages.Login</strong>) which extends <strong>com.automation.ui.common.utilities.Framework</strong> 
+that will provide methods to work on a specific page to be
+    automated. This class is called a page object. The <strong>com.automation.ui.common.utilities.Framework</strong> class is a wrapper class that contains methods to work with Selenium
+    (WebDriver) without needing an extensive knowledge of the tool. (Also, it would be possible to change the tool to something else by simply implementing the
+    same methods in the new tool.)
+</p>
+<p>
+    a. Add all the necessary methods to the page object (<strong>com.automation.ui.common.sampleProject.pages.Login</strong>) to automation one or more test steps. Each method should be designed to
+    work regardless of the data instead of specific hard coded values. Add the data objects to the main data class (<strong>com.automation.ui.common.sampleProject.dataStructures.TestContext</strong>) in an organized
+    structure for easy maintenance and refactoring.
+</p>
+<p>
+    4. Use the page object (<strong>com.automation.ui.common.sampleProject.pages.Login</strong>) in the test method (<strong>runLoginPositiveFlow</strong>) to automate one or more steps.
+</p>
+<p>
+    a. Update the data provider (<strong>dataForLogin</strong>) to read the data needed for the page object (<strong>com.automation.ui.common.sampleProject.pages.Login</strong>) to allow for unit testing.
+</p>
+<p>
+    5. Repeat creating page objects to automation one or more steps and integrating into the test (<strong>runLoginPositiveFlow</strong>) &amp; unit testing. It is
+    recommended that you use Test Driven Design to automate the test by writing high-level comments in the test (<strong>runLoginPositiveFlow</strong>) first. Then, writing
+    the code / page objects to perform the actions.
+</p>
