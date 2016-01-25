@@ -5,6 +5,8 @@ import java.util.List;
 import org.openqa.selenium.WebElement;
 
 import com.automation.ui.common.dataStructures.Comparison;
+import com.automation.ui.common.dataStructures.FindTextCriteria;
+import com.automation.ui.common.dataStructures.FindWebElementData;
 import com.automation.ui.common.dataStructures.SelectionCriteria;
 import com.automation.ui.common.dataStructures.WebElementIndexOfMethod;
 import com.automation.ui.common.utilities.caches.AttributeCache;
@@ -27,6 +29,12 @@ import com.automation.ui.common.utilities.caches.TextCache;
  * int nIndex = find.indexOf(elements, criteria);<BR>
  */
 public class FindWebElement {
+	/**
+	 * Flag to indicate if the old search was performed using SelectionCriteria or new search was performed
+	 * using FindTextCriteria.
+	 */
+	private boolean usedSelectionCriteria;
+
 	/**
 	 * Which method to use to find the matching WebElement
 	 */
@@ -79,6 +87,29 @@ public class FindWebElement {
 	}
 
 	/**
+	 * Constructor to configure for new search using FindTextCriteria
+	 * 
+	 * @param config - Information to configure the class for the search
+	 */
+	public FindWebElement(FindWebElementData config)
+	{
+		setFindMethod(config.findMethod);
+		setComparisonOption(config.textCriteria.compare);
+
+		// Initialize text cache
+		if (config.findMethod == WebElementIndexOfMethod.JavaScript)
+			textCache = new TextCache(true);
+		else
+			textCache = new TextCache(false);
+
+		// Initialize attribute cache
+		if (config.findMethod == WebElementIndexOfMethod.Attribute)
+			attributeCache = new AttributeCache(config.findAttribute);
+		else
+			attributeCache = new AttributeCache("");
+	}
+
+	/**
 	 * Returns the index of the first occurrence of the element "matching" the text in this list, or -1 if
 	 * this list does not contain the element<BR>
 	 * <BR>
@@ -99,6 +130,9 @@ public class FindWebElement {
 	 */
 	public int indexOf(List<WebElement> elements, SelectionCriteria criteria)
 	{
+		// Set flag to indicate that old search was performed
+		usedSelectionCriteria = true;
+
 		// For slightly better performance reasons, store for use later
 		int nListCount = elements.size();
 
@@ -210,6 +244,116 @@ public class FindWebElement {
 	}
 
 	/**
+	 * Returns the index of the first occurrence of the element matching the text criteria in this list, or -1
+	 * if this list does not contain the element<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) The findMethod variable needs to be set before use or the default comparison is used<BR>
+	 * 2) Any other variables required for the find method being used need to be set as well<BR>
+	 * 3) Searches by index do not cache the text or attribute values<BR>
+	 * 4) Searches by index convert the <B>user's position value</B> to an index value by subtracting 1. It is
+	 * assumed that the user is specifying a position as this makes more sense from a user's perspective when
+	 * setting up test data.<BR>
+	 * <BR>
+	 * <B>Comparison options supported:</B><BR>
+	 * Contains<BR>
+	 * Not Equal<BR>
+	 * Equal<BR>
+	 * Equals Ignore Case<BR>
+	 * Regular Expression<BR>
+	 * Does Not Contain<BR>
+	 * else - Index<BR>
+	 * 
+	 * @param elements - List of WebElement to find a matching WebElement
+	 * @param criteria - Information to determine which WebElement to return
+	 * @return -1 if no matching WebElement else index to corresponding WebElement
+	 */
+	public int indexOf(List<WebElement> elements, FindTextCriteria criteria)
+	{
+		// Set flag to indicate that new search was performed
+		usedSelectionCriteria = false;
+
+		// For slightly better performance reasons, store for use later
+		int nListCount = elements.size();
+
+		// If no elements in the list, then return -1
+		if (nListCount < 1)
+			return -1;
+
+		// Variable to store index of matching element
+		int nIndex;
+
+		// If one of the supported comparison options, then perform comparison else index search
+		if (criteria.compare == Comparison.Contains || criteria.compare == Comparison.NotEqual
+				|| criteria.compare == Comparison.Equal || criteria.compare == Comparison.EqualsIgnoreCase
+				|| criteria.compare == Comparison.RegEx || criteria.compare == Comparison.DoesNotContain)
+		{
+			nIndex = -1;
+			for (int i = 0; i < nListCount; i++)
+			{
+				if (compareWebElement(elements.get(i), criteria))
+				{
+					nIndex = i;
+					break;
+				}
+			}
+
+			// Was Option found?
+			if (nIndex < 0)
+				return -1;
+		}
+		else
+		{
+			nIndex = Conversion.parseInt(criteria.value);
+			if (nIndex < 1)
+			{
+				// This indicates random selection
+				nIndex = Rand.randomRange(0, nListCount - 1);
+			}
+			else
+			{
+				// Convert to zero based index
+				nIndex--;
+
+				// Verify user's option is valid
+				if (nIndex > (nListCount - 1))
+					return -1;
+			}
+		}
+
+		return nIndex;
+	}
+
+	/**
+	 * Performs the specified comparison using find method<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) If no matching find method, then match using Text is used<BR>
+	 * 
+	 * @param element - WebElement to be compared
+	 * @param criteria - Criteria used to determine if match
+	 * @return true if the WebElement matches the comparison criteria
+	 */
+	private boolean compareWebElement(WebElement element, FindTextCriteria criteria)
+	{
+		if (findMethod == WebElementIndexOfMethod.Attribute)
+		{
+			attributeCache.setReadAttribute(sAttribute);
+			return Compare.text(attributeCache.getAttribute(element), criteria);
+		}
+		else if (findMethod == WebElementIndexOfMethod.JavaScript)
+		{
+			textCache.setFlag(true);
+			return Compare.text(textCache.getText(element), criteria);
+		}
+		else
+		{
+			textCache.setFlag(false);
+			return Compare.text(textCache.getText(element), criteria);
+		}
+	}
+
+	/**
 	 * Set the Find Method to be used
 	 * 
 	 * @param findMethod - Find Method used to find the WebElement
@@ -251,21 +395,42 @@ public class FindWebElement {
 	 */
 	public String getValue(WebElement element)
 	{
-		if (findMethod == WebElementIndexOfMethod.Attribute_RegEx
-				|| findMethod == WebElementIndexOfMethod.Attribute_Contains)
+		if (usedSelectionCriteria)
 		{
-			attributeCache.setReadAttribute(sAttribute);
-			return attributeCache.getAttribute(element);
-		}
+			if (findMethod == WebElementIndexOfMethod.Attribute_RegEx
+					|| findMethod == WebElementIndexOfMethod.Attribute_Contains)
+			{
+				attributeCache.setReadAttribute(sAttribute);
+				return attributeCache.getAttribute(element);
+			}
 
-		if (findMethod == WebElementIndexOfMethod.JS_RegEx
-				|| findMethod == WebElementIndexOfMethod.JS_Contains)
-		{
-			textCache.setFlag(true);
+			if (findMethod == WebElementIndexOfMethod.JS_RegEx
+					|| findMethod == WebElementIndexOfMethod.JS_Contains)
+			{
+				textCache.setFlag(true);
+				return textCache.getText(element);
+			}
+
+			textCache.setFlag(false);
 			return textCache.getText(element);
 		}
-
-		textCache.setFlag(false);
-		return textCache.getText(element);
+		else
+		{
+			if (findMethod == WebElementIndexOfMethod.Attribute)
+			{
+				attributeCache.setReadAttribute(sAttribute);
+				return attributeCache.getAttribute(element);
+			}
+			else if (findMethod == WebElementIndexOfMethod.JavaScript)
+			{
+				textCache.setFlag(true);
+				return textCache.getText(element);
+			}
+			else
+			{
+				textCache.setFlag(false);
+				return textCache.getText(element);
+			}
+		}
 	}
 }

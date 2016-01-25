@@ -8,12 +8,14 @@ import com.automation.ui.common.dataStructures.CheckBox;
 import com.automation.ui.common.dataStructures.Comparison;
 import com.automation.ui.common.dataStructures.DropDown;
 import com.automation.ui.common.dataStructures.FindTextCriteria;
+import com.automation.ui.common.dataStructures.FindWebElementData;
 import com.automation.ui.common.dataStructures.GenericDate;
 import com.automation.ui.common.dataStructures.InputField;
 import com.automation.ui.common.dataStructures.Parameter;
 import com.automation.ui.common.dataStructures.Selection;
 import com.automation.ui.common.dataStructures.SelectionCriteria;
 import com.automation.ui.common.dataStructures.UploadFileData;
+import com.automation.ui.common.dataStructures.WebElementIndexOfMethod;
 
 /**
  * This class contains methods to read specific data types from XML files
@@ -630,5 +632,56 @@ public class DataReader {
 	{
 		FindTextCriteria defaults = new FindTextCriteria(Comparison.Contains, "");
 		return getFindTextCriteria(xml, sXpath_Base, defaults);
+	}
+
+	/**
+	 * Gets a FindWebElementData object from XML file
+	 * 
+	 * @param xml - XML file to work with
+	 * @param sXpath_Base - Node for which to get the information from the attributes
+	 * @param defaults - Default values
+	 * @return FindWebElementData
+	 */
+	public static FindWebElementData getFindWebElementData(VTD_XML xml, String sXpath_Base,
+			FindWebElementData defaults)
+	{
+		Parameter p1 = new Parameter("Method", defaults.findMethod.toString());
+		Parameter p2 = new Parameter("Attribute", defaults.findAttribute);
+		Parameter p3 = new Parameter("Compare", defaults.textCriteria.compare.toString());
+		Parameter p4 = new Parameter("Value", defaults.textCriteria.value);
+
+		List<Parameter> attributes = new ArrayList<Parameter>();
+		attributes.add(p1);
+		attributes.add(p2);
+		attributes.add(p3);
+		attributes.add(p4);
+
+		List<Parameter> rv = xml.getAttribute(sXpath_Base, attributes);
+		WebElementIndexOfMethod findMethod = WebElementIndexOfMethod.to(rv.get(rv.indexOf(p1)).value);
+		String findAttribute = rv.get(rv.indexOf(p2)).value;
+		Comparison compare = Comparison.to(rv.get(rv.indexOf(p3)).value);
+		String value = rv.get(rv.indexOf(p4)).value;
+		FindTextCriteria textCriteria = new FindTextCriteria(compare, value);
+		return new FindWebElementData(findMethod, findAttribute, textCriteria);
+	}
+
+	/**
+	 * Gets a FindWebElementData object from XML file<BR>
+	 * <BR>
+	 * <B>Default Values:</B><BR>
+	 * findMethod = WebElementIndexOfMethod.Text<BR>
+	 * findAttribute = empty string<BR>
+	 * compare = Comparison.Contains<BR>
+	 * value = empty string<BR>
+	 * 
+	 * @param xml - XML file to work with
+	 * @param sXpath_Base - Node for which to get the information from the attributes
+	 * @return FindWebElementData
+	 */
+	public static FindWebElementData getFindWebElementData(VTD_XML xml, String sXpath_Base)
+	{
+		FindTextCriteria textCriteria = new FindTextCriteria(Comparison.Contains, "");
+		FindWebElementData defaults = new FindWebElementData(WebElementIndexOfMethod.Text, "", textCriteria);
+		return getFindWebElementData(xml, sXpath_Base, defaults);
 	}
 }

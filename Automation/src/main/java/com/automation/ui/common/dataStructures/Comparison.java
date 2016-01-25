@@ -25,6 +25,7 @@ public enum Comparison
 	private static final String _EqualsIgnoreCase = "~=";
 	private static final String _RegEx = "regex";
 	private static final String _DoesNotContain = "!*=";
+	private static final String _Standard = "S";
 
 	/**
 	 * Convert String to Comparison enumeration<BR>
@@ -60,6 +61,10 @@ public enum Comparison
 		else if (Compare.equals(value, _DoesNotContain, Comparison.EqualsIgnoreCase))
 		{
 			return Comparison.DoesNotContain;
+		}
+		else if (Compare.equals(value, _Standard, Comparison.EqualsIgnoreCase))
+		{
+			return Comparison.Standard;
 		}
 		else
 		{

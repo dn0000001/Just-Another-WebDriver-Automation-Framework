@@ -1,0 +1,26 @@
+<data>
+	<AutoCompleteField>
+		<NoDefaultsUsed1 Skip="true" Value="b" CancelSelection="true" UseIndex="true" SelectOption="cc" TriggerLength="1" />
+		<NoDefaultsUsed2 Skip="false" Value="d" CancelSelection="false" UseIndex="false" SelectOption="ee" TriggerLength="2" />
+		<AllDefaultsUsed />
+		<SomeDefaultsUsed1 Value="f" CancelSelection="true" UseIndex="true" SelectOption="g" />
+		<SomeDefaultsUsed2 Skip="false" CancelSelection="false" UseIndex="false" TriggerLength="3" />
+		<List>
+			<!-- NoDefaultsUsed1 -->
+			<ACF Skip="true" Value="b" CancelSelection="true" UseIndex="true" SelectOption="cc" TriggerLength="1" />
+			<!-- NoDefaultsUsed2 -->
+			<ACF Skip="false" Value="d" CancelSelection="false" UseIndex="false" SelectOption="ee" TriggerLength="2" />
+			<!-- AllDefaultsUsed -->
+			<ACF />
+			<!-- SomeDefaultsUsed1 -->
+			<ACF Value="f" CancelSelection="true" UseIndex="true" SelectOption="g" />
+			<!-- SomeDefaultsUsed2 -->
+			<ACF Skip="false" CancelSelection="false" UseIndex="false" TriggerLength="3" />
+		</List>
+	</AutoCompleteField>
+	<FindWebElementData>
+		<NoDefaultsUsed1 Method="A" Attribute="data-bind" Compare="!=" Value="aAa" />
+		<NoDefaultsUsed2 Method="J" Attribute="Value" Compare="==" Value="BbB" />
+		<AllDefaultsUsed />
+	</FindWebElementData>
+</data>
