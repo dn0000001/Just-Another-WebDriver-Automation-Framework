@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.WebElement;
 
+import com.automation.ui.common.dataStructures.FindTextCriteria;
 import com.automation.ui.common.dataStructures.LogErrorLevel;
 import com.automation.ui.common.dataStructures.Parameter;
 import com.automation.ui.common.dataStructures.SelectionCriteria;
@@ -259,6 +260,29 @@ public class Logs {
 	}
 
 	/**
+	 * Logs Error with debug information<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) The FindWebElement object contains the cached debug information to be logged<BR>
+	 * 2) The list of elements cannot be null. Also, they are used as keys to get the cached data<BR>
+	 * 
+	 * @param find - FindWebElement that was used to search the elements
+	 * @param elements - List of elements that was searched
+	 * @param criteria - Criteria used to search for the element
+	 * @throws GenericUnexpectedException
+	 */
+	public static void logError(FindWebElement find, List<WebElement> elements, FindTextCriteria criteria)
+	{
+		Logs.log.warn("There were the following list elements:  ");
+		for (int i = 0; i < elements.size(); i++)
+		{
+			Logs.log.warn("" + i + ":  " + find.getValue(elements.get(i)));
+		}
+
+		Logs.logError("Could not find an element using criteria:  " + criteria);
+	}
+
+	/**
 	 * Logs Failure Time<BR>
 	 * <BR>
 	 * <B>Note: </B> Uses Logs.log.error<BR>
@@ -345,5 +369,21 @@ public class Logs {
 			Logs.log.info(Misc.removeEndsWith(sb.toString(), ", "));
 
 		Logs.log.info("");
+	}
+
+	/**
+	 * Logs Error with debug information for 2 objects that do not match<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) The objects need to override the toString method for logging<BR>
+	 * 
+	 * @param expected - Object containing the Expected Results
+	 * @param actual - Object containing the Actual Results
+	 */
+	public static <T> void logError(T expected, T actual)
+	{
+		Logs.log.warn("Expected:  " + expected);
+		Logs.log.warn("Actual:    " + actual);
+		Logs.logError("The actual data did not match the expected data.  See above for details");
 	}
 }

@@ -865,9 +865,7 @@ public class Verify {
 		}
 		else
 		{
-			Logs.log.warn("Expected:  " + expected);
-			Logs.log.warn("Actual:    " + actual);
-			Logs.logError("The actual data did not match the expected data.  See above for details");
+			Logs.logError(expected, actual);
 		}
 	}
 
@@ -892,9 +890,7 @@ public class Verify {
 		}
 		else
 		{
-			Logs.log.warn("Expected:  " + expected);
-			Logs.log.warn("Actual:    " + actual);
-			Logs.logError("The actual data did not match the expected data.  See above for details");
+			Logs.logError(expected, actual);
 		}
 	}
 

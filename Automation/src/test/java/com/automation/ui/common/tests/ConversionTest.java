@@ -1,11 +1,16 @@
 package com.automation.ui.common.tests;
 
+import java.util.Date;
+import java.util.TimeZone;
+
 import org.testng.annotations.Test;
 
+import com.automation.ui.common.dataStructures.Parameter;
 import com.automation.ui.common.dataStructures.config.ConfigRun;
 import com.automation.ui.common.utilities.Compare;
 import com.automation.ui.common.utilities.Controller;
 import com.automation.ui.common.utilities.Conversion;
+import com.automation.ui.common.utilities.Languages;
 import com.automation.ui.common.utilities.Logs;
 import com.automation.ui.common.utilities.Rand;
 import com.automation.ui.common.utilities.TestResults;
@@ -865,5 +870,259 @@ public class ConversionTest {
 		results.verify("Some of the parsing tests failed.  See above for details.");
 
 		Controller.writeTestSuccessToLog("runParsingTest");
+	}
+
+	@Test
+	public static void runDateConversionTest()
+	{
+		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
+		Logs.initializeLoggers();
+		Controller.writeTestIDtoLog("runDateConversionTest");
+
+		TestResults results = new TestResults();
+		boolean bResult;
+		String value, pattern, sWarning;
+		TimeZone tz = TimeZone.getTimeZone("EST");
+
+		// String to Date Test #1
+		pattern = "MMMM dd, yyyy @ hh:mm a";
+		value = "July 28, 2016 @ 10:10 AM";
+		Date d1 = Conversion.toDate(value, pattern, tz, Languages.toLocale(Languages.English));
+
+		value = "Juillet 28, 2016 @ 10:09 AM";
+		Date d2 = Conversion.toDate(value, pattern, tz, Languages.toLocale(Languages.French));
+
+		bResult = Compare.equals(d1, d2, 2);
+		sWarning = "String to Date Test #1a";
+		results.expectTrue(bResult, sWarning);
+
+		bResult = Compare.equals(d1, d2, 0);
+		sWarning = "String to Date Test #1b";
+		results.expectFalse(bResult, sWarning);
+
+		// String to Date Test #2
+		pattern = "MMM dd, yyyy @ hh:mm a";
+		value = "Jul 28, 2016 @ 10:10 AM";
+		Date d3 = Conversion.toDate(value, pattern, tz, Languages.toLocale(Languages.English));
+
+		// Note: The key to parsing this is adding the period
+		value = "Juil. 28, 2016 @ 10:09 AM";
+		Date d4 = Conversion.toDate(value, pattern, tz, Languages.toLocale(Languages.French));
+
+		bResult = Compare.equals(d3, d4, 2);
+		sWarning = "String to Date Test #2a";
+		results.expectTrue(bResult, sWarning);
+
+		bResult = Compare.equals(d3, d4, 0);
+		sWarning = "String to Date Test #2b";
+		results.expectFalse(bResult, sWarning);
+
+		// String to Date Test #3
+		pattern = "MMM dd, yyyy @ hh:mm a";
+		value = "May 28, 2016 @ 10:10 AM";
+		Date d5 = Conversion.toDate(value, pattern, tz, Languages.toLocale(Languages.English));
+
+		value = "Mai 28, 2016 @ 10:09 AM";
+		Date d6 = Conversion.toDate(value, pattern, tz, Languages.toLocale(Languages.French));
+
+		bResult = Compare.equals(d5, d6, 2);
+		sWarning = "String to Date Test #3a";
+		results.expectTrue(bResult, sWarning);
+
+		bResult = Compare.equals(d5, d6, 0);
+		sWarning = "String to Date Test #3b";
+		results.expectFalse(bResult, sWarning);
+
+		//
+		// Verify dates are the same
+		//
+
+		bResult = Compare.equals(d1, d3, 0);
+		sWarning = "Dates Equal Test #1";
+		results.expectTrue(bResult, sWarning);
+
+		bResult = Compare.equals(d2, d4, 0);
+		sWarning = "Dates Equal Test #2";
+		results.expectTrue(bResult, sWarning);
+
+		//
+		// Verify dates that do not equal
+		//
+
+		bResult = Compare.equals(d1, d2, 0);
+		sWarning = "Dates Not Equal Test #1";
+		results.expectFalse(bResult, sWarning);
+
+		bResult = Compare.equals(d3, d4, 0);
+		sWarning = "Dates Not Equal Test #2";
+		results.expectFalse(bResult, sWarning);
+
+		results.verify("Some unit tests failed.  See above for details.");
+		Controller.writeTestSuccessToLog("runDateConversionTest");
+	}
+
+	@Test
+	public static void runNonNullTest()
+	{
+		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
+		Logs.initializeLoggers();
+		Controller.writeTestIDtoLog("runNonNullTest");
+
+		TestResults results = new TestResults();
+		boolean bResult;
+		String sWarning, convert;
+
+		String empty = Conversion.nonNull("");
+		String sNull = Conversion.nonNull(null);
+
+		bResult = empty.equals(sNull);
+		sWarning = "Empty == null Test failed";
+		results.expectTrue(bResult, sWarning);
+
+		bResult = empty.equals("");
+		sWarning = "Empty String Test #1 failed";
+		results.expectTrue(bResult, sWarning);
+
+		bResult = empty == null;
+		sWarning = "Empty String Test #2 failed";
+		results.expectFalse(bResult, sWarning);
+
+		bResult = sNull.equals("");
+		sWarning = "Null Test #1 failed";
+		results.expectTrue(bResult, sWarning);
+
+		bResult = sNull == null;
+		sWarning = "Null Test #2 failed";
+		results.expectFalse(bResult, sWarning);
+
+		// Single Letter Test #1
+		String singleLetter = Rand.letters(1);
+		convert = Conversion.nonNull(singleLetter);
+		bResult = singleLetter.equals(convert);
+		sWarning = "Single Letter Test #1 failed, details below:";
+		if (!results.expectTrue(bResult, sWarning))
+		{
+			results.logWarn(sWarning);
+			results.logWarn(singleLetter, convert);
+			results.logWarn("");
+		}
+
+		// Single Number Test #1
+		String singleNumber = Rand.numbers(1);
+		convert = Conversion.nonNull(singleNumber);
+		bResult = singleNumber.equals(convert);
+		sWarning = "Single Number Test #1 failed, details below:";
+		if (!results.expectTrue(bResult, sWarning))
+		{
+			results.logWarn(sWarning);
+			results.logWarn(singleNumber, convert);
+			results.logWarn("");
+		}
+
+		// Letters Test #1
+		String letters = Rand.letters(2, 10);
+		convert = Conversion.nonNull(letters);
+		bResult = letters.equals(convert);
+		sWarning = "Letters Test #1 failed, details below:";
+		if (!results.expectTrue(bResult, sWarning))
+		{
+			results.logWarn(sWarning);
+			results.logWarn(letters, convert);
+			results.logWarn("");
+		}
+
+		// Numbers Test #1
+		String numbers = Rand.numbers(2, 10);
+		convert = Conversion.nonNull(numbers);
+		bResult = numbers.equals(convert);
+		sWarning = "Numbers Test #1 failed, details below:";
+		if (!results.expectTrue(bResult, sWarning))
+		{
+			results.logWarn(sWarning);
+			results.logWarn(numbers, convert);
+			results.logWarn("");
+		}
+
+		// Alphanumeric Test #1
+		String alphanumeric = Rand.alphanumeric(10, 20);
+		convert = Conversion.nonNull(alphanumeric);
+		bResult = alphanumeric.equals(convert);
+		sWarning = "Alphanumeric Test #1 failed, details below:";
+		if (!results.expectTrue(bResult, sWarning))
+		{
+			results.logWarn(sWarning);
+			results.logWarn(alphanumeric, convert);
+			results.logWarn("");
+		}
+
+		//
+		// Object null Tests
+		//
+		Parameter nullObject = null;
+		convert = Conversion.nonNull(nullObject);
+		bResult = convert.equals("");
+		sWarning = "Object null Test #1 failed";
+		results.expectTrue(bResult, sWarning);
+
+		bResult = convert == null;
+		sWarning = "Object null Test #2 failed";
+		results.expectFalse(bResult, sWarning);
+
+		String replacement = Rand.alphanumeric(1, 10);
+		convert = Conversion.nonNull(nullObject, replacement);
+		bResult = convert.equals(replacement);
+		sWarning = "Object null Test #3 failed";
+		results.expectTrue(bResult, sWarning);
+
+		bResult = convert == null;
+		sWarning = "Object null Test #4 failed";
+		results.expectFalse(bResult, sWarning);
+
+		//
+		// Objects non-null Tests
+		//
+		Parameter p1 = new Parameter(Rand.alphanumeric(1, 10), Rand.alphanumeric(1, 10));
+		convert = Conversion.nonNull(p1);
+		bResult = convert.equals(p1.toString());
+		sWarning = "Object Test #1 failed, details below:";
+		if (!results.expectTrue(bResult, sWarning))
+		{
+			results.logWarn(sWarning);
+			results.logWarn(p1, convert);
+			results.logWarn("");
+		}
+
+		bResult = convert.equals("");
+		sWarning = "Object Test #2 failed, details below:";
+		if (!results.expectFalse(bResult, sWarning))
+		{
+			results.logWarn(sWarning);
+			results.logWarn(p1, convert);
+			results.logWarn("");
+		}
+
+		Parameter p2 = new Parameter(Rand.alphanumeric(1, 10), Rand.alphanumeric(1, 10));
+		replacement = Rand.alphanumeric(1, 10);
+		convert = Conversion.nonNull(p2, replacement);
+		bResult = convert.equals(p2.toString());
+		sWarning = "Object Test #3 failed, details below:";
+		if (!results.expectTrue(bResult, sWarning))
+		{
+			results.logWarn(sWarning);
+			results.logWarn(p2, convert);
+			results.logWarn("");
+		}
+
+		bResult = convert.equals(replacement);
+		sWarning = "Object Test #4 failed, details below:";
+		if (!results.expectFalse(bResult, sWarning))
+		{
+			results.logWarn(sWarning);
+			results.logWarn(p2, convert);
+			results.logWarn("");
+		}
+
+		results.verify("Some unit tests failed.  See above for details.");
+		Controller.writeTestSuccessToLog("runNonNullTest");
 	}
 }

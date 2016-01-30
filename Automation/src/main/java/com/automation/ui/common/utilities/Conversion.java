@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import org.apache.commons.lang.reflect.FieldUtils;
@@ -178,6 +179,35 @@ public class Conversion {
 	}
 
 	/**
+	 * Converts a String in specific TimeZone and Locale to a Date<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) Use TimeZone.getTimeZone to get specific TimeZone<BR>
+	 * 2) You can use TimeZone.getAvailableIDs() to get all available TimeZone IDs<BR>
+	 * 3) The JavaDoc for the SimpleDateFormat class contains the pattern information<BR>
+	 * 
+	 * @param value - String to convert
+	 * @param pattern - The pattern describing the date and time format (ex. "yyyy-MM-dd HH:mm:ss.SSS")
+	 * @param tz - TimeZone of the date represented by the string
+	 * @param locale - Locale of pattern
+	 * @return null if exception else Date
+	 */
+	public static Date toDate(String value, String pattern, TimeZone tz, Locale locale)
+	{
+		try
+		{
+			DateFormat formatter = new SimpleDateFormat(pattern, locale);
+			formatter.setTimeZone(tz);
+			Date date = (Date) formatter.parse(value);
+			return date;
+		}
+		catch (Exception ex)
+		{
+			return null;
+		}
+	}
+
+	/**
 	 * Adds/Subtracts specified days to the given Date and returns result as a String formatted as specified<BR>
 	 * <BR>
 	 * <B>Notes:</B><BR>
@@ -273,6 +303,32 @@ public class Conversion {
 			return sInsteadOfNull;
 		else
 			return sValue;
+	}
+
+	/**
+	 * If object is null, then returns the empty string else returns object as string
+	 * 
+	 * @param obj - Object to be converted to non-null string
+	 * @return String.valueOf(obj) or empty string
+	 */
+	public static <T> String nonNull(T obj)
+	{
+		return nonNull(obj, "");
+	}
+
+	/**
+	 * If object is null, then returns the replacement string else returns object as string
+	 * 
+	 * @param obj - Object to be converted to non-null string
+	 * @param replacement - String to return when object is null
+	 * @return String.valueOf(obj) or replacement
+	 */
+	public static <T> String nonNull(T obj, String replacement)
+	{
+		if (obj == null)
+			return replacement;
+		else
+			return String.valueOf(obj);
 	}
 
 	/**

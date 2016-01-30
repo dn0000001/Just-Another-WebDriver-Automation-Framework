@@ -1023,4 +1023,43 @@ public class Misc {
 
 		return options;
 	}
+
+	/**
+	 * Generate log text for mismatch
+	 * 
+	 * @param expected - Expected number of items
+	 * @param actual - Actual number of items
+	 * @param itemLogName - Name of Item to log
+	 * @return String
+	 */
+	public static String logMismatchText(int expected, int actual, String itemLogName)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("Expected ");
+		sb.append(expected);
+		sb.append(" ");
+		sb.append(itemLogName);
+		sb.append(" but there were Actually ");
+		sb.append(actual);
+		sb.append(" ");
+		sb.append(itemLogName);
+		return sb.toString();
+	}
+
+	/**
+	 * Generate log text for item not displayed
+	 * 
+	 * @param itemLogName - Name of Item to log
+	 * @param obj - Object data to be written
+	 * @return String
+	 */
+	public static <T> String logNotDisplayedText(String itemLogName, T obj)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append(itemLogName);
+		sb.append(" (");
+		sb.append(obj);
+		sb.append(") was not displayed");
+		return sb.toString();
+	}
 }

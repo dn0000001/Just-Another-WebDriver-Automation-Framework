@@ -1,5 +1,6 @@
 //
 // Get entire table using javascript
+// Note: Trims cell values.
 //
 var data = new Object();
 var maxColumnLength = -1;
@@ -20,9 +21,9 @@ try {
 			element = cells.item(j);
 			try {
 				if (element.textContent == undefined)
-					value = element.innerText;
+					value = element.innerText.trim();
 				else
-					value = element.textContent;
+					value = element.textContent.trim();
 			} catch (e) {
 				value = "";
 			}

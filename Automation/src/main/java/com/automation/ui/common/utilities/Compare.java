@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1165,5 +1166,18 @@ public class Compare {
 			return true;
 
 		return false;
+	}
+
+	/**
+	 * Checks if Dates are considered equal based on specified variance in minutes
+	 * 
+	 * @param expected - Expected Date
+	 * @param actual - Actual Date
+	 * @param variance - Allowed variance value in minutes
+	 * @return true if Dates are within the specified variance else false
+	 */
+	public static boolean equals(Date expected, Date actual, int variance)
+	{
+		return equals(expected.getTime(), actual.getTime(), variance * 60 * 1000);
 	}
 }

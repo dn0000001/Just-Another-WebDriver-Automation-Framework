@@ -820,7 +820,43 @@ public class JS_Util {
 	}
 
 	/**
-	 * Get data from non-empty table
+	 * Checks if the table is valid
+	 * 
+	 * @param table - Table element to verify if valid
+	 * @return <B>false</B> - if number of rows/columns is less than 1<BR>
+	 *         <B>true</B> - if both conditions are met<BR>
+	 */
+	public static boolean isValidTable(WebElement table)
+	{
+		String sJSON;
+		try
+		{
+			sJSON = String.valueOf(JS_Util.execute(Framework.getWebDriver(table), _JS_GetTable, table));
+			Map<String, Object> page = WS_Util.toMap(sJSON);
+
+			@SuppressWarnings("unchecked")
+			List<Map<String, Object>> rows = (List<Map<String, Object>>) page.get("rows");
+			if (rows.size() < 1)
+				return false;
+
+			String sColumnLength = String.valueOf(page.get("maxColumnLength"));
+			int maxColumnLength = Conversion.parseInt(sColumnLength);
+			if (maxColumnLength < 1)
+				return false;
+		}
+		catch (Exception ex)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Get data from non-empty table<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) All data is trimmed<BR>
 	 * 
 	 * @param table - Table element to get data from
 	 * @return String[][]

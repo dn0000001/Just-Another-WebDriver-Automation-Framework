@@ -447,6 +447,32 @@ public class TestResults {
 	}
 
 	/**
+	 * Add log entries for debug information for 2 objects that do not match without a test<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) The objects need to override the toString method for logging<BR>
+	 * 
+	 * @param expected - Object containing the Expected Results
+	 * @param actual - Object containing the Actual Results
+	 */
+	public <T> void logWarn(T expected, T actual)
+	{
+		String sExpected = "Expected:  " + Conversion.nonNull(expected, "null");
+		String sActual = "Actual:    " + Conversion.nonNull(actual, "null");
+
+		if (isRealTimeLogging())
+		{
+			Logs.log.warn(sExpected);
+			Logs.log.warn(sActual);
+		}
+		else
+		{
+			storedLogs.add(new Parameter(sExpected, ""));
+			storedLogs.add(new Parameter(sActual, ""));
+		}
+	}
+
+	/**
 	 * Add the counts & stored logs from another object
 	 * 
 	 * @param se - Add Counts & Stored Logs from
