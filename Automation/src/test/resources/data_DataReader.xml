@@ -23,4 +23,20 @@
 		<NoDefaultsUsed2 Method="J" Attribute="Value" Compare="==" Value="BbB" />
 		<AllDefaultsUsed />
 	</FindWebElementData>
+	<UploadFileData>
+		<NoDefaultsUsed1 File="test" Alias="something" UniqueID="001" Size="500" />
+		<AllDefaultsUsed />
+		<SomeDefaultsUsed1 File="test2" Alias="something2" />
+		<SomeDefaultsUsed2 UniqueID="002" Size="505" />
+		<List>
+			<!-- NoDefaultsUsed1 -->
+			<UP File="test" Alias="something" UniqueID="001" Size="500" />
+			<!-- AllDefaultsUsed -->
+			<UP />
+			<!-- SomeDefaultsUsed1 -->
+			<UP File="test2" Alias="something2" />
+			<!-- SomeDefaultsUsed2 -->
+			<UP UniqueID="002" Size="505" />
+		</List>
+	</UploadFileData>
 </data>

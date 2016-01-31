@@ -29,6 +29,23 @@
 		<FR>Les valeurs de votre nouveau mot de passe ne correspondent pas</FR>
 	</sError_Login_NewPasswordMismatch>
 	
+	<_ID>
+		<EN>Id</EN>
+		<FR>Id</FR>
+	</_ID>
+	<year>
+		<EN>Year</EN>
+		<FR>Year</FR>
+	</year>
+	<brand>
+		<EN>Brand</EN>
+		<FR>Brand</FR>
+	</brand>
+	<color>
+		<EN>Color</EN>
+		<FR>Color</FR>
+	</color>
+	
 	<REPLACE>
 		<EN></EN>
 		<FR></FR>

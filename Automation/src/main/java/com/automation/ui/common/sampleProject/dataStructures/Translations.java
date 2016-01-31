@@ -76,6 +76,28 @@ public class Translations {
 
 		// *****
 
+		word = new Word(Keywords._ID);
+		word.addTranscription(Languages.English, EnglishWords._ID);
+		word.addTranscription(Languages.French, FrenchWords._ID);
+		voc.addWord(word);
+
+		word = new Word(Keywords.year);
+		word.addTranscription(Languages.English, EnglishWords.year);
+		word.addTranscription(Languages.French, FrenchWords.year);
+		voc.addWord(word);
+
+		word = new Word(Keywords.brand);
+		word.addTranscription(Languages.English, EnglishWords.brand);
+		word.addTranscription(Languages.French, FrenchWords.brand);
+		voc.addWord(word);
+
+		word = new Word(Keywords.color);
+		word.addTranscription(Languages.English, EnglishWords.color);
+		word.addTranscription(Languages.French, FrenchWords.color);
+		voc.addWord(word);
+
+		// *****
+
 		return voc;
 	}
 

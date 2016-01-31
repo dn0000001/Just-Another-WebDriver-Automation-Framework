@@ -8,12 +8,14 @@ import com.automation.ui.common.dataStructures.AutoCompleteField;
 import com.automation.ui.common.dataStructures.Comparison;
 import com.automation.ui.common.dataStructures.FindTextCriteria;
 import com.automation.ui.common.dataStructures.FindWebElementData;
+import com.automation.ui.common.dataStructures.UploadFileData;
 import com.automation.ui.common.dataStructures.WebElementIndexOfMethod;
 import com.automation.ui.common.dataStructures.config.ConfigRun;
 import com.automation.ui.common.utilities.Compare;
 import com.automation.ui.common.utilities.Controller;
 import com.automation.ui.common.utilities.DataReader;
 import com.automation.ui.common.utilities.Logs;
+import com.automation.ui.common.utilities.Rand;
 import com.automation.ui.common.utilities.TestResults;
 import com.automation.ui.common.utilities.VTD_XML;
 
@@ -430,9 +432,149 @@ public class DataReaderTest {
 		Logs.initializeLoggers();
 		Controller.writeTestIDtoLog("runUploadFileTests");
 		TestResults results = new TestResults();
+		String sXpath;
+		boolean bResult;
 
-		@SuppressWarnings("unused")
 		VTD_XML vtd = new VTD_XML(_TestXML);
+
+		String file = Rand.letters(5, 10);
+		String alias = Rand.letters(10, 20);
+		String uniqueID = Rand.numbers(5, 10);
+		int size = Rand.randomRange(-100, -200);
+		UploadFileData defaults = new UploadFileData(file, alias, uniqueID, size);
+
+		sXpath = "/data/UploadFileData/NoDefaultsUsed1";
+		results.logInfo("No Defaults Used #1 Tests");
+		UploadFileData ufd1 = DataReader.getUploadFileData(vtd, sXpath, defaults);
+
+		bResult = ufd1.file.equals(defaults.file);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ufd1.file);
+
+		bResult = ufd1.file.equals("test");
+		if (!results.expectTrue(bResult))
+			results.logWarn(ufd1.file, "test");
+
+		bResult = ufd1.alias.equals(defaults.alias);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ufd1.alias);
+
+		bResult = ufd1.alias.equals("something");
+		if (!results.expectTrue(bResult))
+			results.logWarn(ufd1.alias, "something");
+
+		bResult = ufd1.uniqueID.equals(defaults.uniqueID);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ufd1.uniqueID);
+
+		bResult = ufd1.uniqueID.equals("001");
+		if (!results.expectTrue(bResult))
+			results.logWarn(ufd1.uniqueID, "001");
+
+		bResult = ufd1.size == defaults.size;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ufd1.size);
+
+		bResult = ufd1.size == 500;
+		if (!results.expectTrue(bResult))
+			results.logWarn(ufd1.size, 500);
+
+		//
+		// All Defaults Used Tests
+		//
+
+		sXpath = "/data/UploadFileData/AllDefaultsUsed";
+		results.logInfo("All Defaults Used Tests");
+		UploadFileData ufd2 = DataReader.getUploadFileData(vtd, sXpath, defaults);
+
+		bResult = ufd2.file.equals(defaults.file);
+		if (!results.expectTrue(bResult))
+			results.logWarn(ufd2.file, defaults.file);
+
+		bResult = ufd2.alias.equals(defaults.alias);
+		if (!results.expectTrue(bResult))
+			results.logWarn(ufd2.alias, defaults.alias);
+
+		bResult = ufd2.uniqueID.equals(defaults.uniqueID);
+		if (!results.expectTrue(bResult))
+			results.logWarn(ufd2.uniqueID, defaults.uniqueID);
+
+		bResult = ufd2.size == defaults.size;
+		if (!results.expectTrue(bResult))
+			results.logWarn(ufd2.size, defaults.size);
+
+		//
+		// Some Defaults Used #1 Tests
+		//
+
+		sXpath = "/data/UploadFileData/SomeDefaultsUsed1";
+		results.logInfo("Some Defaults Used #1 Tests");
+		UploadFileData ufd3 = DataReader.getUploadFileData(vtd, sXpath, defaults);
+
+		bResult = ufd3.file.equals(defaults.file);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ufd3.file);
+
+		bResult = ufd3.file.equals("test2");
+		if (!results.expectTrue(bResult))
+			results.logWarn(ufd3.file, "test2");
+
+		bResult = ufd3.alias.equals(defaults.alias);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ufd3.alias);
+
+		bResult = ufd3.alias.equals("something2");
+		if (!results.expectTrue(bResult))
+			results.logWarn(ufd3.alias, "something2");
+
+		bResult = ufd3.uniqueID.equals(defaults.uniqueID);
+		if (!results.expectTrue(bResult))
+			results.logWarn(ufd3.uniqueID, defaults.uniqueID);
+
+		bResult = ufd3.size == defaults.size;
+		if (!results.expectTrue(bResult))
+			results.logWarn(ufd3.size, defaults.size);
+
+		//
+		// Some Defaults Used #2 Tests
+		//
+
+		sXpath = "/data/UploadFileData/SomeDefaultsUsed2";
+		results.logInfo("Some Defaults Used #2 Tests");
+		UploadFileData ufd4 = DataReader.getUploadFileData(vtd, sXpath, defaults);
+
+		bResult = ufd4.file.equals(defaults.file);
+		if (!results.expectTrue(bResult))
+			results.logWarn(ufd4.file, defaults.file);
+
+		bResult = ufd4.alias.equals(defaults.alias);
+		if (!results.expectTrue(bResult))
+			results.logWarn(ufd4.alias, defaults.alias);
+
+		bResult = ufd4.uniqueID.equals(defaults.uniqueID);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ufd4.uniqueID);
+
+		bResult = ufd4.uniqueID.equals("002");
+		if (!results.expectTrue(bResult))
+			results.logWarn(ufd4.uniqueID, "002");
+
+		bResult = ufd4.size == defaults.size;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ufd4.size);
+
+		bResult = ufd4.size == 505;
+		if (!results.expectTrue(bResult))
+			results.logWarn(ufd4.size, 505);
+
+		//
+		//
+		//
+
+		sXpath = "/data/UploadFileData/List/UP/";
+		List<UploadFileData> files = DataReader.getUploadFiles(vtd, sXpath, defaults);
+		results.expectTrue(files.size() == 4, "Expected list size (4) but Actual list size (" + files.size()
+				+ ")");
 
 		results.verify("Some unit tests failed.  See above for details.");
 		Controller.writeTestSuccessToLog("runUploadFileTests");

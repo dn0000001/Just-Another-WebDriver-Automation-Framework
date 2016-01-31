@@ -473,6 +473,20 @@ public class TestResults {
 	}
 
 	/**
+	 * Add log entries for debug information for 2 objects that match but should not without a test<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) The object need to override the toString method for logging<BR>
+	 * 
+	 * @param obj - Object containing the results
+	 */
+	public <T> void logWarnUnexpectedEqual(T obj)
+	{
+		String message = "The expected & actual were unexpectedly the same:  " + Conversion.nonNull(obj);
+		logWarn(message);
+	}
+
+	/**
 	 * Add the counts & stored logs from another object
 	 * 
 	 * @param se - Add Counts & Stored Logs from

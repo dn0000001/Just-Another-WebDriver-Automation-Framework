@@ -23,6 +23,14 @@ public class FrenchWords {
 	public static String sDupTest1 = "Duplicate phrase";
 	public static String sDupTest2 = "Duplicate phrase";
 
+	//
+	// PrimeFaces table test
+	//
+	public static String _ID = "Id";
+	public static String year = "Year";
+	public static String brand = "Brand";
+	public static String color = "Color";
+
 	/**
 	 * Reads translations for the variables from a file (which changes the default values.)
 	 * 
@@ -78,5 +86,13 @@ public class FrenchWords {
 
 		sDupTest1 = xml.getNodeValue(sXpath_Base.replace("REPLACE", "sDupTest1"), sDupTest1);
 		sDupTest2 = xml.getNodeValue(sXpath_Base.replace("REPLACE", "sDupTest2"), sDupTest2);
+
+		//
+		// PrimeFaces table test
+		//
+		_ID = xml.getNodeValue(sXpath_Base.replace("REPLACE", "_ID"), _ID);
+		year = xml.getNodeValue(sXpath_Base.replace("REPLACE", "year"), year);
+		brand = xml.getNodeValue(sXpath_Base.replace("REPLACE", "brand"), brand);
+		color = xml.getNodeValue(sXpath_Base.replace("REPLACE", "color"), color);
 	}
 }

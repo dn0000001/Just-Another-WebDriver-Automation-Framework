@@ -1,5 +1,8 @@
 package com.automation.ui.common.sampleProject.tests;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
@@ -18,12 +21,17 @@ import com.automation.ui.common.dataStructures.InputField;
 import com.automation.ui.common.dataStructures.Radio;
 import com.automation.ui.common.dataStructures.Selection;
 import com.automation.ui.common.dataStructures.config.ConfigRun;
+import com.automation.ui.common.sampleProject.dataStructures.PrimeFacesTableData;
+import com.automation.ui.common.sampleProject.pages.PrimeFacesTable;
+import com.automation.ui.common.sampleProject.pages.PrimeFacesTableJS;
 import com.automation.ui.common.utilities.Controller;
 import com.automation.ui.common.utilities.Framework;
+import com.automation.ui.common.utilities.Languages;
 import com.automation.ui.common.utilities.Logs;
 import com.automation.ui.common.utilities.Misc;
 import com.automation.ui.common.utilities.Rand;
 import com.automation.ui.common.utilities.TestResults;
+import com.automation.ui.common.utilities.Verify;
 
 /**
  * This class is for testing component classes
@@ -455,5 +463,45 @@ public class ComponentsTest {
 
 		context.quitBrowser();
 		Controller.writeTestSuccessToLog("runPrimefaces_CheckBoxClickTest");
+	}
+
+	@Test(enabled = run)
+	public static void runPrimefaces_TableTest() throws Exception
+	{
+		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
+		Logs.initializeLoggers();
+		Controller.writeTestIDtoLog("runPrimefaces_TableTest");
+
+		BasicTestContext context = new BasicTestContext();
+		context.setBrowserRelated("IE", "C:\\_Libraries\\IEDriverServer.exe", "",
+				"http://www.primefaces.org/showcase/ui/data/datatable/basic.xhtml");
+		WebDriver driver = context.getDriver();
+		Framework.get(driver, context.getURL());
+
+		Logs.log.info("Get data using JavaScript ...");
+		PrimeFacesTableJS tableJS = new PrimeFacesTableJS(driver);
+		tableJS.setLanguage(Languages.English);
+		tableJS.verifyHeaders();
+		List<PrimeFacesTableData> dataJS = tableJS.getData();
+		for (int i = 0; i < dataJS.size(); i++)
+		{
+			Logs.log.info(dataJS.get(i));
+		}
+
+		Logs.log.info("Get data using WebDriver ...");
+		PrimeFacesTable table = new PrimeFacesTable(driver);
+		table.setLanguage(Languages.English);
+		table.verifyHeaders();
+		List<PrimeFacesTableData> data = table.getData();
+		for (int i = 0; i < data.size(); i++)
+		{
+			Logs.log.info(data.get(i));
+		}
+
+		List<String> excludeFields = new ArrayList<String>();
+		Verify.equals(dataJS, data, excludeFields, false);
+
+		context.quitBrowser();
+		Controller.writeTestSuccessToLog("runPrimefaces_TableTest");
 	}
 }

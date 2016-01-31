@@ -16,6 +16,11 @@
 	<xs:element name="sError_Login_CredentialsWrong" substitutionGroup="VAR"/>
 	<xs:element name="sError_Login_CannotUseSamePassword" substitutionGroup="VAR"/>
 	<xs:element name="sError_Login_NewPasswordMismatch" substitutionGroup="VAR"/>
+	
+	<xs:element name="_ID" substitutionGroup="VAR"/>
+	<xs:element name="year" substitutionGroup="VAR"/>
+	<xs:element name="brand" substitutionGroup="VAR"/>
+	<xs:element name="color" substitutionGroup="VAR"/>
 
 	<xs:element name="translations">
 		<xs:complexType>
@@ -29,6 +34,11 @@
 				<xs:element ref="sError_Login_CredentialsWrong" minOccurs="0" maxOccurs="1" />
 				<xs:element ref="sError_Login_CannotUseSamePassword" minOccurs="0" maxOccurs="1" />
 				<xs:element ref="sError_Login_NewPasswordMismatch" minOccurs="0" maxOccurs="1" />
+				
+				<xs:element ref="_ID" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="year" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="brand" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="color" minOccurs="0" maxOccurs="1" />
 			</xs:all>
 		</xs:complexType>
 	</xs:element>

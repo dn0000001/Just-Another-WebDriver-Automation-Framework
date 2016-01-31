@@ -21,13 +21,20 @@ try {
 			element = cells.item(j);
 			try {
 				if (element.textContent == undefined)
-					value = element.innerText.trim();
+					value = element.innerText;
 				else
-					value = element.textContent.trim();
+					value = element.textContent;
 			} catch (e) {
 				value = "";
 			}
 
+			// Workaround for IE8 that does not support trim()
+			try {
+				value = value.trim();
+			} catch (e) {
+				value = value.replace(/^\s+|\s+$/gm,'');
+			}
+			
 			var colObj = new Object();
 			colObj.value = value;
 

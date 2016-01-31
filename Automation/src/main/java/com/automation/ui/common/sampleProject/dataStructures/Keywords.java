@@ -14,7 +14,15 @@ public class Keywords {
 	public static String sError_Login_CredentialsWrong = "LOGIN_Credentials_Wrong";
 	public static String sError_Login_CannotUseSamePassword = "LOGIN_Cannot_Use_Same_Password";
 	public static String sError_Login_NewPasswordMismatch = "LOGIN_New_Password_Mismatch";
-	
+
 	public static String sDupTest1 = "DUP001";
 	public static String sDupTest2 = "DUP002";
+
+	//
+	// PrimeFaces table test
+	//
+	public static String _ID = "KEY001";
+	public static String year = "KEY002";
+	public static String brand = "KEY003";
+	public static String color = "KEY004";
 }
