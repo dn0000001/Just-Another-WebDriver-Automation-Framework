@@ -43,6 +43,7 @@ public abstract class BaseTableJS {
 	 * <B>Notes:</B><BR>
 	 * 1) The stored table and extra information data is not initialized or populated yet. (The method
 	 * updateAll initializes and populates the data as necessary.)<BR>
+	 * 2) Language is set to Languages.KEY<BR>
 	 * 
 	 * @param driver
 	 * @param sLoc_Table - Locator to the table element
@@ -51,6 +52,7 @@ public abstract class BaseTableJS {
 	{
 		this.driver = driver;
 		this.sLoc_Table = Conversion.nonNull(sLoc_Table);
+		setLanguage(Languages.KEY);
 		setDirtyFlag();
 	}
 
@@ -140,7 +142,14 @@ public abstract class BaseTableJS {
 	}
 
 	/**
-	 * Update the table data and the extra information that is stored
+	 * Update the table data and the extra information that is stored<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) If there is just a header row, then update should be successful<BR>
+	 * 2) If there is no header row and no data rows, then an exception will occur<BR>
+	 * 
+	 * @throws GenericUnexpectedException if invalid max column length or there are no rows or table is not
+	 *             consistent
 	 */
 	public void updateAll()
 	{
@@ -154,7 +163,14 @@ public abstract class BaseTableJS {
 	}
 
 	/**
-	 * Update the table data
+	 * Update the table data<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) If there is just a header row, then update should be successful<BR>
+	 * 2) If there is no header row and no data rows, then an exception will occur<BR>
+	 * 
+	 * @throws GenericUnexpectedException if invalid max column length or there are no rows or table is not
+	 *             consistent
 	 */
 	public void updateTable()
 	{
@@ -168,6 +184,49 @@ public abstract class BaseTableJS {
 			// Verify that data is consistent
 			if (!isConsistent())
 				Logs.logError("The table data gathered using JavaScript was not consistent with the displayed data");
+		}
+	}
+
+	/**
+	 * Get the number of rows excluding header row
+	 * 
+	 * @return -2 if exception occurs (after updating table) else number of rows excluding header row
+	 * @throws GenericUnexpectedException if issue updating the table
+	 */
+	public int getNumRows()
+	{
+		updateAll();
+
+		try
+		{
+			if (isHeader())
+				return data.length - 1;
+			else
+				return data.length;
+		}
+		catch (Exception ex)
+		{
+			return -2;
+		}
+	}
+
+	/**
+	 * Get the number of columns
+	 * 
+	 * @return -2 if exception occurs (after updating table) else number of columns
+	 * @throws GenericUnexpectedException if issue updating the table
+	 */
+	public int getNumColumns()
+	{
+		updateAll();
+
+		try
+		{
+			return data[0].length;
+		}
+		catch (Exception ex)
+		{
+			return -2;
 		}
 	}
 
@@ -215,7 +274,7 @@ public abstract class BaseTableJS {
 	 * @return <B>false</B> - if number of rows/columns is less than 1<BR>
 	 *         <B>true</B> - if both conditions are met<BR>
 	 */
-	protected boolean isValidTable()
+	public boolean isValidTable()
 	{
 		WebElement table = Framework.findElement(driver, getTableLocator(), false);
 		return JS_Util.isValidTable(table);
@@ -267,4 +326,11 @@ public abstract class BaseTableJS {
 	 * @return String[]
 	 */
 	public abstract String[] getExpectedHeaders();
+
+	/**
+	 * Checks if there is a header row
+	 * 
+	 * @return true if header row else false
+	 */
+	public abstract boolean isHeader();
 }

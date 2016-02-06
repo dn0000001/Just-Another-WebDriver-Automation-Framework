@@ -1,4 +1,4 @@
-package com.automation.ui.common.sampleProject.tests;
+package com.automation.ui.common.tests;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,6 +157,24 @@ public class ComponentsTest {
 		fields.addRadio(Radio.No, "no", "No", true, false);
 		fields.addRadio(Radio.DEFAULT, "default", "Default", true, false);
 		fields.verifyConfig();
+
+		if (!results.expectTrue(fields.getLocator(Radio.No).equals("no")))
+			results.logWarn("no", fields.getLocator(Radio.No));
+
+		if (!results.expectTrue(fields.getLocator(Radio.DEFAULT).equals("default")))
+			results.logWarn("default", fields.getLocator(Radio.DEFAULT));
+
+		if (!results.expectTrue(fields.getLocator(Radio.Yes).equals("yes")))
+			results.logWarn("yes", fields.getLocator(Radio.Yes));
+
+		if (!results.expectTrue(fields.getLog(Radio.No).equals("No")))
+			results.logWarn("No", fields.getLog(Radio.No));
+
+		if (!results.expectTrue(fields.getLog(Radio.DEFAULT).equals("Default")))
+			results.logWarn("Default", fields.getLog(Radio.DEFAULT));
+
+		if (!results.expectTrue(fields.getLog(Radio.Yes).equals("Yes")))
+			results.logWarn("Yes", fields.getLog(Radio.Yes));
 
 		String sError = "Some tests failed.  See above for details.";
 		results.verify(sError);

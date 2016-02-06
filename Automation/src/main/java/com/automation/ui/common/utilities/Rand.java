@@ -1221,6 +1221,16 @@ public class Rand {
 	}
 
 	/**
+	 * Returns a DropDown that is set to random selection with Minimum Random Index set to 0
+	 * 
+	 * @return DropDown
+	 */
+	public static DropDown randomDropDown()
+	{
+		return randomDropDown(0);
+	}
+
+	/**
 	 * Returns a DropDown that is set to random selection
 	 * 
 	 * @param nMinRandomIndex - Minimum Random Index for selection

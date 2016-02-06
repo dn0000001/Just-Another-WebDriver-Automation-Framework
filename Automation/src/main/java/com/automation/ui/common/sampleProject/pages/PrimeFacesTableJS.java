@@ -145,4 +145,10 @@ public class PrimeFacesTableJS extends BaseTableJS {
 	{
 		return getExpectedHeaders(Translations.voc, _Headers);
 	}
+
+	@Override
+	public boolean isHeader()
+	{
+		return true;
+	}
 }

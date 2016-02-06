@@ -2047,6 +2047,24 @@ public class GenericFields {
 	}
 
 	/**
+	 * Add the key (that is not used) to allow verification of the configuration to be successful<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) It may be necessary to store a locator/log to be retrieved from the class but custom code is
+	 * necessary to work with it. For example, storing the locator for a label, later you may want to get the
+	 * text for the label but there is no method in this class to do this as this action does not make sense.<BR>
+	 * 
+	 * @param key - Enumeration to set field configuration for
+	 * @param locator - Locator for the field
+	 * @param log - Logging for the field
+	 */
+	public void add(Enum<?> key, String locator, String log)
+	{
+		GenericData config = getGenericConfig(locator, log, false, false, null, null, null);
+		setGenericConfig(key, config);
+	}
+
+	/**
 	 * Verify Configuration of all the fields
 	 */
 	public void verifyConfig()
@@ -2071,5 +2089,71 @@ public class GenericFields {
 
 		String sFailure = "Some elements were not configured.  See above for details.";
 		results.verify(sFailure);
+	}
+
+	/**
+	 * Get Locator for key
+	 * 
+	 * @param key - Enumeration to get locator
+	 * @return empty string if field configuration corresponding to the key was not previously added else the
+	 *         locator value
+	 */
+	public String getLocator(Enum<?> key)
+	{
+		return getLocator(key, "");
+	}
+
+	/**
+	 * Get Locator for key
+	 * 
+	 * @param key - Enumeration to get locator
+	 * @param replacement - Replacement text to be used in the locator
+	 * @return empty string if field configuration corresponding to the key was not previously added else the
+	 *         locator value
+	 */
+	public String getLocator(Enum<?> key, String replacement)
+	{
+		GenericData config = (GenericData) fields.get(key);
+		if (config == null)
+		{
+			return "";
+		}
+		else
+		{
+			return constructLocator((String) config.get(Config.Locator), replacement);
+		}
+	}
+
+	/**
+	 * Get Log for key
+	 * 
+	 * @param key - Enumeration to get log
+	 * @return empty string if field configuration corresponding to the key was not previously added else the
+	 *         log value
+	 */
+	public String getLog(Enum<?> key)
+	{
+		return getLog(key, "");
+	}
+
+	/**
+	 * Get Log for key
+	 * 
+	 * @param key - Enumeration to get log
+	 * @param append - Text to be appended to the log variable
+	 * @return empty string if field configuration corresponding to the key was not previously added else the
+	 *         log value
+	 */
+	public String getLog(Enum<?> key, String append)
+	{
+		GenericData config = (GenericData) fields.get(key);
+		if (config == null)
+		{
+			return "";
+		}
+		else
+		{
+			return constructLog((String) config.get(Config.Log), append);
+		}
 	}
 }
