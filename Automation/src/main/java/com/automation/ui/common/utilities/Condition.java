@@ -1,7 +1,9 @@
 package com.automation.ui.common.utilities;
 
+import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang.reflect.MethodUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -206,7 +208,22 @@ public class Condition {
 		/**
 		 * Key used to store the drop down value compare option
 		 */
-		DropDown_Compare
+		DropDown_Compare,
+
+		/**
+		 * Use reflection to perform check (and key stores the class)
+		 */
+		Reflection,
+
+		/**
+		 * Key used to store the method to execute using reflection
+		 */
+		Reflection_Method,
+
+		/**
+		 * Key used to store the arguments to be passed to the method being executed using reflection
+		 */
+		Reflection_Arguments
 	}
 
 	/**
@@ -664,6 +681,9 @@ public class Condition {
 		if (criteria.containsKey(Type.DropDown))
 			return isDropDown(criteria);
 
+		if (criteria.containsKey(Type.Reflection))
+			return isReflection(criteria);
+
 		return false;
 	}
 
@@ -1021,6 +1041,38 @@ public class Condition {
 		boolean result = Framework.isDropDown(element, criteriaValue, compare, expectedValue);
 		if (result)
 			setMatchingType(Type.DropDown);
+
+		return result;
+	}
+
+	/**
+	 * Check if executing method with specified arguments using reflection returns true
+	 * 
+	 * @param criteria - Criteria that contain the data to execute the method with arguments using reflection
+	 * @return true if executing method with specified arguments using reflection returns true else false
+	 */
+	private boolean isReflection(GenericData criteria)
+	{
+		Class<?> clazz = (Class<?>) criteria.get(Type.Reflection);
+		String method = (String) criteria.get(Type.Reflection_Method);
+		Object[] args;
+		if (criteria.get(Type.Reflection_Arguments) == null)
+			args = null;
+		else
+			args = (Object[]) criteria.get(Type.Reflection_Arguments);
+
+		boolean result;
+		try
+		{
+			result = (Boolean) MethodUtils.invokeExactStaticMethod(clazz, method, args);
+		}
+		catch (Exception ex)
+		{
+			result = false;
+		}
+
+		if (result)
+			setMatchingType(Type.Reflection);
 
 		return result;
 	}
@@ -1472,6 +1524,47 @@ public class Condition {
 		criteria.add(Type.DropDown_Criteria, criteriaValue);
 		criteria.add(Type.DropDown_Compare, compare);
 		criteria.add(Type.DropDown, Conversion.nonNull(expectedValue));
+		return criteria;
+	}
+
+	/**
+	 * Get Criteria for check using reflection<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) Set arguments to null if no arguments to be passed to the method<BR>
+	 * 2) Method needs to return a result that can be cast to Boolean.<BR>
+	 * 
+	 * @param clazz - Invoke static method on this class
+	 * @param method - Get method with this name
+	 * @param arguments - use these arguments - treat null as empty array
+	 * @return GenericData
+	 */
+	public static GenericData getCriteria_Reflection(Class<?> clazz, String method, Object[] arguments)
+	{
+		GenericData criteria = new GenericData();
+		criteria.add(Type.Reflection, clazz);
+		criteria.add(Type.Reflection_Method, method);
+		criteria.add(Type.Reflection_Arguments, arguments);
+		return criteria;
+	}
+
+	/**
+	 * Get Criteria for check using static method isInitAllowed<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) The class must implement the static method isInitAllowed(WebDriver) which returns a result that can
+	 * be cast to Boolean.<BR>
+	 * 
+	 * @param clazz - Invoke static method on this class
+	 * @param driver
+	 * @return GenericData
+	 */
+	public static GenericData getCriteria_InitAllowed(Class<?> clazz, WebDriver driver)
+	{
+		GenericData criteria = new GenericData();
+		criteria.add(Type.Reflection, clazz);
+		criteria.add(Type.Reflection_Method, "isInitAllowed");
+		criteria.add(Type.Reflection_Arguments, Arrays.asList(driver).toArray());
 		return criteria;
 	}
 }
