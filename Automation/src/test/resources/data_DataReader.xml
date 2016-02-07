@@ -23,6 +23,72 @@
 		<NoDefaultsUsed2 Method="J" Attribute="Value" Compare="==" Value="BbB" />
 		<AllDefaultsUsed />
 	</FindWebElementData>
+	<InputFieldData>
+		<NoDefaultsUsed1 Skip="false" Value="Truck" RandomValue="append" CaseSensitive="true" LogAll="true" VerifyMask="[^A-Za-z]" MaxLength="30" />
+		<NoDefaultsUsed2 Skip="true" Value="Car" RandomValue="Something" CaseSensitive="false" LogAll="false" VerifyMask="mask" MaxLength="5" />
+		<AllDefaultsUsed />
+		<SomeDefaultsUsed1 Value="Van" CaseSensitive="true" VerifyMask="[^A-Za-z]" />
+		<SomeDefaultsUsed2 Skip="false" RandomValue="Rand" LogAll="true" MaxLength="30" />
+		<List>
+			<Field Skip="false" Value="Truck" RandomValue="append" CaseSensitive="true" LogAll="true" VerifyMask="[^A-Za-z]" MaxLength="30" />
+			<Field Skip="true" Value="Car" RandomValue="Something" CaseSensitive="false" LogAll="false" VerifyMask="mask" MaxLength="5" />
+			<Field />
+			<Field Value="Van" CaseSensitive="true" VerifyMask="[^A-Za-z]" />
+			<Field Skip="false" RandomValue="Rand" LogAll="true" MaxLength="30" />
+		</List>
+	</InputFieldData>
+	<KeyValuePairData>
+		<NoDefaultsUsed1 Key="Test" Value="500" />
+		<NoDefaultsUsed2 Key="1" Value="Something" />
+		<AllDefaultsUsed />
+		<SomeDefaultsUsed1 Value="no key" />
+		<SomeDefaultsUsed2 Key="no value" />
+		<List>
+			<!-- NoDefaultsUsed1 -->
+			<Pair Key="Test" Value="500" />
+			<!-- NoDefaultsUsed2 -->
+			<Pair Key="1" Value="Something" />
+			<!-- AllDefaultsUsed -->
+			<Pair />
+			<!-- SomeDefaultsUsed1 -->
+			<Pair Value="no key" />
+			<!-- SomeDefaultsUsed2 -->
+			<Pair Key="no value" />
+		</List>
+	</KeyValuePairData>
+	<SelectionCriteriaData>
+		<NoDefaultsUsed1 UseIndex="true" Value="100" />
+		<NoDefaultsUsed2 UseIndex="true" Value="aAa" />
+		<NoDefaultsUsed3 UseIndex="0" Value="d" />
+		<NoDefaultsUsed4 UseIndex="Test" Value="200" />
+		<AllDefaultsUsed />
+		<SomeDefaultsUsed1 Value=".*Test.*" />
+		<SomeDefaultsUsed2 UseIndex="true" />
+		<List>
+			<!-- NoDefaultsUsed1 -->
+			<Criteria UseIndex="true" Value="100" />
+			<!-- NoDefaultsUsed2 -->
+			<Criteria UseIndex="true" Value="aAa" />
+			<!-- NoDefaultsUsed3 -->
+			<Criteria UseIndex="0" Value="d" />
+			<!-- NoDefaultsUsed4 -->
+			<Criteria UseIndex="Test" Value="200" />
+			<!-- AllDefaultsUsed -->
+			<Criteria />
+			<!-- SomeDefaultsUsed1 -->
+			<Criteria Value=".*Test.*" />
+			<!-- SomeDefaultsUsed2 -->
+			<Criteria UseIndex="true" />
+		</List>
+	</SelectionCriteriaData>
+	<StringListData>
+		<String>a</String>
+		<String>abc</String>
+		<String>Test</String>
+		<String>1</String>
+		<String>SomeThing</String>
+		<String>123</String>
+	</StringListData>
 	<UploadFileData>
 		<NoDefaultsUsed1 File="test" Alias="something" UniqueID="001" Size="500" />
 		<AllDefaultsUsed />
