@@ -1064,7 +1064,7 @@ public class Condition {
 		boolean result;
 		try
 		{
-			result = (Boolean) MethodUtils.invokeExactStaticMethod(clazz, method, args);
+			result = (Boolean) MethodUtils.invokeStaticMethod(clazz, method, args);
 		}
 		catch (Exception ex)
 		{
