@@ -102,6 +102,11 @@
 			<artifactId>allure-testng-adaptor</artifactId>
 			<version>1.5.0-RC1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
+		</dependency>
 		<!-- Problem Libraries that need to be manually installed to the repository -->
 		
 		<!-- 

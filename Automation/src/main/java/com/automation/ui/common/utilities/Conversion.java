@@ -1147,4 +1147,32 @@ public class Conversion {
 			return lDefault;
 		}
 	}
+
+	/**
+	 * Converts an array of strings to a string for purpose of logging<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) separator must be non-null<BR>
+	 * 
+	 * @param separator - The separator used when appending the objects together
+	 * @param data - Array of String variables
+	 * @return non-null
+	 */
+	public static String toString(String separator, String[][] data)
+	{
+		StringBuilder builder = new StringBuilder();
+		if (data == null)
+			return "[]";
+
+		builder.append("[");
+		for (int i = 0; i < data.length; i++)
+		{
+			builder.append("[");
+			builder.append(Conversion.toString(separator, data[i]));
+			builder.append("]");
+			builder.append(separator);
+		}
+
+		return Misc.removeEndsWith(builder.toString(), separator) + "]";
+	}
 }

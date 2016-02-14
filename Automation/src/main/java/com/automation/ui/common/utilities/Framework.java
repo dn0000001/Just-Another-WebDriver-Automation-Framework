@@ -4435,50 +4435,79 @@ public class Framework {
 	}
 
 	/**
-	 * Verifies Correct Page is displayed based on any of the criteria being met<BR>
+	 * Verifies Correct Page is displayed based on the criteria being met (all or 1st match based on flag)<BR>
 	 * <BR>
 	 * <B>Notes:</B><BR>
 	 * 1) Timeout is the Framework value<BR>
 	 * 2) Poll Interval is the Framework value<BR>
 	 * 
 	 * @param criteria - List of criteria that indicate at the correct page
+	 * @param allMatches - true to wait for all criteria matches, false to wait for 1st matching criteria
 	 */
-	protected void verifyCorrectPage(List<GenericData> criteria)
+	protected void verifyCorrectPage(List<GenericData> criteria, boolean allMatches)
 	{
-		verifyCorrectPage(criteria, getTimeoutInMilliseconds());
+		verifyCorrectPage(criteria, getTimeoutInMilliseconds(), allMatches);
 	}
 
 	/**
-	 * Verifies Correct Page is displayed based on any of the criteria being met<BR>
+	 * Verifies Correct Page is displayed based on the criteria being met (all or 1st match based on flag)<BR>
 	 * <BR>
 	 * <B>Notes:</B><BR>
 	 * 1) Poll Interval is the Framework value<BR>
 	 * 
 	 * @param criteria - List of criteria that indicate at the correct page
+	 * @param allMatches - true to wait for all criteria matches, false to wait for 1st matching criteria
 	 * @param timeout - Max Time (milliseconds) to wait for a criteria match
 	 */
-	protected void verifyCorrectPage(List<GenericData> criteria, int timeout)
+	protected void verifyCorrectPage(List<GenericData> criteria, int timeout, boolean allMatches)
 	{
-		verifyCorrectPage(criteria, timeout, getPollInterval());
+		verifyCorrectPage(criteria, timeout, getPollInterval(), allMatches);
 	}
 
 	/**
-	 * Verifies Correct Page is displayed based on any of the criteria being met
+	 * Verifies Correct Page is displayed based on the criteria being met (all or 1st match based on flag)
 	 * 
 	 * @param criteria - List of criteria that indicate at the correct page
 	 * @param timeout - Max Time (milliseconds) to wait for a criteria match
 	 * @param poll - Poll interval in milliseconds to be used
+	 * @param allMatches - true to wait for all criteria matches, false to wait for 1st matching criteria
 	 * @throws WrongPageException if no criteria is met within timeout
 	 */
-	protected void verifyCorrectPage(List<GenericData> criteria, int timeout, int poll)
+	protected void verifyCorrectPage(List<GenericData> criteria, int timeout, int poll, boolean allMatches)
 	{
 		Condition condition = new Condition(driver, timeout, poll);
-		int result = condition.waitForMatch(criteria, false);
+
+		int result = -3;
+		if (allMatches)
+		{
+			if (condition.waitForAllMatches(criteria, false))
+			{
+				result = 0;
+			}
+		}
+		else
+		{
+			result = condition.waitForMatch(criteria, false);
+		}
+
 		if (result < 0)
 		{
-			String sError = "None of the criteria were met to indicate at the correct page (" + getPageName()
-					+ ").  Criteria:  " + criteria.toString();
-			Logs.logError(new WrongPageException(sError));
+			StringBuilder builder = new StringBuilder();
+			if (allMatches)
+			{
+				builder.append("All of the criteria were not");
+			}
+			else
+			{
+				builder.append("None of the criteria were");
+			}
+
+			builder.append(" met to indicate at the correct page (");
+			builder.append(getPageName());
+			builder.append(").  Criteria:  ");
+			builder.append(criteria.toString());
+
+			Logs.logError(new WrongPageException(builder.toString()));
 		}
 	}
 
@@ -7545,6 +7574,31 @@ public class Framework {
 	protected static boolean isInitAllowed(WebDriver driver, String[] allowedURLs)
 	{
 		return isInitAllowed(driver, Arrays.asList(allowedURLs));
+	}
+
+	/**
+	 * Checks if initialization of the class will be allowed
+	 * 
+	 * @param driver
+	 * @param criteria - List of criteria to be met for initialization of the page
+	 * @param allMatches - true to wait for all criteria matches, false to wait for 1st matching criteria
+	 * @return true if initialization would be successful else false
+	 */
+	protected static boolean isInitAllowed(WebDriver driver, List<GenericData> criteria, boolean allMatches)
+	{
+		Condition condition = new Condition(driver);
+
+		if (allMatches)
+		{
+			return condition.isAllMatched(criteria);
+		}
+		else
+		{
+			if (condition.match(criteria) < 0)
+				return false;
+			else
+				return true;
+		}
 	}
 
 	/**

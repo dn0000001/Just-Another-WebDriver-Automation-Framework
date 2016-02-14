@@ -386,4 +386,29 @@ public class Logs {
 		Logs.log.warn("Actual:    " + actual);
 		Logs.logError("The actual data did not match the expected data.  See above for details");
 	}
+
+	/**
+	 * Logs a standard way to indicate end of a section of actions
+	 */
+	public static void logSectionDivider()
+	{
+		logSectionDivider(1);
+	}
+
+	/**
+	 * Logs a standard way to indicate end of a section of actions
+	 * 
+	 * @param repeat - How many times to repeat the section divider
+	 */
+	public static void logSectionDivider(int repeat)
+	{
+		Logs.log.info("");
+
+		for (int i = 0; i < repeat; i++)
+		{
+			Logs.log.info(Misc.repeat("*", 40));
+		}
+
+		Logs.log.info("");
+	}
 }

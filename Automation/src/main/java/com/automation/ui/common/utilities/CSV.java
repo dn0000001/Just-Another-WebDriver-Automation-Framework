@@ -1,11 +1,15 @@
 package com.automation.ui.common.utilities;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.IOUtils;
 
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
@@ -35,13 +39,42 @@ public class CSV {
 	 */
 	public CSV(String sFile, boolean bHeader, char delimiter) throws FileNotFoundException
 	{
-		reader = new CSVReader(new FileReader(sFile), delimiter);
-		this.bHeader = bHeader;
-		this.delimiter = delimiter;
+		setHeader(bHeader);
+		setDelimiter(delimiter);
+		setReader(sFile);
 	}
 
 	/**
-	 * This function returns all the data in the CSV file
+	 * Constructor loads the CSV file
+	 * 
+	 * @param file - the File to read from
+	 * @param bHeader - Does file have header?
+	 * @param delimiter - Delimiter for file
+	 * @throws FileNotFoundException - File not found
+	 */
+	public CSV(File file, boolean bHeader, char delimiter) throws FileNotFoundException
+	{
+		setHeader(bHeader);
+		setDelimiter(delimiter);
+		setReader(file);
+	}
+
+	/**
+	 * Constructor loads the CSV file from a String Builder
+	 * 
+	 * @param builder - String Builder which holds the CSV file
+	 * @param bHeader - Does file have header?
+	 * @param delimiter - Delimiter for file
+	 */
+	public CSV(StringBuilder builder, boolean bHeader, char delimiter)
+	{
+		setHeader(bHeader);
+		setDelimiter(delimiter);
+		setReader(builder);
+	}
+
+	/**
+	 * This function returns all the data in the CSV file excluding the header row if applicable
 	 * 
 	 * @return - List of all rows in file
 	 */
@@ -79,13 +112,13 @@ public class CSV {
 	}
 
 	/**
-	 * This function returns all the data in the CSV file using getAllData as an
-	 * array.<BR>
+	 * This function returns all the data in the CSV file using getAllData as an array excluding the header
+	 * row if applicable.<BR>
 	 * <BR>
-	 * Note: If the rows have different column lengths then the data returned
-	 * can have less or more data based on the size of the 1st row. With more
-	 * data some values will be null. It would be recommended to use getAllData
-	 * in these cases.
+	 * <B>Notes:</B><BR>
+	 * 1) If the rows have different column lengths then the data returned can have less or more data based on
+	 * the size of the 1st row. With more data some values will be null. It would be recommended to use
+	 * getAllData in these cases.<BR>
 	 * 
 	 * @return - Array of String[][]
 	 */
@@ -111,6 +144,52 @@ public class CSV {
 			{
 				data[i][j] = row[j];
 			}
+
+			i++;
+		}
+
+		return data;
+	}
+
+	/**
+	 * This function returns all the data in the CSV file using getAllData as an array excluding the header
+	 * row if applicable.<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) If Desired Number of Columns is greater than the columns in the row, then there will be null values.<BR>
+	 * 
+	 * @param desiredColumns - Desired Number of Columns
+	 * @return String[][]
+	 */
+	public String[][] getAllDataAsArray(int desiredColumns)
+	{
+		List<String[]> allData = getAllData();
+		if (allData.size() == 0)
+			return null;
+
+		// Assumes that all rows have the same number of columns
+		int nExpectedColumns = allData.get(0).length;
+
+		// Does user want a different number of columns?
+		if (desiredColumns > 0)
+			nExpectedColumns = desiredColumns;
+
+		// Initialize the variable to store the data
+		String[][] data = new String[allData.size()][nExpectedColumns];
+
+		// Convert to String[][]
+		int i = 0;
+		for (String[] row : allData)
+		{
+			// Prevent exception should some rows have a greater number of
+			// columns than expected
+			int nActualColumns = row.length;
+			int nColumns = Math.min(nExpectedColumns, nActualColumns);
+			for (int j = 0; j < nColumns; j++)
+			{
+				data[i][j] = row[j];
+			}
+
 			i++;
 		}
 
@@ -199,5 +278,33 @@ public class CSV {
 	public void setReader(String sFile) throws FileNotFoundException
 	{
 		reader = new CSVReader(new FileReader(sFile), delimiter);
+	}
+
+	/**
+	 * Initializes the reader<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) Uses the delimiter that was already set<BR>
+	 * 
+	 * @param file - the File to read from
+	 * @throws FileNotFoundException
+	 */
+	public void setReader(File file) throws FileNotFoundException
+	{
+		reader = new CSVReader(new FileReader(file), delimiter);
+	}
+
+	/**
+	 * Initializes the reader<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) Uses the delimiter that was already set<BR>
+	 * 
+	 * @param builder - String Builder which holds the CSV file
+	 */
+	public void setReader(StringBuilder builder)
+	{
+		InputStreamReader isr = new InputStreamReader(IOUtils.toInputStream(builder.toString()));
+		reader = new CSVReader(isr, delimiter);
 	}
 }

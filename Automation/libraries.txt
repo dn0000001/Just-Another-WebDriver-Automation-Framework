@@ -18,4 +18,4 @@ http://sourceforge.net/projects/xamj/files/Cobra%20HTML%20Toolkit/
 17) Objenesis - A library for instantiating Java objects (This is part of the cloning download in the lib folder but just in case) - https://code.google.com/p/objenesis/
 18) Allure - A library for reporting. A Standalone JAR does not appear to be provided as such it was necessary to get use maven to 
 get all JAR files for inclusion in the project - https://github.com/allure-framework/allure-core
-
+19) Guava - Google library that has many utility functions such as binary comparison of files.
