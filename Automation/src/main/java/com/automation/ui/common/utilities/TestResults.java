@@ -144,6 +144,17 @@ public class TestResults {
 	}
 
 	/**
+	 * Expect the result of the test to be false
+	 * 
+	 * @param obj - Object to convert to boolean
+	 * @return true if passed tests increased else false
+	 */
+	public boolean expectFalse(Object obj)
+	{
+		return expectFalse(obj, null, null);
+	}
+
+	/**
 	 * Expect the result of the test to be true
 	 * 
 	 * @param bResult - Result of test
@@ -152,6 +163,17 @@ public class TestResults {
 	public boolean expectTrue(boolean bResult)
 	{
 		return expectTrue(bResult, null, null);
+	}
+
+	/**
+	 * Expect the result of the test to be true
+	 * 
+	 * @param obj - Object to convert to boolean
+	 * @return true if passed tests increased else false
+	 */
+	public boolean expectTrue(Object obj)
+	{
+		return expectTrue(obj, null, null);
 	}
 
 	/**
@@ -167,6 +189,18 @@ public class TestResults {
 	}
 
 	/**
+	 * Expect the result of the test to be false
+	 * 
+	 * @param obj - Object to convert to boolean
+	 * @param sWarning - Warning to be logged if necessary
+	 * @return true if passed tests increased else false
+	 */
+	public boolean expectFalse(Object obj, String sWarning)
+	{
+		return expectFalse(obj, null, sWarning);
+	}
+
+	/**
 	 * Expect the result of the test to be true
 	 * 
 	 * @param bResult - Result of test
@@ -176,6 +210,44 @@ public class TestResults {
 	public boolean expectTrue(boolean bResult, String sWarning)
 	{
 		return expectTrue(bResult, null, sWarning);
+	}
+
+	/**
+	 * Expect the result of the test to be true
+	 * 
+	 * @param obj - Object to convert to boolean
+	 * @param sWarning - Warning to be logged if necessary
+	 * @return true if passed tests increased else false
+	 */
+	public boolean expectTrue(Object obj, String sWarning)
+	{
+		return expectTrue(obj, null, sWarning);
+	}
+
+	/**
+	 * Expect the result of the test to be false
+	 * 
+	 * @param obj - Object to convert to boolean
+	 * @param sInfo - Information to be logged for pass
+	 * @param sWarning - Warning to be logged for failure
+	 * @return true if passed tests increased else false
+	 */
+	public boolean expectFalse(Object obj, String sInfo, String sWarning)
+	{
+		return expectFalse(Conversion.parseBoolean(obj), sInfo, sWarning);
+	}
+
+	/**
+	 * Expect the result of the test to be true
+	 * 
+	 * @param obj - Object to convert to boolean
+	 * @param sInfo - Information to be logged for pass
+	 * @param sWarning - Warning to be logged if necessary
+	 * @return true if passed tests increased else false
+	 */
+	public boolean expectTrue(Object obj, String sInfo, String sWarning)
+	{
+		return expectTrue(Conversion.parseBoolean(obj), sInfo, sWarning);
 	}
 
 	/**
