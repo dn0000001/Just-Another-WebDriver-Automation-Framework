@@ -23,6 +23,31 @@
 		<NoDefaultsUsed2 Method="J" Attribute="Value" Compare="==" Value="BbB" />
 		<AllDefaultsUsed />
 	</FindWebElementData>
+	<GenericDateData>
+		<NoDefaultsUsed1 Skip="true" UseCurrentDate="true" UseRandomDate="false" Min="10" Max="20" Month="n/a" Day="n/a" Year="n/a" />
+		<NoDefaultsUsed2 Skip="true" UseCurrentDate="false" UseRandomDate="true" Min="-20" Max="-10" Month="n/a" Day="n/a" Year="n/a" />
+		<NoDefaultsUsed3 Skip="true" UseCurrentDate="false" UseRandomDate="false" Min="-2" Max="2" Month="2" Day="15" Year="2016" />
+		<AllDefaultsUsed />
+		<SomeDefaultsUsed1 Month="Feb" Day="Fourteen" Year="Twenty Sixteen" />
+		<SomeDefaultsUsed2 UseCurrentDate="true" />
+		<SomeDefaultsUsed3 UseRandomDate="true" Min="-30" Max="30" />
+		<List>
+			<!-- NoDefaultsUsed1 -->
+			<Date Skip="true" UseCurrentDate="true" UseRandomDate="false" Min="10" Max="20" Month="n/a" Day="n/a" Year="n/a" />
+			<!-- NoDefaultsUsed2 -->
+			<Date Skip="true" UseCurrentDate="false" UseRandomDate="true" Min="-20" Max="-10" Month="n/a" Day="n/a" Year="n/a" />
+			<!-- NoDefaultsUsed3 -->
+			<Date Skip="true" UseCurrentDate="false" UseRandomDate="false" Min="-2" Max="2" Month="2" Day="15" Year="2016" />
+			<!-- AllDefaultsUsed -->
+			<Date />
+			<!-- SomeDefaultsUsed1 -->
+			<Date Month="Feb" Day="Fourteen" Year="Twenty Sixteen" />
+			<!-- SomeDefaultsUsed2 -->
+			<Date UseCurrentDate="true" />
+			<!-- SomeDefaultsUsed3 -->
+			<Date UseRandomDate="true" Min="-30" Max="30" />
+		</List>
+	</GenericDateData>
 	<InputFieldData>
 		<NoDefaultsUsed1 Skip="false" Value="Truck" RandomValue="append" CaseSensitive="true" LogAll="true" VerifyMask="[^A-Za-z]" MaxLength="30" />
 		<NoDefaultsUsed2 Skip="true" Value="Car" RandomValue="Something" CaseSensitive="false" LogAll="false" VerifyMask="mask" MaxLength="5" />
@@ -30,10 +55,15 @@
 		<SomeDefaultsUsed1 Value="Van" CaseSensitive="true" VerifyMask="[^A-Za-z]" />
 		<SomeDefaultsUsed2 Skip="false" RandomValue="Rand" LogAll="true" MaxLength="30" />
 		<List>
+			<!-- NoDefaultsUsed1 -->
 			<Field Skip="false" Value="Truck" RandomValue="append" CaseSensitive="true" LogAll="true" VerifyMask="[^A-Za-z]" MaxLength="30" />
+			<!-- NoDefaultsUsed2 -->
 			<Field Skip="true" Value="Car" RandomValue="Something" CaseSensitive="false" LogAll="false" VerifyMask="mask" MaxLength="5" />
+			<!-- AllDefaultsUsed -->
 			<Field />
+			<!-- SomeDefaultsUsed1 -->
 			<Field Value="Van" CaseSensitive="true" VerifyMask="[^A-Za-z]" />
+			<!-- SomeDefaultsUsed2 -->
 			<Field Skip="false" RandomValue="Rand" LogAll="true" MaxLength="30" />
 		</List>
 	</InputFieldData>

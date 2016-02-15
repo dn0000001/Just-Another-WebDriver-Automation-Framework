@@ -8,6 +8,7 @@ import com.automation.ui.common.dataStructures.AutoCompleteField;
 import com.automation.ui.common.dataStructures.Comparison;
 import com.automation.ui.common.dataStructures.FindTextCriteria;
 import com.automation.ui.common.dataStructures.FindWebElementData;
+import com.automation.ui.common.dataStructures.GenericDate;
 import com.automation.ui.common.dataStructures.InputField;
 import com.automation.ui.common.dataStructures.Parameter;
 import com.automation.ui.common.dataStructures.SelectionCriteria;
@@ -361,8 +362,464 @@ public class DataReaderTest {
 		Controller.writeTestIDtoLog("runGenericDateTests");
 		TestResults results = new TestResults();
 
-		@SuppressWarnings("unused")
 		VTD_XML vtd = new VTD_XML(_TestXML);
+		String sXpath;
+		boolean bResult;
+
+		boolean skip = false;
+		boolean useCurrentDate = false;
+		boolean useRandomDate = false;
+		int minAddDays = -5;
+		int maxAddDays = 5;
+		String month = "mm";
+		String day = "dd";
+		String year = "yyyy";
+		GenericDate defaults = new GenericDate(skip, useCurrentDate, useRandomDate, minAddDays, maxAddDays,
+				month, day, year);
+
+		sXpath = "/data/GenericDateData/NoDefaultsUsed1";
+		results.logInfo("No Defaults Used #1 Tests");
+		GenericDate gd1 = DataReader.getGenericDate(vtd, sXpath, defaults);
+
+		bResult = gd1.skip == defaults.skip;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd1.skip);
+
+		bResult = gd1.skip == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd1.skip, true);
+
+		bResult = gd1.useCurrentDate == defaults.useCurrentDate;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd1.useCurrentDate);
+
+		bResult = gd1.useCurrentDate == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd1.useCurrentDate, true);
+
+		bResult = gd1.useRandomDate == false;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd1.useRandomDate, false);
+
+		bResult = gd1.minAddDays == defaults.minAddDays;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd1.minAddDays);
+
+		bResult = gd1.minAddDays == 10;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd1.minAddDays, 10);
+
+		bResult = gd1.maxAddDays == defaults.maxAddDays;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd1.maxAddDays);
+
+		bResult = gd1.maxAddDays == 20;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd1.maxAddDays, 20);
+
+		bResult = gd1.month.equals(defaults.month);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd1.month);
+
+		bResult = gd1.month.equals("n/a");
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual("n/a");
+
+		bResult = gd1.day.equals(defaults.day);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd1.day);
+
+		bResult = gd1.day.equals("n/a");
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual("n/a");
+
+		bResult = gd1.year.equals(defaults.year);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd1.year);
+
+		bResult = gd1.year.equals("n/a");
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual("n/a");
+
+		sXpath = "/data/GenericDateData/NoDefaultsUsed2";
+		results.logInfo("No Defaults Used #2 Tests");
+		GenericDate gd2 = DataReader.getGenericDate(vtd, sXpath, defaults);
+
+		bResult = gd2.skip == defaults.skip;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd2.skip);
+
+		bResult = gd2.skip == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd2.skip, true);
+
+		bResult = gd2.useCurrentDate == false;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd2.useCurrentDate, false);
+
+		bResult = gd2.useRandomDate == defaults.useRandomDate;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd2.useRandomDate);
+
+		bResult = gd2.useRandomDate == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd2.useRandomDate, true);
+
+		bResult = gd2.minAddDays == defaults.minAddDays;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd2.minAddDays);
+
+		bResult = gd2.minAddDays == -20;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd2.minAddDays, -20);
+
+		bResult = gd2.maxAddDays == defaults.maxAddDays;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd2.maxAddDays);
+
+		bResult = gd2.maxAddDays == -10;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd2.maxAddDays, -10);
+
+		bResult = gd2.month.equals(defaults.month);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd2.month);
+
+		bResult = gd2.month.equals("n/a");
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual("n/a");
+
+		bResult = gd2.day.equals(defaults.day);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd2.day);
+
+		bResult = gd2.day.equals("n/a");
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual("n/a");
+
+		bResult = gd2.year.equals(defaults.year);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd2.year);
+
+		bResult = gd2.year.equals("n/a");
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual("n/a");
+
+		sXpath = "/data/GenericDateData/NoDefaultsUsed3";
+		results.logInfo("No Defaults Used #3 Tests");
+		GenericDate gd3 = DataReader.getGenericDate(vtd, sXpath, defaults);
+
+		bResult = gd3.skip == defaults.skip;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd3.skip);
+
+		bResult = gd3.skip == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd3.skip, true);
+
+		bResult = gd3.useCurrentDate == false;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd3.useCurrentDate, false);
+
+		bResult = gd3.useRandomDate == false;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd3.useRandomDate, false);
+
+		bResult = gd3.minAddDays == defaults.minAddDays;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd3.minAddDays);
+
+		bResult = gd3.minAddDays == -2;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd3.minAddDays, -2);
+
+		bResult = gd3.maxAddDays == defaults.maxAddDays;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd3.maxAddDays);
+
+		bResult = gd3.maxAddDays == 2;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd3.maxAddDays, 2);
+
+		bResult = gd3.month.equals(defaults.month);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd3.month);
+
+		bResult = gd3.month.equals("2");
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd3.month, "2");
+
+		bResult = gd3.day.equals(defaults.day);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd3.day);
+
+		bResult = gd3.day.equals("15");
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd3.day, "15");
+
+		bResult = gd3.year.equals(defaults.year);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd3.year);
+
+		bResult = gd3.year.equals("2016");
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd3.year, "2016");
+
+		//
+		// All Defaults Used Tests
+		//
+
+		sXpath = "/data/GenericDateData/AllDefaultsUsed";
+		results.logInfo("All Defaults Used Tests");
+		GenericDate gd4 = DataReader.getGenericDate(vtd, sXpath, defaults);
+
+		bResult = gd4.skip == defaults.skip;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd4.skip, defaults.skip);
+
+		bResult = gd4.useCurrentDate == defaults.useCurrentDate;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd4.useCurrentDate, defaults.useCurrentDate);
+
+		bResult = gd4.useRandomDate == defaults.useRandomDate;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd4.useRandomDate, defaults.useRandomDate);
+
+		bResult = gd4.minAddDays == defaults.minAddDays;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd4.minAddDays, defaults.minAddDays);
+
+		bResult = gd4.maxAddDays == defaults.maxAddDays;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd4.maxAddDays, defaults.maxAddDays);
+
+		bResult = gd4.month.equals(defaults.month);
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd4.month, defaults.month);
+
+		bResult = gd4.day.equals(defaults.day);
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd4.day, defaults.day);
+
+		bResult = gd4.year.equals(defaults.year);
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd4.year, defaults.year);
+
+		//
+		// Some Defaults Used #1 Tests
+		//
+
+		sXpath = "/data/GenericDateData/SomeDefaultsUsed1";
+		results.logInfo("Some Defaults Used #1 Tests");
+		GenericDate gd5 = DataReader.getGenericDate(vtd, sXpath, defaults);
+
+		bResult = gd5.skip == defaults.skip;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd5.skip, defaults.skip);
+
+		bResult = gd5.useCurrentDate == defaults.useCurrentDate;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd5.useCurrentDate, defaults.useCurrentDate);
+
+		bResult = gd5.useRandomDate == defaults.useRandomDate;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd5.useRandomDate, defaults.useRandomDate);
+
+		bResult = gd5.minAddDays == defaults.minAddDays;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd5.minAddDays, defaults.minAddDays);
+
+		bResult = gd5.maxAddDays == defaults.maxAddDays;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd5.maxAddDays, defaults.maxAddDays);
+
+		bResult = gd5.month.equals(defaults.month);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd5.month);
+
+		bResult = gd5.month.equals("Feb");
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd5.month, "Feb");
+
+		bResult = gd5.day.equals(defaults.day);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd5.day);
+
+		bResult = gd5.day.equals("Fourteen");
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd5.day, "Fourteen");
+
+		bResult = gd5.year.equals(defaults.year);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd5.year);
+
+		bResult = gd5.year.equals("Twenty Sixteen");
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd5.year, "Twenty Sixteen");
+
+		//
+		// Some Defaults Used #2 Tests
+		//
+
+		sXpath = "/data/GenericDateData/SomeDefaultsUsed2";
+		results.logInfo("Some Defaults Used #2 Tests");
+		GenericDate gd6 = DataReader.getGenericDate(vtd, sXpath, defaults);
+
+		bResult = gd6.skip == defaults.skip;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd6.skip, defaults.skip);
+
+		bResult = gd6.useCurrentDate == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd6.useCurrentDate, true);
+
+		bResult = gd6.useRandomDate == defaults.useRandomDate;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd6.useRandomDate, defaults.useRandomDate);
+
+		bResult = gd6.minAddDays == defaults.minAddDays;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd6.minAddDays, defaults.minAddDays);
+
+		bResult = gd6.maxAddDays == defaults.maxAddDays;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd6.maxAddDays, defaults.maxAddDays);
+
+		GenericDate current = GenericDate.getCurrentDate();
+		bResult = gd6.month.equals(defaults.month);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd6.month);
+
+		bResult = gd6.month.equals(current.month);
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd6.month, current.month);
+
+		bResult = gd6.day.equals(defaults.day);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd6.day);
+
+		bResult = gd6.day.equals(current.day);
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd6.day, current.day);
+
+		bResult = gd6.year.equals(defaults.year);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd6.year);
+
+		bResult = gd6.year.equals(current.year);
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd6.year, current.year);
+
+		//
+		// Some Defaults Used #3 Tests
+		//
+
+		sXpath = "/data/GenericDateData/SomeDefaultsUsed3";
+		results.logInfo("Some Defaults Used #3 Tests");
+		GenericDate gd7 = DataReader.getGenericDate(vtd, sXpath, defaults);
+
+		bResult = gd7.skip == defaults.skip;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd7.skip, defaults.skip);
+
+		bResult = gd7.useCurrentDate == defaults.useCurrentDate;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd7.useCurrentDate, defaults.useCurrentDate);
+
+		bResult = gd7.useRandomDate == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd7.useRandomDate, true);
+
+		bResult = gd7.minAddDays == defaults.minAddDays;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd7.minAddDays);
+
+		bResult = gd7.minAddDays == -30;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd7.minAddDays, -30);
+
+		bResult = gd7.maxAddDays == defaults.maxAddDays;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd7.maxAddDays);
+
+		bResult = gd7.maxAddDays == 30;
+		if (!results.expectTrue(bResult))
+			results.logWarn(gd7.maxAddDays, 30);
+
+		bResult = gd7.month.equals(defaults.month);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd7.month);
+
+		bResult = gd7.day.equals(defaults.day);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd7.day);
+
+		bResult = gd7.year.equals(defaults.year);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(gd7.year);
+
+		//
+		// List Tests
+		//
+
+		sXpath = "/data/GenericDateData/List/Date/";
+		results.logInfo("List Tests");
+		int expectedSize = 7;
+		List<GenericDate> gd8 = DataReader.getGenericDates(vtd, sXpath, defaults);
+
+		bResult = gd8.size() == expectedSize;
+		if (results.expectTrue(bResult))
+		{
+			bResult = gd1.equals(gd8.get(0));
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("gd1 issue");
+				results.logWarn(gd1, gd8.get(0));
+			}
+
+			// Note: gd2 equals gd8.get(1) because the skip flag is set to true for both objects
+			bResult = gd2.equals(gd8.get(1));
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("gd2 issue");
+				results.logWarn(gd2, gd8.get(1));
+			}
+
+			bResult = gd3.equals(gd8.get(2));
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("gd3 issue");
+				results.logWarn(gd3, gd8.get(2));
+			}
+
+			bResult = gd4.equals(gd8.get(3));
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("gd4 issue");
+				results.logWarn(gd4, gd8.get(3));
+			}
+
+			bResult = gd5.equals(gd8.get(4));
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("gd5 issue");
+				results.logWarn(gd5, gd8.get(4));
+			}
+
+			bResult = gd6.equals(gd8.get(5));
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("gd6 issue");
+				results.logWarn(gd6, gd8.get(5));
+			}
+
+			// Note: gd7 may not equal gd8.get(6) because the skip flag is set to false for both objects and
+			// the random date will most likely not be the same.
+		}
+		else
+		{
+			results.logWarn(expectedSize, gd8.size());
+		}
 
 		results.verify("Some unit tests failed.  See above for details.");
 		Controller.writeTestSuccessToLog("runGenericDateTests");
