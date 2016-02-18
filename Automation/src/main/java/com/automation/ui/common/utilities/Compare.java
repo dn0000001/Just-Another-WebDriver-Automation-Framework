@@ -14,6 +14,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.reflect.MethodUtils;
 import org.openqa.selenium.WebElement;
 
 import com.automation.ui.common.dataStructures.Comparison;
@@ -1179,5 +1180,53 @@ public class Compare {
 	public static boolean equals(Date expected, Date actual, int variance)
 	{
 		return equals(expected.getTime(), actual.getTime(), variance * 60 * 1000);
+	}
+
+	/**
+	 * Searches the specified list using the specified <B>static</B> method for a matching object<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) If both the list item and object are null, then this is considered a match<BR>
+	 * 2) If only the list item or object is null, then this is not considered a match<BR>
+	 * 3) Specified <B>static</B> method must take 2 parameters of the object type and return a result that
+	 * can be cast to Boolean.<BR>
+	 * 4) Specified <B>static</B> method must exist or no match will be found (except for match on null
+	 * objects)<BR>
+	 * 
+	 * @param data - List to be searched
+	 * @param obj - The object to be searched for
+	 * @param method - <B>Static</B> Method to be used to determine a match
+	 * @return The index of the search key, if it is contained in the list; otherwise less than 0
+	 */
+	public static <T> int match(List<T> data, T obj, String method)
+	{
+		boolean result;
+		for (int i = 0; i < data.size(); i++)
+		{
+			try
+			{
+				// Handle case in which both objects are null
+				if (data.get(i) == null && obj == null)
+					return i;
+
+				// Handle case in which only 1 object is null
+				if (data.get(i) == null || obj == null)
+					continue;
+
+				// Set arguments to be passed
+				Object[] args = new Object[2];
+				args[0] = data.get(i);
+				args[1] = obj;
+
+				result = (Boolean) MethodUtils.invokeStaticMethod(obj.getClass(), method, args);
+				if (result)
+					return i;
+			}
+			catch (Exception ex)
+			{
+			}
+		}
+
+		return -1;
 	}
 }
