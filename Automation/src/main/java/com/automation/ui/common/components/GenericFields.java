@@ -75,6 +75,17 @@ public class GenericFields {
 	}
 
 	/**
+	 * Default Constructor - Driver is set to null (and needs to be set before using methods that need
+	 * WebDriver.)
+	 */
+	public GenericFields()
+	{
+		setDriver(null);
+		setTarget(_DefaultTarget);
+		fields = new GenericData();
+	}
+
+	/**
 	 * Constructor
 	 * 
 	 * @param driver

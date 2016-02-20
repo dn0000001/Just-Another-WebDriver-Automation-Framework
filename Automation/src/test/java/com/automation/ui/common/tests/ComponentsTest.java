@@ -39,6 +39,12 @@ import com.automation.ui.common.utilities.Verify;
 public class ComponentsTest {
 	private static final boolean run = false;
 
+	/**
+	 * Used to test that no issues setting driver after initialization in a static final object
+	 */
+	private static final GenericOverlay _Overlay = new GenericOverlay();
+	private static final GenericFields _Fields = new GenericFields();
+
 	@Test
 	@TestCaseId("ID 001")
 	@Features("Component")
@@ -203,33 +209,33 @@ public class ComponentsTest {
 		String sLoc_Message = "//span[@class='ui-confirm-dialog-message']";
 		String sLoc_Title = "//span[@class='ui-dialog-title']";
 
-		GenericOverlay overlay = new GenericOverlay(driver);
-		overlay.setConfig_OK(false, sLoc_OK, "Yes", true, true, -1, GenericOverlay.ClickOption.Standard);
-		overlay.setConfig_Cancel(false, sLoc_Cancel, "No", true, true, -1,
+		_Overlay.setDriver(driver);
+		_Overlay.setConfig_OK(false, sLoc_OK, "Yes", true, true, -1, GenericOverlay.ClickOption.Standard);
+		_Overlay.setConfig_Cancel(false, sLoc_Cancel, "No", true, true, -1,
 				GenericOverlay.ClickOption.Standard);
-		overlay.setConfig_Close(false, sLoc_Close, "X", true, true, -1, GenericOverlay.ClickOption.Standard);
-		overlay.setConfig_Message(false, sLoc_Message, "Message", -1, GenericOverlay.TextOption.Visible, "");
-		overlay.setConfig_Title(false, sLoc_Title, "Title", -1, GenericOverlay.TextOption.Visible, "");
-		overlay.verifyConfig();
+		_Overlay.setConfig_Close(false, sLoc_Close, "X", true, true, -1, GenericOverlay.ClickOption.Standard);
+		_Overlay.setConfig_Message(false, sLoc_Message, "Message", -1, GenericOverlay.TextOption.Visible, "");
+		_Overlay.setConfig_Title(false, sLoc_Title, "Title", -1, GenericOverlay.TextOption.Visible, "");
+		_Overlay.verifyConfig();
 
 		// Note: Verification of fields will fail as it is missing some enumerations but this is fine as I am
 		// not using them.
-		GenericFields fields = new GenericFields(driver);
-		fields.addButton(Radio.DEFAULT, sLoc_DestroyTheWorld, "Destroy The World", true);
+		_Fields.setDriver(driver);
+		_Fields.addButton(Radio.DEFAULT, sLoc_DestroyTheWorld, "Destroy The World", true);
 
-		fields.click(Radio.DEFAULT);
-		overlay.waitForReady_OK();
-		Logs.log.info("Message:  " + overlay.getMessage());
-		Logs.log.info("Title:  " + overlay.getTitle());
-		overlay.clickOK();
+		_Fields.click(Radio.DEFAULT);
+		_Overlay.waitForReady_OK();
+		Logs.log.info("Message:  " + _Overlay.getMessage());
+		Logs.log.info("Title:  " + _Overlay.getTitle());
+		_Overlay.clickOK();
 
-		fields.click(Radio.DEFAULT);
-		overlay.waitForReady_Cancel(); // Not necessary just for testing
-		overlay.clickCancel();
+		_Fields.click(Radio.DEFAULT);
+		_Overlay.waitForReady_Cancel(); // Not necessary just for testing
+		_Overlay.clickCancel();
 
-		fields.click(Radio.DEFAULT);
-		overlay.waitForReady_Close(); // Not necessary just for testing
-		overlay.clickClose();
+		_Fields.click(Radio.DEFAULT);
+		_Overlay.waitForReady_Close(); // Not necessary just for testing
+		_Overlay.clickClose();
 
 		context.quitBrowser();
 		Controller.writeTestSuccessToLog("runPrimefaces_OverlayTest");

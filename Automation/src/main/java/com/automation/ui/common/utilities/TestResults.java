@@ -1,6 +1,7 @@
 package com.automation.ui.common.utilities;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.automation.ui.common.dataStructures.Parameter;
@@ -542,6 +543,53 @@ public class TestResults {
 			storedLogs.add(new Parameter(sExpected, ""));
 			storedLogs.add(new Parameter(sActual, ""));
 		}
+	}
+
+	/**
+	 * Add log entries for debug information for 2 objects that do not match without a test<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) The objects need to override the toString method for logging<BR>
+	 * 
+	 * @param expected - Array of Objects containing the Expected Results
+	 * @param actual - Array of Objects containing the Actual Results
+	 */
+	public <T> void logWarn(T[] expected, T[] actual)
+	{
+		logWarn(Arrays.asList(expected), Arrays.asList(actual));
+	}
+
+	/**
+	 * Add log entries for debug information for 2 objects that do not match without a test<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) The objects need to override the toString method for logging<BR>
+	 * 
+	 * @param expected - List of Objects containing the Expected Results
+	 * @param actual - List of Objects containing the Actual Results
+	 */
+	public <T> void logWarn(List<T> expected, List<T> actual)
+	{
+		// Build Expected String
+		StringBuilder builderExpected = new StringBuilder();
+		builderExpected.append("[");
+
+		if (expected != null)
+			builderExpected.append(Conversion.toString(expected, ", "));
+
+		builderExpected.append("]");
+
+		// Build Actual String
+		StringBuilder builderActual = new StringBuilder();
+		builderActual.append("[");
+
+		if (actual != null)
+			builderActual.append(Conversion.toString(actual, ", "));
+
+		builderActual.append("]");
+
+		// Use existing method to write the constructed strings
+		logWarn(builderExpected.toString(), builderActual.toString());
 	}
 
 	/**
