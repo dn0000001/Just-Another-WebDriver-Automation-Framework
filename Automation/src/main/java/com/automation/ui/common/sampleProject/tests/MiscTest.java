@@ -365,7 +365,7 @@ public class MiscTest {
 		Logs.initializeLoggers();
 
 		// String sNewPassword = "test";
-		String sBasePathToLookupFile = "resources/data/";
+		String sBasePathToLookupFile = "src/main/resources/data/";
 
 		ConfigRun.env_basePath = sBasePathToLookupFile;
 		String sLookupFile = Controller.getDataDrivenValuesFileUsingBasePath("PasswordLookup");

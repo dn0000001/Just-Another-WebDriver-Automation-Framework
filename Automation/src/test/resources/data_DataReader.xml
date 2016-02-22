@@ -18,6 +18,41 @@
 			<ACF Skip="false" CancelSelection="false" UseIndex="false" TriggerLength="3" />
 		</List>
 	</AutoCompleteField>
+	<CheckBoxData>
+		<NoDefaultsUsed1 Skip="true" VerifyInitialState="true" VerifyEnabled="false" LogError="false" Check="true" LogAll="true" />
+		<NoDefaultsUsed2 Skip="false" VerifyInitialState="false" VerifyEnabled="true" LogError="true" Check="false" LogAll="false" />
+		<AllDefaultsUsed />
+		<SomeDefaultsUsed1 Skip="true" VerifyInitialState="true" Check="true" LogAll="true" />
+		<SomeDefaultsUsed2 VerifyEnabled="true" LogError="true" />
+		<List>
+			<!-- NoDefaultsUsed1 -->
+			<CheckBox Skip="true" VerifyInitialState="true" VerifyEnabled="false" LogError="false" Check="true" LogAll="true" />
+			<!-- SomeDefaultsUsed1 -->
+			<CheckBox Skip="true" VerifyInitialState="true" Check="true" LogAll="true" />
+			<!-- AllDefaultsUsed -->
+			<CheckBox />
+		</List>
+	</CheckBoxData>
+	<EncodedFieldData>
+		<EncodeTest1>qH2uHMpXkfJPQHkQRRrOgzTOHCNXGiUEMSwVDSeG0+rug9Iq0Zod+g==</EncodeTest1>
+		<EncodeTest2 Value="tuOPQLtk4/Ge+5gNPZsCZHDNrVh83GSRmNkfUaB19e0=" />
+		<List>
+			<Encoded Value="qH2uHMpXkfJPQHkQRRrOgzTOHCNXGiUEMSwVDSeG0+rug9Iq0Zod+g==" />
+			<Encoded RandomValue="test" />
+			<Encoded Value="tuOPQLtk4/Ge+5gNPZsCZHDNrVh83GSRmNkfUaB19e0=" />
+		</List>
+	</EncodedFieldData>
+	<FindTextCriteriaData>
+		<NoDefaultsUsed1 Compare="*=" Value="aa" />
+		<NoDefaultsUsed2 Compare="!=" Value="bb" />
+		<NoDefaultsUsed3 Compare="==" Value="cc" />
+		<NoDefaultsUsed4 Compare="~=" Value="DD" />
+		<NoDefaultsUsed5 Compare="regex" Value="EE" />
+		<NoDefaultsUsed6 Compare="!*=" Value="FF" />
+		<NoDefaultsUsed7 Compare="S" Value="gG" />
+		<NoDefaultsUsed8 Compare="any" Value="hH" />
+		<AllDefaultsUsed />
+	</FindTextCriteriaData>
 	<FindWebElementData>
 		<NoDefaultsUsed1 Method="A" Attribute="data-bind" Compare="!=" Value="aAa" />
 		<NoDefaultsUsed2 Method="J" Attribute="Value" Compare="==" Value="BbB" />

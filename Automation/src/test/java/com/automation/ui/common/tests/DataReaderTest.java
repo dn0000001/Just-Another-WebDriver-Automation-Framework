@@ -5,6 +5,7 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import com.automation.ui.common.dataStructures.AutoCompleteField;
+import com.automation.ui.common.dataStructures.CheckBox;
 import com.automation.ui.common.dataStructures.Comparison;
 import com.automation.ui.common.dataStructures.FindTextCriteria;
 import com.automation.ui.common.dataStructures.FindWebElementData;
@@ -213,8 +214,272 @@ public class DataReaderTest {
 		Controller.writeTestIDtoLog("runCheckBoxTests");
 		TestResults results = new TestResults();
 
-		@SuppressWarnings("unused")
 		VTD_XML vtd = new VTD_XML(_TestXML);
+		String sXpath;
+		boolean bResult;
+
+		boolean skip = false;
+		boolean verifyInitialState = false;
+		boolean verifyEnabled = true;
+		boolean logError = true;
+		boolean check = false;
+		boolean logAll = false;
+		CheckBox defaults = new CheckBox(skip, verifyInitialState, verifyEnabled, logError, check, logAll);
+
+		boolean skip2 = true;
+		boolean verifyInitialState2 = true;
+		boolean verifyEnabled2 = false;
+		boolean logError2 = false;
+		boolean check2 = true;
+		boolean logAll2 = true;
+		CheckBox defaults2 = new CheckBox(skip2, verifyInitialState2, verifyEnabled2, logError2, check2,
+				logAll2);
+
+		sXpath = "/data/CheckBoxData/NoDefaultsUsed1";
+		results.logInfo("No Defaults Used #1 Tests");
+		CheckBox cb1 = DataReader.getCheckBox(vtd, sXpath, defaults);
+
+		bResult = cb1.skip == defaults.skip;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb1.skip);
+
+		bResult = cb1.skip == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb1.skip, true);
+
+		bResult = cb1.verifyInitialState == defaults.verifyInitialState;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb1.verifyInitialState);
+
+		bResult = cb1.verifyInitialState == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb1.verifyInitialState, true);
+
+		bResult = cb1.verifyEnabled == defaults.verifyEnabled;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb1.verifyEnabled);
+
+		bResult = cb1.verifyEnabled == false;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb1.verifyEnabled, false);
+
+		bResult = cb1.logError == defaults.logError;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb1.logError);
+
+		bResult = cb1.logError == false;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb1.logError, false);
+
+		bResult = cb1.check == defaults.check;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb1.check);
+
+		bResult = cb1.check == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb1.check, true);
+
+		bResult = cb1.logAll == defaults.logAll;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb1.logAll);
+
+		bResult = cb1.logAll == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb1.logAll, true);
+
+		sXpath = "/data/CheckBoxData/NoDefaultsUsed2";
+		results.logInfo("No Defaults Used #2 Tests");
+		CheckBox cb2 = DataReader.getCheckBox(vtd, sXpath, defaults2);
+
+		bResult = cb2.skip == defaults2.skip;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb2.skip);
+
+		bResult = cb2.skip == false;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb2.skip, false);
+
+		bResult = cb2.verifyInitialState == defaults2.verifyInitialState;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb2.verifyInitialState);
+
+		bResult = cb2.verifyInitialState == false;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb2.verifyInitialState, false);
+
+		bResult = cb2.verifyEnabled == defaults2.verifyEnabled;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb2.verifyEnabled);
+
+		bResult = cb2.verifyEnabled == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb2.verifyEnabled, true);
+
+		bResult = cb2.logError == defaults2.logError;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb2.logError);
+
+		bResult = cb2.logError == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb2.logError, true);
+
+		bResult = cb2.check == defaults2.check;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb2.check);
+
+		bResult = cb2.check == false;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb2.check, false);
+
+		bResult = cb2.logAll == defaults2.logAll;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb2.logAll);
+
+		bResult = cb2.logAll == false;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb2.logAll, false);
+
+		sXpath = "/data/CheckBoxData/AllDefaultsUsed";
+		results.logInfo("All Defaults Used Tests");
+		CheckBox cb3 = DataReader.getCheckBox(vtd, sXpath, defaults);
+
+		bResult = cb3.skip == defaults.skip;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb3.skip, defaults.skip);
+
+		bResult = cb3.verifyInitialState == defaults.verifyInitialState;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb3.verifyInitialState, defaults.verifyInitialState);
+
+		bResult = cb3.verifyEnabled == defaults.verifyEnabled;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb3.verifyEnabled, defaults.verifyEnabled);
+
+		bResult = cb3.logError == defaults.logError;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb3.logError, defaults.logError);
+
+		bResult = cb3.check == defaults.check;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb3.check, defaults.check);
+
+		bResult = cb3.logAll == defaults.logAll;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb3.logAll, defaults.logAll);
+
+		sXpath = "/data/CheckBoxData/SomeDefaultsUsed1";
+		results.logInfo("Some Defaults Used #1 Tests");
+		CheckBox cb4 = DataReader.getCheckBox(vtd, sXpath, defaults);
+
+		bResult = cb4.skip == defaults.skip;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb4.skip);
+
+		bResult = cb4.skip == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb4.skip, true);
+
+		bResult = cb4.verifyInitialState == defaults.verifyInitialState;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb4.verifyInitialState);
+
+		bResult = cb4.verifyInitialState == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb4.verifyInitialState, true);
+
+		bResult = cb4.verifyEnabled == defaults.verifyEnabled;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb4.verifyEnabled, defaults.verifyEnabled);
+
+		bResult = cb4.logError == defaults.logError;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb4.logError, defaults.logError);
+
+		bResult = cb4.check == defaults.check;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb4.check);
+
+		bResult = cb4.check == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb4.check, true);
+
+		bResult = cb4.logAll == defaults.logAll;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb4.logAll);
+
+		bResult = cb4.logAll == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb4.logAll, true);
+
+		sXpath = "/data/CheckBoxData/SomeDefaultsUsed2";
+		results.logInfo("Some Defaults Used #2 Tests");
+		CheckBox cb5 = DataReader.getCheckBox(vtd, sXpath, defaults2);
+
+		bResult = cb5.skip == defaults2.skip;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb5.skip, defaults2.skip);
+
+		bResult = cb5.verifyInitialState == defaults2.verifyInitialState;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb5.verifyInitialState, defaults2.verifyInitialState);
+
+		bResult = cb5.verifyEnabled == defaults2.verifyEnabled;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb5.verifyEnabled);
+
+		bResult = cb5.verifyEnabled == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb5.verifyEnabled, true);
+
+		bResult = cb5.logError == defaults2.logError;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(cb5.logError);
+
+		bResult = cb5.logError == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb5.logError, true);
+
+		bResult = cb5.check == defaults2.check;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb5.check, defaults2.check);
+
+		bResult = cb5.logAll == defaults2.logAll;
+		if (!results.expectTrue(bResult))
+			results.logWarn(cb5.logAll, defaults2.logAll);
+
+		sXpath = "/data/CheckBoxData/List/CheckBox/";
+		results.logInfo("List Tests");
+		int expectedSize = 3;
+		List<CheckBox> cb6 = DataReader.getCheckBoxes(vtd, sXpath, defaults);
+
+		bResult = cb6.size() == expectedSize;
+		if (results.expectTrue(bResult))
+		{
+			bResult = cb1.equals(cb6.get(0));
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("cb1 issue");
+				results.logWarn(cb1, cb6.get(0));
+			}
+
+			bResult = cb4.equals(cb6.get(1));
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("cb4 issue");
+				results.logWarn(cb4, cb6.get(1));
+			}
+
+			bResult = cb3.equals(cb6.get(2));
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("cb3 issue");
+				results.logWarn(cb3, cb6.get(2));
+			}
+		}
+		else
+		{
+			results.logWarn(expectedSize, cb6.size());
+		}
 
 		results.verify("Some unit tests failed.  See above for details.");
 		Controller.writeTestSuccessToLog("runCheckBoxTests");
@@ -243,8 +508,63 @@ public class DataReaderTest {
 		Controller.writeTestIDtoLog("runEncodedFieldTests");
 		TestResults results = new TestResults();
 
-		@SuppressWarnings("unused")
 		VTD_XML vtd = new VTD_XML(_TestXML);
+		String sXpath;
+		boolean bResult;
+
+		sXpath = "/data/EncodedFieldData/EncodeTest1";
+		String sDefault = "rlSbPrFzJTRdmw3pBBnQywIERfIWKW2w1txU4GzF+Fpkho3AZ4wQ2w==";
+		String value = DataReader.getEncodedField(vtd, sXpath, sDefault);
+		bResult = Compare.equals(value, "password", Comparison.Equal);
+		results.expectTrue(bResult, "Encode Test 1a failed");
+
+		bResult = Compare.equals(value, "something", Comparison.Equal);
+		results.expectFalse(bResult, "Encode Test 1b failed");
+
+		sXpath = "/data/EncodedFieldData/EncodeTest2";
+		InputField defaults = new InputField();
+		InputField in1 = DataReader.getEncodedInputField(vtd, sXpath, defaults);
+
+		bResult = Compare.equals(in1.value, "ddd", Comparison.Equal);
+		results.expectTrue(bResult, "Encode Test 2a failed");
+
+		bResult = Compare.equals(in1.value, "tuOPQLtk4/Ge+5gNPZsCZHDNrVh83GSRmNkfUaB19e0=",
+				Comparison.EqualsIgnoreCase);
+		results.expectFalse(bResult, "Encode Test 2b failed");
+
+		sXpath = "/data/EncodedFieldData/List/Encoded/";
+		results.logInfo("List Tests");
+		int expectedSize = 3;
+		List<InputField> in2 = DataReader.getEncodedInputFields(vtd, sXpath, defaults);
+
+		bResult = in2.size() == expectedSize;
+		if (results.expectTrue(bResult))
+		{
+			bResult = value.equals(in2.get(0).getVerificationValue());
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("value issue");
+				results.logWarn(value, in2.get(0));
+			}
+
+			bResult = "test".equals(in2.get(1).getVerificationValue());
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("in2.get(1) issue");
+				results.logWarn("test", in2.get(1).getVerificationValue());
+			}
+
+			bResult = in1.getVerificationValue().equals(in2.get(2).getVerificationValue());
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("in1 issue");
+				results.logWarn(in1.getVerificationValue(), in2.get(2).getVerificationValue());
+			}
+		}
+		else
+		{
+			results.logWarn(expectedSize, in2.size());
+		}
 
 		results.verify("Some unit tests failed.  See above for details.");
 		Controller.writeTestSuccessToLog("runEncodedFieldTests");
@@ -258,8 +578,187 @@ public class DataReaderTest {
 		Controller.writeTestIDtoLog("runFindTextCriteriaTests");
 		TestResults results = new TestResults();
 
-		@SuppressWarnings("unused")
 		VTD_XML vtd = new VTD_XML(_TestXML);
+		String sXpath;
+		boolean bResult;
+
+		Comparison compare = Comparison.Lower;
+		String value = "zzz";
+		FindTextCriteria defaults = new FindTextCriteria(compare, value);
+
+		results.logInfo("NoDefaultsUsed1 tests");
+		sXpath = "/data/FindTextCriteriaData/NoDefaultsUsed1";
+		FindTextCriteria ftc1 = DataReader.getFindTextCriteria(vtd, sXpath, defaults);
+
+		bResult = ftc1.compare == defaults.compare;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ftc1.compare);
+
+		bResult = ftc1.value.equals(defaults.value);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ftc1.value);
+
+		bResult = ftc1.compare == Comparison.Contains;
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc1.compare, Comparison.Contains);
+
+		bResult = ftc1.value.equals("aa");
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc1.value, "aa");
+
+		results.logInfo("NoDefaultsUsed2 tests");
+		sXpath = "/data/FindTextCriteriaData/NoDefaultsUsed2";
+		FindTextCriteria ftc2 = DataReader.getFindTextCriteria(vtd, sXpath, defaults);
+
+		bResult = ftc2.compare == defaults.compare;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ftc2.compare);
+
+		bResult = ftc2.value.equals(defaults.value);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ftc2.value);
+
+		bResult = ftc2.compare == Comparison.NotEqual;
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc2.compare, Comparison.NotEqual);
+
+		bResult = ftc2.value.equals("bb");
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc2.value, "bb");
+
+		results.logInfo("NoDefaultsUsed3 tests");
+		sXpath = "/data/FindTextCriteriaData/NoDefaultsUsed3";
+		FindTextCriteria ftc3 = DataReader.getFindTextCriteria(vtd, sXpath, defaults);
+
+		bResult = ftc3.compare == defaults.compare;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ftc3.compare);
+
+		bResult = ftc3.value.equals(defaults.value);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ftc3.value);
+
+		bResult = ftc3.compare == Comparison.Equal;
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc3.compare, Comparison.Equal);
+
+		bResult = ftc3.value.equals("cc");
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc3.value, "cc");
+
+		results.logInfo("NoDefaultsUsed4 tests");
+		sXpath = "/data/FindTextCriteriaData/NoDefaultsUsed4";
+		FindTextCriteria ftc4 = DataReader.getFindTextCriteria(vtd, sXpath, defaults);
+
+		bResult = ftc4.compare == defaults.compare;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ftc4.compare);
+
+		bResult = ftc4.value.equals(defaults.value);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ftc4.value);
+
+		bResult = ftc4.compare == Comparison.EqualsIgnoreCase;
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc4.compare, Comparison.EqualsIgnoreCase);
+
+		bResult = ftc4.value.equals("DD");
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc4.value, "DD");
+
+		results.logInfo("NoDefaultsUsed5 tests");
+		sXpath = "/data/FindTextCriteriaData/NoDefaultsUsed5";
+		FindTextCriteria ftc5 = DataReader.getFindTextCriteria(vtd, sXpath, defaults);
+
+		bResult = ftc5.compare == defaults.compare;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ftc5.compare);
+
+		bResult = ftc5.value.equals(defaults.value);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ftc5.value);
+
+		bResult = ftc5.compare == Comparison.RegEx;
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc5.compare, Comparison.RegEx);
+
+		bResult = ftc5.value.equals("EE");
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc5.value, "EE");
+
+		results.logInfo("NoDefaultsUsed6 tests");
+		sXpath = "/data/FindTextCriteriaData/NoDefaultsUsed6";
+		FindTextCriteria ftc6 = DataReader.getFindTextCriteria(vtd, sXpath, defaults);
+
+		bResult = ftc6.compare == defaults.compare;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ftc6.compare);
+
+		bResult = ftc6.value.equals(defaults.value);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ftc6.value);
+
+		bResult = ftc6.compare == Comparison.DoesNotContain;
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc6.compare, Comparison.DoesNotContain);
+
+		bResult = ftc6.value.equals("FF");
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc6.value, "FF");
+
+		results.logInfo("NoDefaultsUsed7 tests");
+		sXpath = "/data/FindTextCriteriaData/NoDefaultsUsed7";
+		FindTextCriteria ftc7 = DataReader.getFindTextCriteria(vtd, sXpath, defaults);
+
+		bResult = ftc7.compare == defaults.compare;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ftc7.compare);
+
+		bResult = ftc7.value.equals(defaults.value);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ftc7.value);
+
+		bResult = ftc7.compare == Comparison.Standard;
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc7.compare, Comparison.Standard);
+
+		bResult = ftc7.value.equals("gG");
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc7.value, "gG");
+
+		results.logInfo("NoDefaultsUsed8 tests");
+		sXpath = "/data/FindTextCriteriaData/NoDefaultsUsed8";
+		FindTextCriteria ftc8 = DataReader.getFindTextCriteria(vtd, sXpath, defaults);
+
+		// No matching value goes to contains which is not the default
+		bResult = ftc8.compare == defaults.compare;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ftc8.compare);
+
+		// No matching value goes to contains
+		bResult = ftc8.compare == Comparison.Contains;
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc8.compare, Comparison.Contains);
+
+		bResult = ftc8.value.equals(defaults.value);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(ftc8.value);
+
+		bResult = ftc8.value.equals("hH");
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc8.value, "hH");
+
+		results.logInfo("AllDefaultsUsed tests");
+		sXpath = "/data/FindTextCriteriaData/AllDefaultsUsed";
+		FindTextCriteria ftc9 = DataReader.getFindTextCriteria(vtd, sXpath, defaults);
+
+		bResult = ftc9.compare == defaults.compare;
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc9.compare, defaults.compare);
+
+		bResult = ftc9.value.equals(defaults.value);
+		if (!results.expectTrue(bResult))
+			results.logWarn(ftc9.value, defaults.value);
 
 		results.verify("Some unit tests failed.  See above for details.");
 		Controller.writeTestSuccessToLog("runFindTextCriteriaTests");
