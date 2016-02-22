@@ -7,11 +7,13 @@ import org.testng.annotations.Test;
 import com.automation.ui.common.dataStructures.AutoCompleteField;
 import com.automation.ui.common.dataStructures.CheckBox;
 import com.automation.ui.common.dataStructures.Comparison;
+import com.automation.ui.common.dataStructures.DropDown;
 import com.automation.ui.common.dataStructures.FindTextCriteria;
 import com.automation.ui.common.dataStructures.FindWebElementData;
 import com.automation.ui.common.dataStructures.GenericDate;
 import com.automation.ui.common.dataStructures.InputField;
 import com.automation.ui.common.dataStructures.Parameter;
+import com.automation.ui.common.dataStructures.Selection;
 import com.automation.ui.common.dataStructures.SelectionCriteria;
 import com.automation.ui.common.dataStructures.UploadFileData;
 import com.automation.ui.common.dataStructures.WebElementIndexOfMethod;
@@ -493,8 +495,316 @@ public class DataReaderTest {
 		Controller.writeTestIDtoLog("runDropDownTests");
 		TestResults results = new TestResults();
 
-		@SuppressWarnings("unused")
 		VTD_XML vtd = new VTD_XML(_TestXML);
+		String sXpath;
+		boolean bResult;
+
+		Selection using = Selection.Skip;
+		String option = "zzz";
+		int minIndex = 99;
+		boolean logAll = false;
+		DropDown defaults = new DropDown(using, option, minIndex, logAll);
+
+		sXpath = "/data/DropDown/NoDefaultsUsed1";
+		results.logInfo("No Defaults Used #1 Tests");
+
+		DropDown dd1 = DataReader.getDropDown(vtd, sXpath, defaults);
+		bResult = dd1.using == defaults.using;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd1.using);
+
+		bResult = dd1.option.equals(defaults.option);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd1.option);
+
+		bResult = dd1.minIndex == defaults.minIndex;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd1.minIndex);
+
+		bResult = dd1.logAll == defaults.logAll;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd1.logAll);
+
+		bResult = dd1.using == Selection.VisibleText;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd1.using, Selection.VisibleText);
+
+		bResult = dd1.option.equals("aa");
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd1.option, "aa");
+
+		bResult = dd1.minIndex == 22;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd1.minIndex, 22);
+
+		bResult = dd1.logAll == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd1.logAll, true);
+
+		sXpath = "/data/DropDown/NoDefaultsUsed2";
+		results.logInfo("No Defaults Used #2 Tests");
+
+		DropDown dd2 = DataReader.getDropDown(vtd, sXpath, defaults);
+		bResult = dd2.using == defaults.using;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd2.using);
+
+		bResult = dd2.option.equals(defaults.option);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd2.option);
+
+		bResult = dd2.minIndex == defaults.minIndex;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd2.minIndex);
+
+		bResult = dd2.logAll == defaults.logAll;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd2.logAll, defaults.logAll);
+
+		bResult = dd2.using == Selection.ValueHTML;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd2.using, Selection.ValueHTML);
+
+		bResult = dd2.option.equals("BB");
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd2.option, "BB");
+
+		bResult = dd2.minIndex == 33;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd2.minIndex, 33);
+
+		sXpath = "/data/DropDown/NoDefaultsUsed3";
+		results.logInfo("No Defaults Used #3 Tests");
+
+		DropDown dd3 = DataReader.getDropDown(vtd, sXpath, defaults);
+		bResult = dd3.using == defaults.using;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd3.using);
+
+		bResult = dd3.option.equals(defaults.option);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd3.option);
+
+		bResult = dd3.minIndex == defaults.minIndex;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd3.minIndex);
+
+		bResult = dd3.logAll == defaults.logAll;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd3.logAll);
+
+		bResult = dd3.using == Selection.Index;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd3.using, Selection.Index);
+
+		bResult = dd3.option.equals("cC");
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd3.option, "cC");
+
+		bResult = dd3.minIndex == 44;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd3.minIndex, 44);
+
+		bResult = dd3.logAll == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd3.logAll, true);
+
+		sXpath = "/data/DropDown/NoDefaultsUsed4";
+		results.logInfo("No Defaults Used #4 Tests");
+
+		DropDown dd4 = DataReader.getDropDown(vtd, sXpath, defaults);
+		bResult = dd4.using == defaults.using;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd4.using);
+
+		bResult = dd4.option.equals(defaults.option);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd4.option);
+
+		bResult = dd4.minIndex == defaults.minIndex;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd4.minIndex);
+
+		bResult = dd4.logAll == defaults.logAll;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd4.logAll);
+
+		bResult = dd4.using == Selection.RegEx;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd4.using, Selection.RegEx);
+
+		bResult = dd4.option.equals("Dd");
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd4.option, "Dd");
+
+		bResult = dd4.minIndex == 55;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd4.minIndex, 55);
+
+		bResult = dd4.logAll == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd4.logAll, true);
+
+		sXpath = "/data/DropDown/NoDefaultsUsed5";
+		results.logInfo("No Defaults Used #5 Tests");
+
+		DropDown dd5 = DataReader.getDropDown(vtd, sXpath, defaults);
+		bResult = dd5.option.equals(defaults.option);
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd5.option);
+
+		bResult = dd5.minIndex == defaults.minIndex;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd5.minIndex);
+
+		bResult = dd5.logAll == defaults.logAll;
+		if (!results.expectFalse(bResult))
+			results.logWarnUnexpectedEqual(dd5.logAll);
+
+		bResult = dd5.using == Selection.Skip;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd5.using, Selection.Skip);
+
+		bResult = dd5.option.equals("123");
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd5.option, "123");
+
+		bResult = dd5.minIndex == 66;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd5.minIndex, 66);
+
+		bResult = dd5.logAll == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd5.logAll, true);
+
+		sXpath = "/data/DropDown/AllDefaultsUsed";
+		results.logInfo("All Defaults Used Tests");
+		DropDown dd6 = DataReader.getDropDown(vtd, sXpath, defaults);
+
+		bResult = dd6.using == defaults.using;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd6.using, defaults.using);
+
+		bResult = dd6.option.equals(defaults.option);
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd6.option, defaults.option);
+
+		bResult = dd6.minIndex == defaults.minIndex;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd6.minIndex, defaults.minIndex);
+
+		bResult = dd6.logAll == defaults.logAll;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd6.logAll, defaults.logAll);
+
+		sXpath = "/data/DropDown/SomeDefaultsUsed1";
+		results.logInfo("Some Defaults Used #1 Tests");
+		DropDown dd7 = DataReader.getDropDown(vtd, sXpath, defaults);
+
+		bResult = dd7.using == Selection.VisibleText;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd7.using, Selection.VisibleText);
+
+		bResult = dd7.option.equals("abc");
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd7.option, "abc");
+
+		bResult = dd7.minIndex == defaults.minIndex;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd7.minIndex, defaults.minIndex);
+
+		bResult = dd7.logAll == defaults.logAll;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd7.logAll, defaults.logAll);
+
+		sXpath = "/data/DropDown/SomeDefaultsUsed2";
+		results.logInfo("Some Defaults Used #2 Tests");
+		DropDown dd8 = DataReader.getDropDown(vtd, sXpath, defaults);
+
+		bResult = dd8.using == defaults.using;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd8.using, defaults.using);
+
+		bResult = dd8.option.equals(defaults.option);
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd8.option, defaults.option);
+
+		bResult = dd8.minIndex == 77;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd8.minIndex, 77);
+
+		bResult = dd8.logAll == true;
+		if (!results.expectTrue(bResult))
+			results.logWarn(dd8.logAll, true);
+
+		sXpath = "/data/DropDown/List/DD/";
+		results.logInfo("List Tests");
+		int expectedSize = 8;
+		List<DropDown> dd9 = DataReader.getDropDowns(vtd, sXpath, defaults);
+
+		bResult = dd9.size() == expectedSize;
+		if (results.expectTrue(bResult))
+		{
+			bResult = dd1.equals(dd9.get(0));
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("dd1 issue");
+				results.logWarn(dd1, dd9.get(0));
+			}
+
+			bResult = dd2.equals(dd9.get(1));
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("dd2 issue");
+				results.logWarn(dd2, dd9.get(1));
+			}
+
+			bResult = dd3.equals(dd9.get(2));
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("dd3 issue");
+				results.logWarn(dd3, dd9.get(2));
+			}
+
+			bResult = dd4.equals(dd9.get(3));
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("dd4 issue");
+				results.logWarn(dd4, dd9.get(3));
+			}
+
+			bResult = dd5.equals(dd9.get(4));
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("dd5 issue");
+				results.logWarn(dd5, dd9.get(4));
+			}
+
+			bResult = dd6.equals(dd9.get(5));
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("dd6 issue");
+				results.logWarn(dd6, dd9.get(5));
+			}
+
+			bResult = dd7.equals(dd9.get(6));
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("dd7 issue");
+				results.logWarn(dd7, dd9.get(6));
+			}
+
+			bResult = dd8.equals(dd9.get(7));
+			if (!results.expectTrue(bResult))
+			{
+				results.logWarn("dd8 issue");
+				results.logWarn(dd8, dd9.get(7));
+			}
+		}
+		else
+		{
+			results.logWarn(expectedSize, dd9.size());
+		}
 
 		results.verify("Some unit tests failed.  See above for details.");
 		Controller.writeTestSuccessToLog("runDropDownTests");

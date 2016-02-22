@@ -33,6 +33,34 @@
 			<CheckBox />
 		</List>
 	</CheckBoxData>
+	<DropDown>
+		<NoDefaultsUsed1 Using="0" Option="aa" MinIndex="22" LogAll="true" />
+		<NoDefaultsUsed2 Using="1" Option="BB" MinIndex="33" LogAll="false" />
+		<NoDefaultsUsed3 Using="2" Option="cC" MinIndex="44" LogAll="true" />
+		<NoDefaultsUsed4 Using="3" Option="Dd" MinIndex="55" LogAll="true" />
+		<NoDefaultsUsed5 Using="4" Option="123" MinIndex="66" LogAll="true" />
+		<AllDefaultsUsed />
+		<SomeDefaultsUsed1 Using="0" Option="abc" />
+		<SomeDefaultsUsed2 MinIndex="77" LogAll="true" />
+		<List>
+			<!-- NoDefaultsUsed1 -->
+			<DD Using="0" Option="aa" MinIndex="22" LogAll="true" />
+			<!-- NoDefaultsUsed2 -->
+			<DD Using="1" Option="BB" MinIndex="33" LogAll="false" />
+			<!-- NoDefaultsUsed3 -->
+			<DD Using="2" Option="cC" MinIndex="44" LogAll="true" />
+			<!-- NoDefaultsUsed4 -->
+			<DD Using="3" Option="Dd" MinIndex="55" LogAll="true" />
+			<!-- NoDefaultsUsed5 -->
+			<DD Using="4" Option="123" MinIndex="66" LogAll="true" />
+			<!-- AllDefaultsUsed -->
+			<DD />
+			<!-- SomeDefaultsUsed1 -->
+			<DD Using="0" Option="abc" />
+			<!-- SomeDefaultsUsed2 -->
+			<DD MinIndex="77" LogAll="true" />
+		</List>
+	</DropDown>
 	<EncodedFieldData>
 		<EncodeTest1>qH2uHMpXkfJPQHkQRRrOgzTOHCNXGiUEMSwVDSeG0+rug9Iq0Zod+g==</EncodeTest1>
 		<EncodeTest2 Value="tuOPQLtk4/Ge+5gNPZsCZHDNrVh83GSRmNkfUaB19e0=" />
