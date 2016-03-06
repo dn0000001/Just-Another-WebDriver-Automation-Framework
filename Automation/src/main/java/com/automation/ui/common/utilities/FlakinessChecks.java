@@ -2,6 +2,7 @@ package com.automation.ui.common.utilities;
 
 import java.util.List;
 
+import org.apache.commons.lang.reflect.MethodUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -1135,6 +1136,63 @@ public class FlakinessChecks {
 		{
 			int count = Framework.getSelectedCount(driver, locators, selected);
 			boolean result = isComparisonMatch(value, count, option);
+			if (result)
+				return true;
+
+			Framework.sleep(poll);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Performs check using reflection<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) Method to be invoked takes no parameters<BR>
+	 * 2) Method to be invoked needs to return a value that can be parsed to boolean or method will never
+	 * return true<BR>
+	 * 3) Method needs to be non-static<BR>
+	 * 
+	 * @param obj - Object to invoke method
+	 * @param method - Method to be invoked
+	 * @return true if executing method using reflection returns true else false
+	 */
+	public <T> boolean isReflection(T obj, String method)
+	{
+		return isReflection(obj, method, null);
+	}
+
+	/**
+	 * Performs check using reflection<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) Method to be invoked takes at least 1 parameter<BR>
+	 * 2) If args is null, then method takes no parameters<BR>
+	 * 3) Method to be invoked needs to return a value that can be parsed to boolean or method will never
+	 * return true<BR>
+	 * 4) Method needs to be non-static<BR>
+	 * 
+	 * @param obj - Object to invoke method
+	 * @param method - Method to be invoked
+	 * @param args - Arguments for the method
+	 * @return true if executing method with specified arguments using reflection returns true else false
+	 */
+	public <T> boolean isReflection(T obj, String method, Object[] args)
+	{
+		ElapsedTime e = new ElapsedTime();
+		while (!e.isTimeout(timeout))
+		{
+			boolean result;
+			try
+			{
+				result = Conversion.parseBoolean(MethodUtils.invokeMethod(obj, method, args));
+			}
+			catch (Exception ex)
+			{
+				result = false;
+			}
+
 			if (result)
 				return true;
 

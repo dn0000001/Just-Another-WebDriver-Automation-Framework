@@ -39,4 +39,5 @@ public class ConfigJS {
 	public static String _GetTable = baseFolder + "GetTable.js";
 	public static String _GetDropDownOptions = baseFolder + "GetDropDownOptions.js";
 	public static String _SetDropDownByIndex = baseFolder + "SetDropDownByIndex.js";
+	public static String _ClearValue = baseFolder + "ClearValue.js";
 }

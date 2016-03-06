@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.validator.routines.checkdigit.ISINCheckDigit;
 import org.testng.annotations.Test;
 
 import com.automation.ui.common.dataStructures.Comparison;
@@ -19,6 +20,7 @@ import com.automation.ui.common.utilities.Cloner;
 import com.automation.ui.common.utilities.Compare;
 import com.automation.ui.common.utilities.Controller;
 import com.automation.ui.common.utilities.Conversion;
+import com.automation.ui.common.utilities.ISIN;
 import com.automation.ui.common.utilities.Logs;
 import com.automation.ui.common.utilities.Rand;
 import com.automation.ui.common.utilities.TestResults;
@@ -670,5 +672,34 @@ public class ResearchTest2 {
 		results.verify(pass, fail);
 
 		Controller.writeTestSuccessToLog("runComparisonTest");
+	}
+
+	@Test
+	public static void runISIN_Test()
+	{
+		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
+		Logs.initializeLoggers();
+		Controller.writeTestIDtoLog("runISIN_Test");
+
+		TestResults results = new TestResults();
+		boolean bResult;
+		String sWarning;
+
+		ISIN isin = new ISIN();
+		String code = isin.random();
+
+		bResult = code.length() == 12;
+		sWarning = "ISIN was not correct size";
+		if (!results.expectTrue(bResult, sWarning))
+			results.logWarn(12, code.length());
+
+		ISINCheckDigit icd = new ISINCheckDigit();
+		bResult = icd.isValid(code);
+		sWarning = "ISIN check digit was not valid:  " + code;
+		results.expectTrue(bResult, sWarning);
+
+		results.verify("Some unit tests failed.  See above for details.");
+
+		Controller.writeTestSuccessToLog("runISIN_Test");
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
 import ru.yandex.qatools.allure.annotations.Features;
@@ -26,6 +27,7 @@ import com.automation.ui.common.sampleProject.pages.PrimeFacesTable;
 import com.automation.ui.common.sampleProject.pages.PrimeFacesTableJS;
 import com.automation.ui.common.utilities.Controller;
 import com.automation.ui.common.utilities.Framework;
+import com.automation.ui.common.utilities.JS_Util;
 import com.automation.ui.common.utilities.Languages;
 import com.automation.ui.common.utilities.Logs;
 import com.automation.ui.common.utilities.Misc;
@@ -38,6 +40,8 @@ import com.automation.ui.common.utilities.Verify;
  */
 public class ComponentsTest {
 	private static final boolean run = false;
+	private static final String _Browser = "IE";
+	private static final String _DriverExecutable = "C:\\_Libraries\\IEDriverServer.exe";
 
 	/**
 	 * Used to test that no issues setting driver after initialization in a static final object
@@ -196,7 +200,7 @@ public class ComponentsTest {
 		Controller.writeTestIDtoLog("runPrimefaces_OverlayTest");
 
 		BasicTestContext context = new BasicTestContext();
-		context.setBrowserRelated("IE", "C:\\_Libraries\\IEDriverServer.exe", "",
+		context.setBrowserRelated(_Browser, _DriverExecutable, "",
 				"http://www.primefaces.org/showcase/ui/overlay/confirmDialog.xhtml");
 		WebDriver driver = context.getDriver();
 		Framework.get(driver, context.getURL());
@@ -249,7 +253,7 @@ public class ComponentsTest {
 		Controller.writeTestIDtoLog("runPrimefaces_RadioTest");
 
 		BasicTestContext context = new BasicTestContext();
-		context.setBrowserRelated("IE", "C:\\_Libraries\\IEDriverServer.exe", "",
+		context.setBrowserRelated(_Browser, _DriverExecutable, "",
 				"http://www.primefaces.org/showcase/ui/input/oneRadio.xhtml");
 		WebDriver driver = context.getDriver();
 		Framework.get(driver, context.getURL());
@@ -285,7 +289,7 @@ public class ComponentsTest {
 		Controller.writeTestIDtoLog("runPrimefaces_CheckBoxTest");
 
 		BasicTestContext context = new BasicTestContext();
-		context.setBrowserRelated("IE", "C:\\_Libraries\\IEDriverServer.exe", "",
+		context.setBrowserRelated(_Browser, _DriverExecutable, "",
 				"http://www.primefaces.org/showcase/ui/input/manyCheckbox.xhtml");
 		WebDriver driver = context.getDriver();
 		Framework.get(driver, context.getURL());
@@ -338,7 +342,7 @@ public class ComponentsTest {
 		Controller.writeTestIDtoLog("runPrimefaces_InputFieldTest");
 
 		BasicTestContext context = new BasicTestContext();
-		context.setBrowserRelated("IE", "C:\\_Libraries\\IEDriverServer.exe", "",
+		context.setBrowserRelated(_Browser, _DriverExecutable, "",
 				"http://www.primefaces.org/showcase/ui/input/inputText.xhtml");
 		WebDriver driver = context.getDriver();
 		Framework.get(driver, context.getURL());
@@ -350,8 +354,18 @@ public class ComponentsTest {
 		GenericFields fields = new GenericFields(driver);
 		fields.addInputField(Radio.DEFAULT, sLoc_Input, "The Field", true, true);
 
+		// Use GenericFields
 		InputField value = new InputField(Rand.alphanumeric(1, 10));
-		fields.fill(Radio.DEFAULT, value);
+		WebElement element = fields.fill(Radio.DEFAULT, value);
+
+		// Manually clear using JavaScript
+		InputField empty = new InputField("");
+		JS_Util.clearField(element);
+		Verify.inputField(element, fields.getLog(Radio.DEFAULT), empty);
+
+		// Only enter field
+		Framework.onlyEnterField(element, fields.getLog(Radio.DEFAULT), value);
+		Verify.inputField(element, fields.getLog(Radio.DEFAULT), value);
 
 		context.quitBrowser();
 		Controller.writeTestSuccessToLog("runPrimefaces_InputFieldTest");
@@ -365,7 +379,7 @@ public class ComponentsTest {
 		Controller.writeTestIDtoLog("runPrimefaces_AutoCompleteTest");
 
 		BasicTestContext context = new BasicTestContext();
-		context.setBrowserRelated("IE", "C:\\_Libraries\\IEDriverServer.exe", "",
+		context.setBrowserRelated(_Browser, _DriverExecutable, "",
 				"http://www.primefaces.org/showcase/ui/input/autoComplete.xhtml");
 		WebDriver driver = context.getDriver();
 		Framework.get(driver, context.getURL());
@@ -396,8 +410,7 @@ public class ComponentsTest {
 		Controller.writeTestIDtoLog("runPrimefaces_DropDownTest");
 
 		BasicTestContext context = new BasicTestContext();
-		context.setBrowserRelated("IE", "C:\\_Libraries\\IEDriverServer.exe", "",
-				"http://www.truenorthhockey.com/");
+		context.setBrowserRelated(_Browser, _DriverExecutable, "", "http://www.truenorthhockey.com/");
 		WebDriver driver = context.getDriver();
 		Framework.get(driver, context.getURL());
 
@@ -424,7 +437,7 @@ public class ComponentsTest {
 		Controller.writeTestIDtoLog("runPrimefaces_DropDownClickTest");
 
 		BasicTestContext context = new BasicTestContext();
-		context.setBrowserRelated("IE", "C:\\_Libraries\\IEDriverServer.exe", "",
+		context.setBrowserRelated(_Browser, _DriverExecutable, "",
 				"http://www.primefaces.org/showcase/ui/input/autoComplete.xhtml");
 		WebDriver driver = context.getDriver();
 		Framework.get(driver, context.getURL());
@@ -457,7 +470,7 @@ public class ComponentsTest {
 		Controller.writeTestIDtoLog("runPrimefaces_CheckBoxClickTest");
 
 		BasicTestContext context = new BasicTestContext();
-		context.setBrowserRelated("IE", "C:\\_Libraries\\IEDriverServer.exe", "",
+		context.setBrowserRelated(_Browser, _DriverExecutable, "",
 				"http://www.primefaces.org/showcase/ui/input/manyCheckbox.xhtml");
 		WebDriver driver = context.getDriver();
 		Framework.get(driver, context.getURL());
@@ -497,7 +510,7 @@ public class ComponentsTest {
 		Controller.writeTestIDtoLog("runPrimefaces_TableTest");
 
 		BasicTestContext context = new BasicTestContext();
-		context.setBrowserRelated("IE", "C:\\_Libraries\\IEDriverServer.exe", "",
+		context.setBrowserRelated(_Browser, _DriverExecutable, "",
 				"http://www.primefaces.org/showcase/ui/data/datatable/basic.xhtml");
 		WebDriver driver = context.getDriver();
 		Framework.get(driver, context.getURL());

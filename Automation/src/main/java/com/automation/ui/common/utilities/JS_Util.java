@@ -61,6 +61,7 @@ public class JS_Util {
 	private static final String _JS_GetTable = Misc.readFile(ConfigJS._GetTable);
 	private static final String _JS_GetDropDownOptions = Misc.readFile(ConfigJS._GetDropDownOptions);
 	private static final String _JS_SetDropDown = Misc.readFile(ConfigJS._SetDropDownByIndex);
+	private static final String _JS_ClearValue = Misc.readFile(ConfigJS._ClearValue);
 
 	/**
 	 * Selects check box if unselected using JavaScript
@@ -1137,5 +1138,17 @@ public class JS_Util {
 	public static void dropDownSelect(WebElement dropdown, String sLog, DropDown dd)
 	{
 		dropDownSelection(dropdown, sLog, dd, LogErrorLevel.ERROR);
+	}
+
+	/**
+	 * Clear field
+	 * 
+	 * @param element - Element to clear
+	 * @return true if successful else false
+	 */
+	public static boolean clearField(WebElement element)
+	{
+		WebDriver driver = Framework.getWebDriver(element);
+		return Conversion.parseBoolean(JS_Util.execute(_JS_ClearValue, driver, element));
 	}
 }

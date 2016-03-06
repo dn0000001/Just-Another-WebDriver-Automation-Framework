@@ -2210,10 +2210,11 @@ public class AJAX {
 	 * @param bException - true if you want an exception thrown in the case that AJAX does not complete before
 	 *            timeout occurs
 	 * @param value - Object contains information on if to enter field and value to enter if necessary
+	 * @param clear - true to clear field before entering value
 	 * @return true if successful else false
 	 */
 	private static boolean enterField(WebElement element, String sLog, WebElement ajax, int nMaxWaitTime,
-			boolean bException, InputField value)
+			boolean bException, InputField value, boolean clear)
 	{
 		String sCurrentValue = Conversion.nonNull(Framework.getAttribute(element, Framework.getInputAttr()));
 		if (value == null || !value.modifyField())
@@ -2232,7 +2233,10 @@ public class AJAX {
 		else
 		{
 			// Enter field
-			Framework.enterField(element, sLog, value);
+			if (clear)
+				Framework.enterField(element, sLog, value);
+			else
+				Framework.onlyEnterField(element, sLog, value);
 
 			// TAB away from the field to generate AJAX call
 			try
@@ -2278,7 +2282,7 @@ public class AJAX {
 	 */
 	public static void enterField(WebElement element, String sLog, WebElement ajax, InputField value)
 	{
-		enterField(element, sLog, ajax, Framework.getTimeoutInMilliseconds(), bException, value);
+		enterField(element, sLog, ajax, Framework.getTimeoutInMilliseconds(), bException, value, true);
 	}
 
 	/**
@@ -2294,15 +2298,14 @@ public class AJAX {
 	public static void enterField(WebElement element, String sLog, WebElement ajax, int nMaxWaitTime,
 			InputField value)
 	{
-		enterField(element, sLog, ajax, nMaxWaitTime, bException, value);
+		enterField(element, sLog, ajax, nMaxWaitTime, bException, value, true);
 	}
 
 	/**
 	 * Clears & enters the value into the field and TABs off to generate AJAX call and waits for the AJAX call<BR>
 	 * <BR>
 	 * <B>Notes:</B><BR>
-	 * 1) At least waiting for 1 refresh always occurs regardless of refreshes specified<BR>
-	 * to complete
+	 * 1) At least waiting for 1 refresh always occurs regardless of refreshes specified to complete<BR>
 	 * 
 	 * @param driver - Web Driver
 	 * @param sLocator - Locator for input element
@@ -2323,7 +2326,7 @@ public class AJAX {
 			{
 				WebElement element = Framework.findElement(driver, sLocator, false);
 				WebElement ajax = Framework.findElement(driver, sLoc_AJAX, false);
-				if (enterField(element, sLog, ajax, nMaxWaitTime, false, value))
+				if (enterField(element, sLog, ajax, nMaxWaitTime, false, value, true))
 				{
 					if (refreshes > 1)
 					{
@@ -2827,5 +2830,107 @@ public class AJAX {
 
 		String sError = "Node (" + sTempUniqueNode + ") was not removed from the DOM before timeout occurred";
 		Logs.logError(new GenericActionNotCompleteException(sError));
+	}
+
+	/**
+	 * Only enters the value into the field and TABs off to generate AJAX call and waits for the AJAX call to
+	 * complete
+	 * 
+	 * @param element - Input field element
+	 * @param sLog - Element name to log
+	 * @param ajax - Element that is refreshed once AJAX request is complete
+	 * @param value - Object contains information on if to enter field and value to enter if necessary
+	 */
+	public static void onlyEnterField(WebElement element, String sLog, WebElement ajax, InputField value)
+	{
+		enterField(element, sLog, ajax, Framework.getTimeoutInMilliseconds(), bException, value, false);
+	}
+
+	/**
+	 * Only enters the value into the field and TABs off to generate AJAX call and waits for the AJAX call to
+	 * complete
+	 * 
+	 * @param element - Input field element
+	 * @param sLog - Element name to log
+	 * @param ajax - Element that is refreshed once AJAX request is complete
+	 * @param nMaxWaitTime - Max Time (milliseconds) to wait until element is refreshed
+	 * @param value - Object contains information on if to enter field and value to enter if necessary
+	 */
+	public static void onlyEnterField(WebElement element, String sLog, WebElement ajax, int nMaxWaitTime,
+			InputField value)
+	{
+		enterField(element, sLog, ajax, nMaxWaitTime, bException, value, false);
+	}
+
+	/**
+	 * Only enters the value into the field and TABs off to generate AJAX call and waits for the AJAX call<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) At least waiting for 1 refresh always occurs regardless of refreshes specified to complete<BR>
+	 * 
+	 * @param driver - Web Driver
+	 * @param sLocator - Locator for input element
+	 * @param sLog - Element name to log
+	 * @param sLoc_AJAX - Locator for element that is refreshed once AJAX request is complete
+	 * @param nMaxWaitTime - Max Time (milliseconds) to wait until element is refreshed
+	 * @param retries - Number of times to retry if any exception occurs
+	 * @param refreshes - Number of times to wait for the AJAX element to refresh
+	 * @param value - Object contains information on if to enter field and value to enter if necessary
+	 */
+	public static void onlyEnterField(WebDriver driver, String sLocator, String sLog, String sLoc_AJAX,
+			int nMaxWaitTime, int retries, int refreshes, InputField value)
+	{
+		int attempts = 0;
+		while (true)
+		{
+			try
+			{
+				WebElement element = Framework.findElement(driver, sLocator, false);
+				WebElement ajax = Framework.findElement(driver, sLoc_AJAX, false);
+				if (enterField(element, sLog, ajax, nMaxWaitTime, false, value, false))
+				{
+					if (refreshes > 1)
+					{
+						try
+						{
+							Framework.waitForElementRefresh(driver, sLoc_AJAX, sLog, nMaxWaitTime,
+									refreshes - 1);
+						}
+						catch (Exception e1)
+						{
+							// Method has already logged the exception
+							throw new ElementRefreshException("");
+						}
+					}
+
+					return;
+				}
+				else
+					throw new GenericActionNotCompleteException("Action was not successful");
+			}
+			catch (ElementRefreshException ere)
+			{
+				// Method has already logged the exception
+				throw ere;
+			}
+			catch (Exception ex)
+			{
+				// Increment the number of attempts
+				attempts++;
+
+				// If the number of attempts is greater than the retries specified, then log error and throw
+				// exception
+				if (attempts > retries)
+				{
+					String sError = "Clearing & Entering value into Element ('" + sLog
+							+ "') was not successful after " + attempts + " attempts";
+					Logs.logError(new EnterFieldNoSuchElementException(sError));
+				}
+				else
+				{
+					Framework.sleep(Framework.getPollInterval());
+				}
+			}
+		}
 	}
 }
