@@ -121,10 +121,13 @@ public class SessionServer {
 			System.out.println("node1 - The node to perform clean up on");
 			System.out.println("");
 			System.out.println("Examples:");
-			System.out.println("1)  Infinite connections allowed:  Server 4000 0 1 http://127.0.0.1:4444");
-			System.out.println("2)  Max 100 connections allowed:  Server 4000 100 1 http://127.0.0.1:4444");
-			System.out.println("3)  Multiple Nodes:  Server 4000 0 1 http://127.0.0.1:4444 http://test.com");
-			System.out.println("4)  Cleanup every 10m:  Server 4000 0 10 http://127.0.0.1:4444");
+			System.out
+					.println("1)  Infinite connections allowed:  SessionServer 4000 0 1 http://127.0.0.1:4444");
+			System.out
+					.println("2)  Max 100 connections allowed:  SessionServer 4000 100 1 http://127.0.0.1:4444");
+			System.out
+					.println("3)  Multiple Nodes:  SessionServer 4000 0 1 http://127.0.0.1:4444 http://test.com");
+			System.out.println("4)  Cleanup every 10m:  SessionServer 4000 0 10 http://127.0.0.1:4444");
 			System.exit(1);
 		}
 

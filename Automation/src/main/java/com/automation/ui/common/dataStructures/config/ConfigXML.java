@@ -33,6 +33,7 @@ public class ConfigXML {
 	public static final String hubURL = "Grid/HubURL";
 	public static final String platform = "Grid/Platform";
 	public static final String version = "Grid/Version";
+	public static final String applicationName = "Grid/ApplicationName";
 
 	//
 	// Session Server variabled nodes

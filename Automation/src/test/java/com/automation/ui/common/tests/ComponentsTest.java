@@ -42,6 +42,10 @@ public class ComponentsTest {
 	private static final boolean run = false;
 	private static final String _Browser = "IE";
 	private static final String _DriverExecutable = "C:\\_Libraries\\IEDriverServer.exe";
+	private static final String _HubURL = "http://192.168.1.204:4444/wd/hub";
+	private static final String _Platform = "WINDOWS";
+	private static final String _Version = "";
+	private static final String _ApplicationName = "192.168.1.204";
 
 	/**
 	 * Used to test that no issues setting driver after initialization in a static final object
@@ -540,5 +544,27 @@ public class ComponentsTest {
 
 		context.quitBrowser();
 		Controller.writeTestSuccessToLog("runPrimefaces_TableTest");
+	}
+
+	@Test(enabled = false)
+	public static void runGridHostTest() throws Exception
+	{
+		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
+		Logs.initializeLoggers();
+		Controller.writeTestIDtoLog("runGridHostTest");
+
+		BasicTestContext context = new BasicTestContext();
+		context.setBrowserRelated(_Browser, _DriverExecutable, "",
+				"http://www.primefaces.org/showcase/ui/data/datatable/basic.xhtml");
+		context.setGrid(_HubURL, _Platform, _Version, _ApplicationName);
+
+		// context.setSessionServer("192.168.1.204", 6665);
+		// Logs.log.info("Context:  " + context);
+
+		WebDriver driver = context.getDriver();
+		Framework.get(driver, context.getURL());
+
+		context.quitBrowser();
+		Controller.writeTestSuccessToLog("runGridHostTest");
 	}
 }

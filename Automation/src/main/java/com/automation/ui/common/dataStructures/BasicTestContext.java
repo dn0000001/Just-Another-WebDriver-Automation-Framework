@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Dimension;
@@ -24,6 +25,7 @@ import com.automation.ui.common.exceptions.GenericUnexpectedException;
 import com.automation.ui.common.sessions.SessionClient;
 import com.automation.ui.common.sessions.SessionServer;
 import com.automation.ui.common.utilities.Cloner;
+import com.automation.ui.common.utilities.Compare;
 import com.automation.ui.common.utilities.Conversion;
 import com.automation.ui.common.utilities.CryptoDESede;
 import com.automation.ui.common.utilities.Database;
@@ -87,6 +89,7 @@ public class BasicTestContext {
 	protected String sHubURL;
 	protected String sPlatform;
 	protected String sVersion;
+	protected String sApplicationName;
 
 	// Session Server variables
 	protected String sSessionServer;
@@ -131,7 +134,7 @@ public class BasicTestContext {
 		setUniqueID("");
 		setBrowserRelated("IE", "", "", "");
 		setDelays(5, Framework.getTimeout(), Framework.getPollInterval(), 5, 4);
-		setGrid("", "", "");
+		setGrid("", "", "", "");
 		setDatabase("", "", "", "", false, Database.getDefaultPort(), DB_Type.SQL_Server);
 		setScreenshot(false, "", "");
 		setAJAX(5, 3000);
@@ -157,6 +160,7 @@ public class BasicTestContext {
 	 * @param sHubURL - HUB URL
 	 * @param sPlatform - Platform
 	 * @param sVersion - Version (of Browser for test)
+	 * @param sApplicationName - Application Name (of Browser for test)
 	 * @param sDB_Server - DB Server
 	 * @param sDB - Database Name
 	 * @param sDB_User - Username to use to connect
@@ -173,10 +177,10 @@ public class BasicTestContext {
 	public BasicTestContext(String sUniqueID, String sBrowser, String sDriverPath, String sBrowserProfile,
 			String sUrl, int nPageTimeout, int nElementTimeout, int nPollInterval, int nMaxTimeout,
 			int nMultiplierTimeout, int nAJAX_Retries, int nAJAX_Stable, String sHubURL, String sPlatform,
-			String sVersion, String sDB_Server, String sDB, String sDB_User, String sDB_Password,
-			boolean bEncodedPassword, int nDB_Port, DB_Type _DB_Type, boolean bScreenshotsEnabled,
-			String sScreenshotFolder, String sScreenshotPrefixName, String sSessionServer,
-			int nSessionServerPort)
+			String sVersion, String sApplicationName, String sDB_Server, String sDB, String sDB_User,
+			String sDB_Password, boolean bEncodedPassword, int nDB_Port, DB_Type _DB_Type,
+			boolean bScreenshotsEnabled, String sScreenshotFolder, String sScreenshotPrefixName,
+			String sSessionServer, int nSessionServerPort)
 	{
 		this();
 
@@ -186,7 +190,7 @@ public class BasicTestContext {
 		setUniqueID(sUniqueID);
 		setBrowserRelated(sBrowser, sDriverPath, sBrowserProfile, sUrl);
 		setDelays(nPageTimeout, nElementTimeout, nPollInterval, nMaxTimeout, nMultiplierTimeout);
-		setGrid(sHubURL, sPlatform, sVersion);
+		setGrid(sHubURL, sPlatform, sVersion, sApplicationName);
 		setDatabase(sDB_Server, sDB, sDB_User, sDB_Password, bEncodedPassword, nDB_Port, _DB_Type);
 		setScreenshot(bScreenshotsEnabled, sScreenshotFolder, sScreenshotPrefixName);
 		setAJAX(nAJAX_Retries, nAJAX_Stable);
@@ -305,12 +309,14 @@ public class BasicTestContext {
 	 * @param sHubURL - HUB URL
 	 * @param sPlatform - Platform
 	 * @param sVersion - Version (of Browser for test)
+	 * @param sApplicationName - Application Name (of Browser for test)
 	 */
-	public void setGrid(String sHubURL, String sPlatform, String sVersion)
+	public void setGrid(String sHubURL, String sPlatform, String sVersion, String sApplicationName)
 	{
 		this.sHubURL = sHubURL;
 		this.sPlatform = sPlatform;
 		this.sVersion = sVersion;
+		this.sApplicationName = sApplicationName;
 	}
 
 	/**
@@ -611,18 +617,23 @@ public class BasicTestContext {
 
 		// Flag to indicate a pending session was added successfully
 		boolean bPending = false;
-		try
+
+		// Only add pending session if valid session server
+		if (!Compare.equals(sSessionServer, "", Comparison.Equal))
 		{
-			// Add pending session to prevent cleanup task from running
-			sc.addPendingSession();
-			bPending = true;
-		}
-		catch (Exception ex)
-		{
-			Logs.log.warn("Adding Pending Session failed.  Session Server (" + sSessionServer + ") & Port ("
-					+ nSessionServerPort + ")");
-			Logs.log.warn("Exception:  " + ex);
-			bPending = false;
+			try
+			{
+				// Add pending session to prevent cleanup task from running
+				sc.addPendingSession();
+				bPending = true;
+			}
+			catch (Exception ex)
+			{
+				Logs.log.warn("Adding Pending Session failed.  Session Server (" + sSessionServer
+						+ ") & Port (" + nSessionServerPort + ")");
+				Logs.log.warn("Exception:  " + ex);
+				bPending = false;
+			}
 		}
 
 		DesiredCapabilities cap = null;
@@ -631,18 +642,12 @@ public class BasicTestContext {
 		{
 			cap = DesiredCapabilities.firefox();
 			cap.setBrowserName(DesiredCapabilities.firefox().getBrowserName());
-			cap.setPlatform(getPlatform());
-			cap.setVersion(sVersion);
-
-			FirefoxProfile profile = getFirefoxProfileToUse();
-			cap.setCapability(FirefoxDriver.PROFILE, profile);
+			cap.setCapability(FirefoxDriver.PROFILE, getFirefoxProfileToUse());
 		}
 		else if (Browser.Chrome == Browser.to(sBrowser))
 		{
 			cap = DesiredCapabilities.chrome();
 			cap.setBrowserName(DesiredCapabilities.chrome().getBrowserName());
-			cap.setPlatform(getPlatform());
-			cap.setVersion(sVersion);
 			cap.setCapability(ChromeOptions.CAPABILITY, getChromeOptions());
 		}
 		else
@@ -650,9 +655,12 @@ public class BasicTestContext {
 			cap = DesiredCapabilities.internetExplorer();
 			cap.setCapability("useLegacyInternalServer", true);
 			cap.setBrowserName(DesiredCapabilities.internetExplorer().getBrowserName());
-			cap.setPlatform(getPlatform());
-			cap.setVersion(sVersion);
 		}
+
+		// Common for all browsers
+		cap.setPlatform(getPlatform());
+		cap.setVersion(sVersion);
+		cap.setCapability("applicationName", sApplicationName);
 
 		try
 		{
@@ -661,17 +669,21 @@ public class BasicTestContext {
 			updateSessionInfo.remoteHost = getHostOfNode((RemoteWebDriver) driver, sHubURL);
 			Logs.log.info("Remote Host:  " + updateSessionInfo.remoteHost);
 
-			try
+			// Only add session if valid session server
+			if (!Compare.equals(sSessionServer, "", Comparison.Equal))
 			{
-				// Add session to prevent cleanup task from running on this node
-				URL node = new URL(updateSessionInfo.remoteHost);
-				sc.addSession(SessionServer.formatNode(node));
-				updateSessionInfo.addedToSessionServer = true;
-			}
-			catch (Exception ex)
-			{
-				Logs.log.warn("Adding Session failed for node:  " + updateSessionInfo.remoteHost);
-				Logs.log.warn("Exception:  " + ex);
+				try
+				{
+					// Add session to prevent cleanup task from running on this node
+					URL node = new URL(updateSessionInfo.remoteHost);
+					sc.addSession(SessionServer.formatNode(node));
+					updateSessionInfo.addedToSessionServer = true;
+				}
+				catch (Exception ex)
+				{
+					Logs.log.warn("Adding Session failed for node:  " + updateSessionInfo.remoteHost);
+					Logs.log.warn("Exception:  " + ex);
+				}
 			}
 		}
 		catch (Exception ex)
@@ -690,19 +702,23 @@ public class BasicTestContext {
 		}
 		finally
 		{
-			try
+			// Only remove pending session if valid session server
+			if (!Compare.equals(sSessionServer, "", Comparison.Equal))
 			{
-				// Remove pending session to allow the cleanup task to run
-				if (bPending)
-					sc.removePendingSession();
-				else
-					Logs.log.warn("Pending Flag was not set as such not removing pending session");
-			}
-			catch (Exception ex)
-			{
-				Logs.log.warn("Removing Pending Session failed.  Session Server (" + sSessionServer
-						+ ") & Port (" + nSessionServerPort + ")");
-				Logs.log.warn("Exception:  " + ex);
+				try
+				{
+					// Remove pending session to allow the cleanup task to run
+					if (bPending)
+						sc.removePendingSession();
+					else
+						Logs.log.warn("Pending Flag was not set as such not removing pending session");
+				}
+				catch (Exception ex)
+				{
+					Logs.log.warn("Removing Pending Session failed.  Session Server (" + sSessionServer
+							+ ") & Port (" + nSessionServerPort + ")");
+					Logs.log.warn("Exception:  " + ex);
+				}
 			}
 		}
 	}
@@ -824,7 +840,7 @@ public class BasicTestContext {
 		}
 
 		// Note: For local execution, session track is not needed
-		if (!sSessionServer.equals("") && nSessionServerPort > 0)
+		if (!Compare.equals(sSessionServer, "", Comparison.Equal) && nSessionServerPort > 0)
 		{
 			// Used to send the requests to the session server that tracks for cleanup purposes
 			SessionClient sc = new SessionClient(sSessionServer, nSessionServerPort);
@@ -931,14 +947,10 @@ public class BasicTestContext {
 
 			/*
 			 * Parse the JSON response
-			 * Steps:
-			 * 1) Break into 2 pieces based on the variable we want ',"proxyId":"' and the variable we will be
-			 * looking for is in the 2nd element in the array
-			 * 2) Extract just the host by splitting on '","' and it is the 1st element in the array
 			 */
-			String[] parse1 = sResponse.split(",\"proxyId\":\"");
-			String[] parse2 = parse1[1].split("\",\"");
-			return parse2[0];
+			Map<String, Object> sessionDetails = WS_Util.toMap(sResponse);
+			String proxyID = Conversion.nonNull(sessionDetails.get("proxyId"));
+			return proxyID;
 		}
 		catch (Exception ex)
 		{
@@ -967,7 +979,7 @@ public class BasicTestContext {
 		btc.setUniqueID(sUniqueID);
 		btc.setBrowserRelated(sBrowser, sDriverPath, sBrowserProfile, sUrl);
 		btc.setDelays(nPageTimeout, nElementTimeout, nPollInterval, nMaxTimeout, nMultiplierTimeout);
-		btc.setGrid(sHubURL, sPlatform, sVersion);
+		btc.setGrid(sHubURL, sPlatform, sVersion, sApplicationName);
 		btc.setDatabase(sDB_Server, sDB, sDB_User, sDB_Password, nDB_Port, _DB_Type);
 		btc.setScreenshot(bScreenshotsEnabled, sScreenshotFolder, sScreenshotPrefixName);
 		btc.setAJAX(nAJAX_Retries, nAJAX_Stable);
@@ -1164,6 +1176,16 @@ public class BasicTestContext {
 	}
 
 	/**
+	 * Get the Grid Application Name
+	 * 
+	 * @return sApplicationName
+	 */
+	public String getGridApplicationName()
+	{
+		return sApplicationName;
+	}
+
+	/**
 	 * Get the Session Server
 	 * 
 	 * @return sSessionServer
@@ -1247,7 +1269,7 @@ public class BasicTestContext {
 				+ "', 'Stable':'" + nAJAX_Stable + "', " + sLog_SessionInfo + "}";
 
 		sLog_Grid = "'Grid':{'HUB':'" + sHubURL + "', 'Platform':'" + sPlatform + "', 'Version':'" + sVersion
-				+ "'}";
+				+ "', 'Application Name':'" + sApplicationName + "'}";
 
 		sLog_Sessions = "'Sessions':{'Server':'" + sSessionServer + "', 'Port':'" + nSessionServerPort + "'}";
 

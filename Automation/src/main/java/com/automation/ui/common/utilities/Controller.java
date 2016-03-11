@@ -197,6 +197,8 @@ public class Controller {
 					xml.getNodeValue(ConfigRun.CONFIG_ROOT_XPATH + ConfigXML.platform, ""));
 			String sVersion = Misc.getProperty(RuntimeProperty.grid_browser_version,
 					xml.getNodeValue(ConfigRun.CONFIG_ROOT_XPATH + ConfigXML.version, ""));
+			String sApplicationName = Misc.getProperty(RuntimeProperty.grid_browser_applicationName,
+					xml.getNodeValue(ConfigRun.CONFIG_ROOT_XPATH + ConfigXML.applicationName, ""));
 
 			// Session Server variables
 			String sSessionServer = Misc.getProperty(RuntimeProperty.sessions_server,
@@ -284,7 +286,7 @@ public class Controller {
 			primaryContext.setBrowserRelated(sBrowser, sDriverPath, sBrowserProfile, sUrl);
 			primaryContext.setDelays(nPageTimeout, nElementTimeout, nPollInterval, nMaxTimeout,
 					nMultiplierTimeout);
-			primaryContext.setGrid(sHubURL, sPlatform, sVersion);
+			primaryContext.setGrid(sHubURL, sPlatform, sVersion, sApplicationName);
 			primaryContext.setDatabase(sDB_Server, sDB, sDB_User, sDB_Password, nDB_Port, _DB_Type);
 			primaryContext.setScreenshot(bScreenshotsEnabled, sScreenshotFolder, sScreenshotPrefixName);
 			primaryContext.setAJAX(nAJAX_Retries, nAJAX_Stable);
@@ -344,6 +346,8 @@ public class Controller {
 				String hubURL = xml.getNodeValue(sXpath + ConfigXML.hubURL, sHubURL);
 				String platform = xml.getNodeValue(sXpath + ConfigXML.platform, sPlatform);
 				String version = xml.getNodeValue(sXpath + ConfigXML.version, sVersion);
+				String applicationName = xml.getNodeValue(sXpath + ConfigXML.applicationName,
+						sApplicationName);
 
 				String sessionServer = xml.getNodeValue(sXpath + ConfigXML.sessionServer, sSessionServer);
 				int sessionServerPort = xml.getNodeValue(sXpath + ConfigXML.sessionServerPort,
@@ -398,7 +402,7 @@ public class Controller {
 				BasicTestContext addContext = new BasicTestContext();
 				addContext.setBrowserRelated(browser, driverPath, browserProfile, url);
 				addContext.setDelays(pageTimeout, elementTimeout, pollInterval, maxTimeout, multiplier);
-				addContext.setGrid(hubURL, platform, version);
+				addContext.setGrid(hubURL, platform, version, applicationName);
 				addContext.setDatabase(_DB_Server, _DB, _DB_User, _DB_Password, _DB_Port, _DB_Type2);
 				addContext.setScreenshot(screenshotsEnabled, screenshotFolder, screenshotPrefixName);
 				addContext.setAJAX(_AJAX_Retries, _AJAX_Stable);
@@ -947,6 +951,8 @@ public class Controller {
 				configDefaults.getGridPlatform());
 		String sVersion = Misc.getProperty(base + RuntimeProperty.grid_browser_version,
 				configDefaults.getGridVersion());
+		String sApplicationName = Misc.getProperty(RuntimeProperty.grid_browser_applicationName,
+				configDefaults.getGridApplicationName());
 
 		String sSessionServer = Misc.getProperty(base + RuntimeProperty.sessions_server,
 				configDefaults.getSessionServer());
@@ -1010,7 +1016,7 @@ public class Controller {
 		BasicTestContext useContext = new BasicTestContext();
 		useContext.setBrowserRelated(sBrowser, sDriverPath, sBrowserProfile, sUrl);
 		useContext.setDelays(nPageTimeout, nElementTimeout, nPollInterval, nMaxTimeout, nMultiplierTimeout);
-		useContext.setGrid(sHubURL, sPlatform, sVersion);
+		useContext.setGrid(sHubURL, sPlatform, sVersion, sApplicationName);
 		useContext.setDatabase(sDB_Server, sDB, sDB_User, sDB_Password, nDB_Port, _DB_Type);
 		useContext.setScreenshot(bScreenshotsEnabled, sScreenshotFolder, sScreenshotPrefixName);
 		useContext.setAJAX(nAJAX_Retries, nAJAX_Stable);

@@ -25,6 +25,7 @@ public class RuntimeProperty {
 	public static final String grid_hub = "grid.hub";
 	public static final String grid_browser_platform = "grid.browser.platform";
 	public static final String grid_browser_version = "grid.browser.version";
+	public static final String grid_browser_applicationName = "grid.browser.applicationName";
 
 	public static final String sessions_server = "sessions.server";
 	public static final String sessions_port = "sessions.port";

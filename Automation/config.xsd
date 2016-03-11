@@ -71,6 +71,8 @@
 			<xs:element name="Platform" type="xs:string" minOccurs="0" />
 			<!-- Browser Version to use -->
 			<xs:element name="Version" type="xs:string" minOccurs="0" />
+			<!-- Application Name to use -->
+			<xs:element name="ApplicationName" type="xs:string" minOccurs="0" />
 		</xs:all>
 	</xs:group>
 	<xs:group name="External">
