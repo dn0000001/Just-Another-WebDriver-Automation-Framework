@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -753,6 +754,20 @@ public class WS_Util {
 					+ "]:  " + ex.getMessage();
 			Logs.logError(sError);
 			return null;
+		}
+	}
+
+	/**
+	 * Set Request Property
+	 * 
+	 * @param connection - Connection
+	 * @param headers - List of headers
+	 */
+	public static void setRequestProperty(URLConnection connection, List<Parameter> headers)
+	{
+		for (Parameter header : headers)
+		{
+			connection.setRequestProperty(header.param, header.value);
 		}
 	}
 }

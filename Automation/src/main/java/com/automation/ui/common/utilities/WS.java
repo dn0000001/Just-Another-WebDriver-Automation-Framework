@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HostnameVerifier;
@@ -90,12 +91,17 @@ public class WS {
 	private String _RequestName;
 
 	/**
+	 * List of Custom Headers to be added to the request
+	 */
+	private List<Parameter> _CustomHeaders;
+
+	/**
 	 * Constructor - Initializes all variables to default values
 	 */
 	public WS()
 	{
 		init("", "", "", false, "", "", false, Framework.getTimeoutInMilliseconds(),
-				Framework.getTimeoutInMilliseconds());
+				Framework.getTimeoutInMilliseconds(), null);
 	}
 
 	/**
@@ -111,9 +117,11 @@ public class WS {
 	 *            exception
 	 * @param _timeout - Connection Timeout (milliseconds)
 	 * @param _ReadTimeout - Read Input Stream Timeout (milliseconds)
+	 * @param _CustomHeaders - List of Custom Headers
 	 */
 	private void init(String _wsURL, String _SOAPAction, String _payload, boolean _bFollowReDirects,
-			String _sCookies, String _RequestName, boolean _ReturnErrorStream, int _timeout, int _ReadTimeout)
+			String _sCookies, String _RequestName, boolean _ReturnErrorStream, int _timeout,
+			int _ReadTimeout, List<Parameter> _CustomHeaders)
 	{
 		set_wsURL(_wsURL);
 		setSOAPAction(_SOAPAction);
@@ -124,6 +132,7 @@ public class WS {
 		setReturnErrorStream(_ReturnErrorStream);
 		setTimeout(_timeout);
 		setReadTimeout(_ReadTimeout);
+		setCustomHeaders(_CustomHeaders);
 	}
 
 	/**
@@ -379,6 +388,29 @@ public class WS {
 	}
 
 	/**
+	 * Set Custom Headers
+	 * 
+	 * @param _CustomHeaders - List of Custom Headers
+	 */
+	public void setCustomHeaders(List<Parameter> _CustomHeaders)
+	{
+		if (_CustomHeaders == null)
+			this._CustomHeaders = new ArrayList<Parameter>();
+		else
+			this._CustomHeaders = _CustomHeaders;
+	}
+
+	/**
+	 * Get Custom Headers
+	 * 
+	 * @return List&lt;Parameter&gt;
+	 */
+	public List<Parameter> getCustomHeaders()
+	{
+		return _CustomHeaders;
+	}
+
+	/**
 	 * Sets all variables needed to make a SOAP Request
 	 * 
 	 * @param _wsURL - Web Service URL
@@ -388,7 +420,7 @@ public class WS {
 	public void setRequestSOAP(String _wsURL, String _SOAPAction, String _payload)
 	{
 		init(_wsURL, _SOAPAction, _payload, _bFollowReDirects, _sCookies, _RequestName, _ReturnErrorStream,
-				_timeout, _ReadTimeout);
+				_timeout, _ReadTimeout, null);
 	}
 
 	/**
@@ -406,7 +438,7 @@ public class WS {
 	public void setRequestGET(String sEntireRequest, boolean bFollowReDirects)
 	{
 		init(sEntireRequest, "", "", bFollowReDirects, _sCookies, _RequestName, _ReturnErrorStream, _timeout,
-				_ReadTimeout);
+				_ReadTimeout, null);
 	}
 
 	/**
@@ -436,7 +468,7 @@ public class WS {
 		}
 
 		init(builder.toString(), "", "", bFollowReDirects, _sCookies, _RequestName, _ReturnErrorStream,
-				_timeout, _ReadTimeout);
+				_timeout, _ReadTimeout, null);
 	}
 
 	/**
@@ -457,7 +489,7 @@ public class WS {
 	public void setRequestPOST(String sBaseURL, List<Parameter> parameters, boolean bFollowReDirects)
 	{
 		init(sBaseURL, "", constructEncodedParameters(parameters), bFollowReDirects, _sCookies, _RequestName,
-				_ReturnErrorStream, _timeout, _ReadTimeout);
+				_ReturnErrorStream, _timeout, _ReadTimeout, null);
 	}
 
 	/**
@@ -475,7 +507,7 @@ public class WS {
 	public void setRequestDELETE(String sEntireRequest, boolean bFollowReDirects)
 	{
 		init(sEntireRequest, "", "", bFollowReDirects, _sCookies, _RequestName, _ReturnErrorStream, _timeout,
-				_ReadTimeout);
+				_ReadTimeout, null);
 	}
 
 	/**
@@ -559,6 +591,7 @@ public class WS {
 			byte[] b = bout.toByteArray();
 
 			// Set the appropriate HTTP parameters.
+			WS_Util.setRequestProperty(httpConn, getCustomHeaders());
 			httpConn.setRequestProperty("Content-Length", String.valueOf(b.length));
 			httpConn.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
 			httpConn.setRequestProperty("SOAPAction", sSOAPAction);
@@ -669,6 +702,7 @@ public class WS {
 			byte[] b = bout.toByteArray();
 
 			// Set the appropriate HTTP parameters.
+			WS_Util.setRequestProperty(httpsCon, getCustomHeaders());
 			httpsCon.setRequestProperty("Content-Length", String.valueOf(b.length));
 			httpsCon.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
 			httpsCon.setRequestProperty("SOAPAction", sSOAPAction);
@@ -750,6 +784,7 @@ public class WS {
 			HttpURLConnection httpConn = (HttpURLConnection) connection;
 
 			// Set the appropriate HTTP parameters.
+			WS_Util.setRequestProperty(httpConn, getCustomHeaders());
 			httpConn.setRequestProperty("Content-Type", "text/plain");
 			httpConn.setRequestProperty("charset", "utf-8");
 			httpConn.setRequestMethod("GET");
@@ -848,6 +883,7 @@ public class WS {
 			HttpsURLConnection httpsCon = (HttpsURLConnection) connection;
 
 			// Set the appropriate HTTP parameters.
+			WS_Util.setRequestProperty(httpsCon, getCustomHeaders());
 			httpsCon.setRequestProperty("Content-Type", "text/plain");
 			httpsCon.setRequestProperty("charset", "utf-8");
 			httpsCon.setRequestMethod("GET");
@@ -933,6 +969,7 @@ public class WS {
 			byte[] b = bout.toByteArray();
 
 			// Set the appropriate HTTP parameters.
+			WS_Util.setRequestProperty(httpConn, getCustomHeaders());
 			httpConn.setRequestProperty("Content-Length", String.valueOf(b.length));
 			httpConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			httpConn.setRequestProperty("charset", "utf-8");
@@ -1044,6 +1081,7 @@ public class WS {
 			byte[] b = bout.toByteArray();
 
 			// Set the appropriate HTTP parameters.
+			WS_Util.setRequestProperty(httpsConn, getCustomHeaders());
 			httpsConn.setRequestProperty("Content-Length", String.valueOf(b.length));
 			httpsConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			httpsConn.setRequestProperty("charset", "utf-8");
@@ -1126,6 +1164,7 @@ public class WS {
 			HttpURLConnection httpConn = (HttpURLConnection) connection;
 
 			// Set the appropriate HTTP parameters.
+			WS_Util.setRequestProperty(httpConn, getCustomHeaders());
 			httpConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			httpConn.setRequestMethod("DELETE");
 			httpConn.setInstanceFollowRedirects(bFollowReDirects);
@@ -1223,6 +1262,7 @@ public class WS {
 			HttpsURLConnection httpsCon = (HttpsURLConnection) connection;
 
 			// Set the appropriate HTTP parameters.
+			WS_Util.setRequestProperty(httpsCon, getCustomHeaders());
 			httpsCon.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			httpsCon.setRequestMethod("DELETE");
 			httpsCon.setInstanceFollowRedirects(bFollowReDirects);

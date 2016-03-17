@@ -11,6 +11,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HostnameVerifier;
@@ -81,6 +82,11 @@ public class UploadFile {
 	private String _UploadContentType;
 
 	/**
+	 * List of Custom Headers to be added to the request
+	 */
+	private List<Parameter> _CustomHeaders;
+
+	/**
 	 * 
 	 */
 	private String _EncodedFilename;
@@ -106,7 +112,7 @@ public class UploadFile {
 	public UploadFile()
 	{
 		init("", "", "", false, "", "", "", false, false, Framework.getTimeoutInMilliseconds(),
-				Framework.getTimeoutInMilliseconds());
+				Framework.getTimeoutInMilliseconds(), null);
 	}
 
 	/**
@@ -124,10 +130,11 @@ public class UploadFile {
 	 *            exception
 	 * @param _timeout - Connection Timeout (milliseconds)
 	 * @param _ReadTimeout - Read Input Stream Timeout (milliseconds)
+	 * @param _CustomHeaders - List of Custom Headers
 	 */
 	private void init(String _wsURL, String _File, String _Parameters, boolean _FollowReDirects,
 			String _Cookies, String _EncodedFilename, String _UploadContentType, boolean _WriteContentType,
-			boolean _ReturnErrorStream, int _timeout, int _ReadTimeout)
+			boolean _ReturnErrorStream, int _timeout, int _ReadTimeout, List<Parameter> _CustomHeaders)
 	{
 		set_wsURL(_wsURL);
 		setFile(_File);
@@ -139,6 +146,7 @@ public class UploadFile {
 		setReturnErrorStream(_ReturnErrorStream);
 		setTimeout(_timeout);
 		setReadTimeout(_ReadTimeout);
+		setCustomHeaders(_CustomHeaders);
 
 		if (_WriteContentType)
 			setON_WriteContentType();
@@ -338,6 +346,29 @@ public class UploadFile {
 	}
 
 	/**
+	 * Set Custom Headers
+	 * 
+	 * @param _CustomHeaders - List of Custom Headers
+	 */
+	public void setCustomHeaders(List<Parameter> _CustomHeaders)
+	{
+		if (_CustomHeaders == null)
+			this._CustomHeaders = new ArrayList<Parameter>();
+		else
+			this._CustomHeaders = _CustomHeaders;
+	}
+
+	/**
+	 * Get Custom Headers
+	 * 
+	 * @return List&lt;Parameter&gt;
+	 */
+	public List<Parameter> getCustomHeaders()
+	{
+		return _CustomHeaders;
+	}
+
+	/**
 	 * Sets the Content Type to be used for the upload file part based on file extension
 	 */
 	public void setUploadContentType()
@@ -511,6 +542,7 @@ public class UploadFile {
 			String sBoundary = "----pluploadboundary" + Long.toString(System.currentTimeMillis());
 
 			// Set the appropriate HTTP parameters.
+			WS_Util.setRequestProperty(httpConn, getCustomHeaders());
 			httpConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + sBoundary);
 			httpConn.setRequestProperty("Connection", "keep-alive");
 			httpConn.setRequestMethod("POST");
@@ -659,6 +691,7 @@ public class UploadFile {
 			 * 
 			 * Note: Content-Length needs to be set later when the length is known
 			 */
+			WS_Util.setRequestProperty(httpsConn, getCustomHeaders());
 			httpsConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + sBoundary);
 			httpsConn.setRequestProperty("Connection", "keep-alive");
 			httpsConn.setRequestMethod("POST");

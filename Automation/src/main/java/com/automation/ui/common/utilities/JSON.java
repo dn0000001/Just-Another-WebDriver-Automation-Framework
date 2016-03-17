@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HostnameVerifier;
@@ -68,12 +69,17 @@ public class JSON {
 	private String _sCookies;
 
 	/**
+	 * List of Custom Headers to be added to the request
+	 */
+	private List<Parameter> _CustomHeaders;
+
+	/**
 	 * Constructor - Initializes all variables to default values
 	 */
 	public JSON()
 	{
 		init("", "", false, "", false, Framework.getTimeoutInMilliseconds(),
-				Framework.getTimeoutInMilliseconds());
+				Framework.getTimeoutInMilliseconds(), null);
 	}
 
 	/**
@@ -87,9 +93,10 @@ public class JSON {
 	 *            exception
 	 * @param _timeout - Connection Timeout (milliseconds)
 	 * @param _ReadTimeout - Read Input Stream Timeout (milliseconds)
+	 * @param _CustomHeaders - List of Custom Headers
 	 */
 	private void init(String _wsURL, String _payload, boolean _bFollowReDirects, String _sCookies,
-			boolean _ReturnErrorStream, int _timeout, int _ReadTimeout)
+			boolean _ReturnErrorStream, int _timeout, int _ReadTimeout, List<Parameter> _CustomHeaders)
 	{
 		set_wsURL(_wsURL);
 		setPayload(_payload);
@@ -98,6 +105,7 @@ public class JSON {
 		setReturnErrorStream(_ReturnErrorStream);
 		setTimeout(_timeout);
 		setReadTimeout(_ReadTimeout);
+		setCustomHeaders(_CustomHeaders);
 	}
 
 	/**
@@ -255,6 +263,29 @@ public class JSON {
 	}
 
 	/**
+	 * Set Custom Headers
+	 * 
+	 * @param _CustomHeaders - List of Custom Headers
+	 */
+	public void setCustomHeaders(List<Parameter> _CustomHeaders)
+	{
+		if (_CustomHeaders == null)
+			this._CustomHeaders = new ArrayList<Parameter>();
+		else
+			this._CustomHeaders = _CustomHeaders;
+	}
+
+	/**
+	 * Get Custom Headers
+	 * 
+	 * @return List&lt;Parameter&gt;
+	 */
+	public List<Parameter> getCustomHeaders()
+	{
+		return _CustomHeaders;
+	}
+
+	/**
 	 * Constructs an encoded parameters string from the list of parameters given<BR>
 	 * <BR>
 	 * <B>Notes:</B><BR>
@@ -336,6 +367,7 @@ public class JSON {
 			byte[] b = bout.toByteArray();
 
 			// Set the appropriate HTTP parameters.
+			WS_Util.setRequestProperty(httpConn, getCustomHeaders());
 			httpConn.setRequestProperty("Content-Length", String.valueOf(b.length));
 			httpConn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
 			httpConn.setRequestProperty("Connection", "keep-alive");
@@ -447,6 +479,7 @@ public class JSON {
 			byte[] b = bout.toByteArray();
 
 			// Set the appropriate HTTP parameters.
+			WS_Util.setRequestProperty(httpsConn, getCustomHeaders());
 			httpsConn.setRequestProperty("Content-Length", String.valueOf(b.length));
 			httpsConn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
 			httpsConn.setRequestProperty("Connection", "keep-alive");

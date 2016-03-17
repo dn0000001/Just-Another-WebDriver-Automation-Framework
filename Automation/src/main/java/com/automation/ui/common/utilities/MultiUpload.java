@@ -103,12 +103,17 @@ public class MultiUpload {
 	private String _Boundary;
 
 	/**
+	 * List of Custom Headers to be added to the request
+	 */
+	private List<Parameter> _CustomHeaders;
+
+	/**
 	 * Constructor - Initializes all variables to default values
 	 */
 	public MultiUpload()
 	{
 		init("", "", false, "", null, null, "", false, Framework.getTimeoutInMilliseconds(),
-				Framework.getTimeoutInMilliseconds());
+				Framework.getTimeoutInMilliseconds(), null);
 	}
 
 	/**
@@ -125,10 +130,11 @@ public class MultiUpload {
 	 *            exception
 	 * @param _timeout - Connection Timeout (milliseconds)
 	 * @param _ReadTimeout - Read Input Stream Timeout (milliseconds)
+	 * @param _CustomHeaders - List of Custom Headers
 	 */
 	private void init(String _wsURL, String _Parameters, boolean _FollowReDirects, String _Cookies,
 			List<MultipartData> _Attachments, String _Boundary, String _RequestName,
-			boolean _ReturnErrorStream, int _timeout, int _ReadTimeout)
+			boolean _ReturnErrorStream, int _timeout, int _ReadTimeout, List<Parameter> _CustomHeaders)
 	{
 		set_wsURL(_wsURL);
 		setParameters(_Parameters);
@@ -140,6 +146,7 @@ public class MultiUpload {
 		setReturnErrorStream(_ReturnErrorStream);
 		setTimeout(_timeout);
 		setReadTimeout(_ReadTimeout);
+		setCustomHeaders(_CustomHeaders);
 	}
 
 	/**
@@ -342,6 +349,29 @@ public class MultiUpload {
 	}
 
 	/**
+	 * Set Custom Headers
+	 * 
+	 * @param _CustomHeaders - List of Custom Headers
+	 */
+	public void setCustomHeaders(List<Parameter> _CustomHeaders)
+	{
+		if (_CustomHeaders == null)
+			this._CustomHeaders = new ArrayList<Parameter>();
+		else
+			this._CustomHeaders = _CustomHeaders;
+	}
+
+	/**
+	 * Get Custom Headers
+	 * 
+	 * @return List&lt;Parameter&gt;
+	 */
+	public List<Parameter> getCustomHeaders()
+	{
+		return _CustomHeaders;
+	}
+
+	/**
 	 * Set the Request Name for logging purposes
 	 * 
 	 * @param _RequestName - Request Name
@@ -513,6 +543,7 @@ public class MultiUpload {
 			HttpURLConnection httpConn = (HttpURLConnection) connection;
 
 			// Set the appropriate HTTP parameters.
+			WS_Util.setRequestProperty(httpConn, getCustomHeaders());
 			httpConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + _Boundary);
 			httpConn.setRequestProperty("Connection", "keep-alive");
 			httpConn.setRequestMethod("POST");
@@ -687,6 +718,7 @@ public class MultiUpload {
 			 * 
 			 * Note: Content-Length needs to be set later when the length is known
 			 */
+			WS_Util.setRequestProperty(httpsConn, getCustomHeaders());
 			httpsConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + _Boundary);
 			httpsConn.setRequestProperty("Connection", "keep-alive");
 			httpsConn.setRequestMethod("POST");

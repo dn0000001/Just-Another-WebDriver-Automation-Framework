@@ -2,10 +2,13 @@ package com.automation.ui.common.utilities;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
 
+import com.automation.ui.common.dataStructures.Parameter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -66,12 +69,17 @@ public abstract class BaseRequestJSON {
 	private String charset;
 
 	/**
+	 * List of Custom Headers to be added to the request
+	 */
+	private List<Parameter> _CustomHeaders;
+
+	/**
 	 * Default Constructor
 	 */
 	public BaseRequestJSON()
 	{
 		init("", "", false, "", false, Framework.getTimeoutInMilliseconds(),
-				Framework.getTimeoutInMilliseconds(), "");
+				Framework.getTimeoutInMilliseconds(), "", null);
 	}
 
 	/**
@@ -86,9 +94,11 @@ public abstract class BaseRequestJSON {
 	 * @param _timeout - Connection Timeout (milliseconds)
 	 * @param _ReadTimeout - Read Input Stream Timeout (milliseconds)
 	 * @param charset - Character set that may be used to parse the response
+	 * @param _CustomHeaders - List of Custom Headers
 	 */
 	protected void init(String _BaseURL, String _wsURL, boolean _FollowReDirects, String _Cookies,
-			boolean _ReturnErrorStream, int _timeout, int _ReadTimeout, String charset)
+			boolean _ReturnErrorStream, int _timeout, int _ReadTimeout, String charset,
+			List<Parameter> _CustomHeaders)
 	{
 		setBaseURL(_BaseURL);
 		set_wsURL(_wsURL);
@@ -98,6 +108,7 @@ public abstract class BaseRequestJSON {
 		setTimeout(_timeout);
 		setReadTimeout(_ReadTimeout);
 		setCharset(charset);
+		setCustomHeaders(_CustomHeaders);
 	}
 
 	/**
@@ -305,6 +316,29 @@ public abstract class BaseRequestJSON {
 	}
 
 	/**
+	 * Set Custom Headers
+	 * 
+	 * @param _CustomHeaders - List of Custom Headers
+	 */
+	public void setCustomHeaders(List<Parameter> _CustomHeaders)
+	{
+		if (_CustomHeaders == null)
+			this._CustomHeaders = new ArrayList<Parameter>();
+		else
+			this._CustomHeaders = _CustomHeaders;
+	}
+
+	/**
+	 * Get Custom Headers
+	 * 
+	 * @return List&lt;Parameter&gt;
+	 */
+	public List<Parameter> getCustomHeaders()
+	{
+		return _CustomHeaders;
+	}
+
+	/**
 	 * Sends POST Request based on information set in class and Receives the response<BR>
 	 * <BR>
 	 * <B>Solution to SSLProtocolException:</B><BR>
@@ -324,6 +358,7 @@ public abstract class BaseRequestJSON {
 		json.set_wsURL(_BaseURL + _wsURL);
 		json.setCookies(_Cookies);
 		json.setPayload(_JSON);
+		json.setCustomHeaders(_CustomHeaders);
 		Logs.log.info("JSON [" + getRequestName() + "] to be sent:  " + _JSON);
 		return json.sendAndReceivePOST();
 	}

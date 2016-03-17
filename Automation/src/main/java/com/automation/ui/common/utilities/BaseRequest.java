@@ -88,12 +88,17 @@ public abstract class BaseRequest {
 	private String charset;
 
 	/**
+	 * List of Custom Headers to be added to the request
+	 */
+	private List<Parameter> _CustomHeaders;
+
+	/**
 	 * Default Constructor
 	 */
 	public BaseRequest()
 	{
 		init("", "", "", false, "", null, "", false, null, Framework.getTimeoutInMilliseconds(),
-				Framework.getTimeoutInMilliseconds(), "");
+				Framework.getTimeoutInMilliseconds(), "", null);
 	}
 
 	/**
@@ -112,11 +117,12 @@ public abstract class BaseRequest {
 	 * @param _timeout - Connection Timeout (milliseconds)
 	 * @param _ReadTimeout - Read Input Stream Timeout (milliseconds)
 	 * @param charset - Character set that may be used to parse the response
+	 * @param _CustomHeaders - List of Custom Headers
 	 */
 	protected void init(String _BaseURL, String _RelativeURL, String _EncodedParameters,
 			boolean _FollowReDirects, String _Cookies, List<MultipartData> _Attachments, String _RequestName,
 			boolean _ReturnErrorStream, List<Parameter> _UnencodedParameters, int _timeout, int _ReadTimeout,
-			String charset)
+			String charset, List<Parameter> _CustomHeaders)
 	{
 		setBaseURL(_BaseURL);
 		setRelativeURL(_RelativeURL);
@@ -130,6 +136,7 @@ public abstract class BaseRequest {
 		setTimeout(_timeout);
 		setReadTimeout(_ReadTimeout);
 		setCharset(charset);
+		setCustomHeaders(_CustomHeaders);
 	}
 
 	/**
@@ -442,6 +449,29 @@ public abstract class BaseRequest {
 	}
 
 	/**
+	 * Set Custom Headers
+	 * 
+	 * @param _CustomHeaders - List of Custom Headers
+	 */
+	public void setCustomHeaders(List<Parameter> _CustomHeaders)
+	{
+		if (_CustomHeaders == null)
+			this._CustomHeaders = new ArrayList<Parameter>();
+		else
+			this._CustomHeaders = _CustomHeaders;
+	}
+
+	/**
+	 * Get Custom Headers
+	 * 
+	 * @return List&lt;Parameter&gt;
+	 */
+	public List<Parameter> getCustomHeaders()
+	{
+		return _CustomHeaders;
+	}
+
+	/**
 	 * Sends POST Request based on information set in class and Receives the response<BR>
 	 * <BR>
 	 * <B>Solution to SSLProtocolException:</B><BR>
@@ -466,6 +496,7 @@ public abstract class BaseRequest {
 			mu.setBoundary(_Boundary);
 			mu.setAttachments(_Attachments);
 			mu.setReturnErrorStream(_ReturnErrorStream);
+			mu.setCustomHeaders(_CustomHeaders);
 			return mu.sendAndReceivePOST();
 		}
 		else
@@ -479,6 +510,7 @@ public abstract class BaseRequest {
 			request.setCookies(_Cookies);
 			request.setPayload(_EncodedParameters);
 			request.setReturnErrorStream(_ReturnErrorStream);
+			request.setCustomHeaders(_CustomHeaders);
 			return request.sendAndReceivePOST();
 		}
 	}
@@ -514,6 +546,7 @@ public abstract class BaseRequest {
 			request.setCookies(_Cookies);
 			request.setReturnErrorStream(_ReturnErrorStream);
 			request.setRequestGET(_BaseURL + _RelativeURL, _UnencodedParameters, _FollowReDirects);
+			request.setCustomHeaders(_CustomHeaders);
 			return request.sendAndReceiveGET();
 		}
 	}
