@@ -35,6 +35,10 @@
 		<Version>8</Version>
 		<ApplicationName>something</ApplicationName>
 	</Grid>
+	<Sessions>
+		<Server></Server>
+		<Port>-1</Port>
+	</Sessions>
 	 -->
 	<!-- 
 	<External>
@@ -81,10 +85,15 @@
 				<Port>113</Port>
 			</DB>
 			<Grid>
-				<HubURL>114</HubURL>
+				<HubURL>http://192.168.1.204:4444/wd/hub</HubURL>
 				<Platform>115</Platform>
 				<Version>116</Version>
+				<ApplicationName></ApplicationName>
 			</Grid>
+			<Sessions>
+				<Server>192.168.1.204</Server>
+				<Port>6665</Port>
+			</Sessions>
 			<Screenshots>
 				<Enabled>true</Enabled>
 				<Folder>117</Folder>

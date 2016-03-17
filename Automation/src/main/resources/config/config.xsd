@@ -75,6 +75,14 @@
 			<xs:element name="ApplicationName" type="xs:string" minOccurs="0" />
 		</xs:all>
 	</xs:group>
+	<xs:group name="Sessions">
+		<xs:all>
+			<!-- Session Server URL (ex. 127.0.0.1), defaults to the empty string -->
+			<xs:element name="Server" type="xs:string" minOccurs="0" />
+			<!-- Session Server Port to connect to, defaults to -1 -->
+			<xs:element name="Port" type="xs:int" minOccurs="0" />
+		</xs:all>
+	</xs:group>
 	<xs:group name="External">
 		<xs:all>
 			<!-- Based Folder location of SQL files needs to end in slash or backslash if not empty string -->
@@ -110,6 +118,11 @@
 			<xs:element name="Grid" minOccurs="0">
 				<xs:complexType>
 					<xs:group ref="Grid" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Sessions" minOccurs="0">
+				<xs:complexType>
+					<xs:group ref="Sessions" />
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="Screenshots" minOccurs="0">
@@ -182,6 +195,11 @@
 				<xs:element name="Grid" minOccurs="0">
 					<xs:complexType>
 						<xs:group ref="Grid" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Sessions" minOccurs="0">
+					<xs:complexType>
+						<xs:group ref="Sessions" />
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="External" minOccurs="0">
