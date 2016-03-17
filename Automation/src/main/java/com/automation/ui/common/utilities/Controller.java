@@ -951,7 +951,7 @@ public class Controller {
 				configDefaults.getGridPlatform());
 		String sVersion = Misc.getProperty(base + RuntimeProperty.grid_browser_version,
 				configDefaults.getGridVersion());
-		String sApplicationName = Misc.getProperty(RuntimeProperty.grid_browser_applicationName,
+		String sApplicationName = Misc.getProperty(base + RuntimeProperty.grid_browser_applicationName,
 				configDefaults.getGridApplicationName());
 
 		String sSessionServer = Misc.getProperty(base + RuntimeProperty.sessions_server,
