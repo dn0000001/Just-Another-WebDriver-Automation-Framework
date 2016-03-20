@@ -26,7 +26,7 @@ public class FlakyTest {
 
 		AttemptTracker at = new AttemptTracker();
 		at.setMaxAttempts(2);
-		FlakinessChecks flaky = new FlakinessChecks(null, 1000, 100);
+		FlakinessChecks flaky = new FlakinessChecks(null, 5000, 100);
 
 		bResult = flaky.isReflection(at, "isMaxAttempts");
 		sWarning = "isMaxAttempts no parameters test failed";

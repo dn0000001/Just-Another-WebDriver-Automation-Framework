@@ -744,7 +744,10 @@ public class BasicTestContext {
 	}
 
 	/**
-	 * Get Firefox default profile when none is specified
+	 * Get Firefox default profile when none is specified<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) See http://kb.mozillazine.org/About:config_entries for details of each preference<BR>
 	 * 
 	 * @return FirefoxProfile
 	 */
@@ -753,6 +756,9 @@ public class BasicTestContext {
 		FirefoxProfile profile = new FirefoxProfile();
 		profile.setPreference("dom.ipc.plugins.timeoutSecs", -1);
 		profile.setPreference("layers.acceleration.disabled", true);
+		profile.setPreference("dom.disable_open_during_load", false);
+		profile.setPreference("privacy.popups.policy", 1);
+		profile.setPreference("privacy.popups.disable_from_plugins", 1);
 		return profile;
 	}
 
