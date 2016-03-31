@@ -6489,8 +6489,8 @@ public class Framework {
 		ElapsedTime e = new ElapsedTime();
 		while (!e.isTimeout())
 		{
-			String[] openWindows = driver.getWindowHandles().toArray(new String[0]);
-			nOpenWindows = openWindows.length;
+			List<String> openWindows = getWindowHandles();
+			nOpenWindows = openWindows.size();
 			if (nOpenWindows == nExpectedWindows)
 				return;
 
