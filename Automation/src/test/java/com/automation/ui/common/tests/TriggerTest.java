@@ -15,7 +15,6 @@ import com.automation.ui.common.dataStructures.HTML_Event;
 import com.automation.ui.common.dataStructures.HTML_EventType;
 import com.automation.ui.common.dataStructures.Radio;
 import com.automation.ui.common.dataStructures.Selection;
-import com.automation.ui.common.dataStructures.config.ConfigRun;
 import com.automation.ui.common.exceptions.EnumNotFoundException;
 import com.automation.ui.common.exceptions.GenericUnexpectedException;
 import com.automation.ui.common.utilities.Controller;
@@ -33,8 +32,7 @@ public class TriggerTest {
 	@Test
 	public static void runEmptyTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runEmptyTest");
 
 		GenericTrigger trigger = new GenericTrigger();
@@ -46,8 +44,7 @@ public class TriggerTest {
 	@Test
 	public static void runConfigCopyEmptyTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runConfigCopyEmptyTest");
 
 		WebDriver driver = null;
@@ -63,8 +60,7 @@ public class TriggerTest {
 	@Test
 	public static void runConfigNormalTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runConfigNormalTest");
 
 		GenericTrigger trigger = new GenericTrigger();
@@ -79,8 +75,7 @@ public class TriggerTest {
 	@Test
 	public static void runConfigNormalTest2()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runConfigNormalTest");
 
 		List<HTML_Event> actions = new ArrayList<HTML_Event>();
@@ -99,8 +94,7 @@ public class TriggerTest {
 	@Test
 	public static void runConfigCopyTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runConfigCopyTest");
 
 		WebDriver driver = null;
@@ -119,8 +113,7 @@ public class TriggerTest {
 	@Test
 	public static void runConfigCopyTest2()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runConfigCopyTest2");
 
 		WebDriver driver = null;
@@ -139,8 +132,7 @@ public class TriggerTest {
 	@Test
 	public static void runConfigUpdateTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runConfigUpdateTest");
 
 		List<HTML_Event> actions = new ArrayList<HTML_Event>();
@@ -164,8 +156,7 @@ public class TriggerTest {
 	@Test
 	public static void runConfigUpdateTest2()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runConfigUpdateTest2");
 
 		GenericTrigger trigger = new GenericTrigger();
@@ -187,8 +178,7 @@ public class TriggerTest {
 	@Test
 	public static void runConfigUpdateTest3()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runConfigUpdateTest3");
 
 		List<HTML_Event> actions = new ArrayList<HTML_Event>();
@@ -212,8 +202,7 @@ public class TriggerTest {
 	@Test(expectedExceptions = EnumNotFoundException.class)
 	public static void runNegative_MissingSingleEnumTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runNegative_MissingSingleEnumTest");
 
 		GenericTrigger trigger = new GenericTrigger();
@@ -227,8 +216,7 @@ public class TriggerTest {
 	@Test(expectedExceptions = EnumNotFoundException.class)
 	public static void runNegative_MissingSingleEnumCopyTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runNegative_MissingSingleEnumCopyTest");
 
 		WebDriver driver = null;
@@ -246,8 +234,7 @@ public class TriggerTest {
 	@Test(expectedExceptions = EnumNotFoundException.class)
 	public static void runNegative_MissingMultipleEnumTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runNegative_MissingMultipleEnumTest");
 
 		GenericTrigger trigger = new GenericTrigger();
@@ -260,8 +247,7 @@ public class TriggerTest {
 	@Test(expectedExceptions = EnumNotFoundException.class)
 	public static void runNegative_MissingMultipleEnumCopyTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runNegative_MissingMultipleEnumCopyTest");
 
 		WebDriver driver = null;
@@ -278,8 +264,7 @@ public class TriggerTest {
 	@Test(expectedExceptions = GenericUnexpectedException.class)
 	public static void runNegative_AllConfigTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runNegative_AllConfigTest");
 
 		GenericTrigger trigger = new GenericTrigger();
@@ -295,8 +280,7 @@ public class TriggerTest {
 	@Test(expectedExceptions = GenericUnexpectedException.class)
 	public static void runNegative_ConfigLogTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runNegative_ConfigLogTest");
 
 		GenericTrigger trigger = new GenericTrigger();
@@ -312,8 +296,7 @@ public class TriggerTest {
 	@Test(expectedExceptions = GenericUnexpectedException.class)
 	public static void runNegative_ConfigLogAllTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runNegative_ConfigLogAllTest");
 
 		GenericTrigger trigger = new GenericTrigger();
@@ -329,8 +312,7 @@ public class TriggerTest {
 	@Test(expectedExceptions = GenericUnexpectedException.class)
 	public static void runNegative_ConfigActionsTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runNegative_ConfigActionsTest");
 
 		GenericTrigger trigger = new GenericTrigger();
@@ -346,8 +328,7 @@ public class TriggerTest {
 	@Test(enabled = run)
 	public static void runRealWebTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runRealWebTest");
 
 		BasicTestContext context = new BasicTestContext();

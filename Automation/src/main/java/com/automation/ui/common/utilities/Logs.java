@@ -2,6 +2,7 @@ package com.automation.ui.common.utilities;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -177,6 +178,18 @@ public class Logs {
 
 		// Makes the logger ready for use. (If logger used before this, then an error occurs.)
 		PropertyConfigurator.configure(Logs.LOG_PROPS);
+	}
+
+	/**
+	 * Initializes the loggers for use.
+	 */
+	public static void initializeConsoleLoggers()
+	{
+		log = Logger.getLogger(Logs.FILE);
+		logHTML = Logger.getLogger(Logs.HTML);
+
+		// Makes the logger ready for use. (If logger used before this, then an error occurs.)
+		PropertyConfigurator.configure(getPropertiesForConsoleLogger());
 	}
 
 	/**
@@ -410,5 +423,28 @@ public class Logs {
 		}
 
 		Logs.log.info("");
+	}
+
+	/**
+	 * Get Properties object configured for a console logger
+	 * 
+	 * @return Properties
+	 */
+	private static Properties getPropertiesForConsoleLogger()
+	{
+		Properties prop = new Properties();
+
+		// Define the different loggers
+		prop.setProperty("log4j.rootLogger", "INFO, stdout");
+		prop.setProperty("log4j.category.FILE", "INFO");
+		prop.setProperty("log4j.category.HTML", "INFO");
+
+		// Configure root logger
+		prop.setProperty("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
+		prop.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
+		prop.setProperty("log4j.appender.stdout.layout.ConversionPattern",
+				"[%d{MM-dd-yyyy HH:mm:ss}][%-5p][%-15C{1}] - %m%n");
+
+		return prop;
 	}
 }

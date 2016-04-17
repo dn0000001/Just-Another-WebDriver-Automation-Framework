@@ -3,7 +3,6 @@ package com.automation.ui.common.tests;
 import org.testng.annotations.Test;
 
 import com.automation.ui.common.dataStructures.Comparison;
-import com.automation.ui.common.dataStructures.config.ConfigRun;
 import com.automation.ui.common.utilities.Compare;
 import com.automation.ui.common.utilities.Controller;
 import com.automation.ui.common.utilities.Languages;
@@ -18,8 +17,7 @@ public class RandTest {
 	@Test
 	public static void runEnumTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runEnumTest");
 		int maxIterations = 1000;
 		TestResults results = new TestResults();
@@ -149,8 +147,7 @@ public class RandTest {
 	@Test
 	public static void runRandomizeBasicTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runRandomizeBasicTest");
 
 		TestResults results = new TestResults();
@@ -178,8 +175,7 @@ public class RandTest {
 	@Test
 	public static void runRandomizeEqualLengthTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runRandomizeEqualLengthTest");
 
 		int runs = 1000;
@@ -209,8 +205,7 @@ public class RandTest {
 	@Test
 	public static void runRandomizeDupTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runRandomizeDupTest");
 
 		int allowDupPercentage = 5;
@@ -240,8 +235,7 @@ public class RandTest {
 	@Test
 	public static void runUniqueTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runUniqueTest");
 
 		int runs = 1000;

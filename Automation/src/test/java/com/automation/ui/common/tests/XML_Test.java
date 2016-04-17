@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import com.automation.ui.common.dataStructures.Comparison;
 import com.automation.ui.common.dataStructures.Parameter;
-import com.automation.ui.common.dataStructures.config.ConfigRun;
 import com.automation.ui.common.sampleProject.tests.GeneratePerformanceXML;
 import com.automation.ui.common.utilities.Compare;
 import com.automation.ui.common.utilities.Controller;
@@ -27,8 +26,7 @@ public class XML_Test {
 	@Test
 	public static void runAttributeTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runAttributeTest");
 		TestResults results = new TestResults();
 		boolean bResult, bVTD;
@@ -269,8 +267,7 @@ public class XML_Test {
 	@Test
 	public static void runNodeTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runNodeTest");
 		TestResults results = new TestResults();
 		boolean bResult, bVTD, bXML;
@@ -538,8 +535,7 @@ public class XML_Test {
 	@Test
 	public static void runGeneralTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runGeneralTest");
 		TestResults results = new TestResults();
 		boolean bResult;
@@ -678,8 +674,7 @@ public class XML_Test {
 	@Test
 	public static void runPerformanceTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPerformanceTest");
 		TestResults results = new TestResults();
 		boolean bResult;

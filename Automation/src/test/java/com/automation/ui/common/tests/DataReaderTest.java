@@ -17,7 +17,6 @@ import com.automation.ui.common.dataStructures.Selection;
 import com.automation.ui.common.dataStructures.SelectionCriteria;
 import com.automation.ui.common.dataStructures.UploadFileData;
 import com.automation.ui.common.dataStructures.WebElementIndexOfMethod;
-import com.automation.ui.common.dataStructures.config.ConfigRun;
 import com.automation.ui.common.utilities.Compare;
 import com.automation.ui.common.utilities.Controller;
 import com.automation.ui.common.utilities.DataReader;
@@ -35,8 +34,7 @@ public class DataReaderTest {
 	@Test
 	public static void runAutoCompleteFieldTests() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runAutoCompleteFieldTests");
 		TestResults results = new TestResults();
 		String sXpath;
@@ -211,8 +209,7 @@ public class DataReaderTest {
 	@Test
 	public static void runCheckBoxTests() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runCheckBoxTests");
 		TestResults results = new TestResults();
 
@@ -490,8 +487,7 @@ public class DataReaderTest {
 	@Test
 	public static void runDropDownTests() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runDropDownTests");
 		TestResults results = new TestResults();
 
@@ -813,8 +809,7 @@ public class DataReaderTest {
 	@Test
 	public static void runEncodedFieldTests() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runEncodedFieldTests");
 		TestResults results = new TestResults();
 
@@ -883,8 +878,7 @@ public class DataReaderTest {
 	@Test
 	public static void runFindTextCriteriaTests() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runFindTextCriteriaTests");
 		TestResults results = new TestResults();
 
@@ -1077,8 +1071,7 @@ public class DataReaderTest {
 	@Test
 	public static void runFindWebElementDataTests() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runFindWebElementDataTests");
 		TestResults results = new TestResults();
 		String sXpath;
@@ -1166,8 +1159,7 @@ public class DataReaderTest {
 	@Test
 	public static void runGenericDateTests() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runGenericDateTests");
 		TestResults results = new TestResults();
 
@@ -1637,8 +1629,7 @@ public class DataReaderTest {
 	@Test
 	public static void runInputFieldTests() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runInputFieldTests");
 		TestResults results = new TestResults();
 
@@ -1965,8 +1956,7 @@ public class DataReaderTest {
 	@Test
 	public static void runKeyValuePairTests() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runKeyValuePairTests");
 		TestResults results = new TestResults();
 
@@ -2117,8 +2107,7 @@ public class DataReaderTest {
 	@Test
 	public static void runSelectionCriteriaTests() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runSelectionCriteriaTests");
 		TestResults results = new TestResults();
 
@@ -2317,8 +2306,7 @@ public class DataReaderTest {
 	@Test
 	public static void runStringListTests() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runStringListTests");
 		TestResults results = new TestResults();
 
@@ -2373,8 +2361,7 @@ public class DataReaderTest {
 	@Test
 	public static void runUploadFileTests() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runUploadFileTests");
 		TestResults results = new TestResults();
 		String sXpath;

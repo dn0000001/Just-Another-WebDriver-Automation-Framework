@@ -60,7 +60,7 @@ public class ComponentsTest {
 	public static void runGenericOverlayTest() throws Exception
 	{
 		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runGenericOverlayTest");
 
 		TestResults results = new TestResults();
@@ -145,7 +145,7 @@ public class ComponentsTest {
 	public static void runGenericFieldsTest() throws Exception
 	{
 		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runGenericFieldsTest");
 
 		TestResults results = new TestResults();
@@ -200,7 +200,7 @@ public class ComponentsTest {
 	public static void runPrimefaces_OverlayTest() throws Exception
 	{
 		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_OverlayTest");
 
 		BasicTestContext context = new BasicTestContext();
@@ -253,7 +253,7 @@ public class ComponentsTest {
 	public static void runPrimefaces_RadioTest() throws Exception
 	{
 		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_RadioTest");
 
 		BasicTestContext context = new BasicTestContext();
@@ -289,7 +289,7 @@ public class ComponentsTest {
 	public static void runPrimefaces_CheckBoxTest() throws Exception
 	{
 		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_CheckBoxTest");
 
 		BasicTestContext context = new BasicTestContext();
@@ -342,7 +342,7 @@ public class ComponentsTest {
 	public static void runPrimefaces_InputFieldTest() throws Exception
 	{
 		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_InputFieldTest");
 
 		BasicTestContext context = new BasicTestContext();
@@ -379,7 +379,7 @@ public class ComponentsTest {
 	public static void runPrimefaces_AutoCompleteTest() throws Exception
 	{
 		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_AutoCompleteTest");
 
 		BasicTestContext context = new BasicTestContext();
@@ -410,7 +410,7 @@ public class ComponentsTest {
 	public static void runPrimefaces_DropDownTest() throws Exception
 	{
 		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_DropDownTest");
 
 		BasicTestContext context = new BasicTestContext();
@@ -437,7 +437,7 @@ public class ComponentsTest {
 	public static void runPrimefaces_DropDownClickTest() throws Exception
 	{
 		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_DropDownClickTest");
 
 		BasicTestContext context = new BasicTestContext();
@@ -470,7 +470,7 @@ public class ComponentsTest {
 	public static void runPrimefaces_CheckBoxClickTest() throws Exception
 	{
 		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_CheckBoxClickTest");
 
 		BasicTestContext context = new BasicTestContext();
@@ -510,7 +510,7 @@ public class ComponentsTest {
 	public static void runPrimefaces_TableTest() throws Exception
 	{
 		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_TableTest");
 
 		BasicTestContext context = new BasicTestContext();
@@ -550,7 +550,7 @@ public class ComponentsTest {
 	public static void runGridHostTest() throws Exception
 	{
 		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runGridHostTest");
 
 		BasicTestContext context = new BasicTestContext();

@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import com.automation.ui.common.dataStructures.config.ConfigRun;
 import com.automation.ui.common.sampleProject.dataStructures.Translations;
 import com.automation.ui.common.utilities.Languages;
 import com.automation.ui.common.utilities.Logs;
@@ -20,8 +19,7 @@ public class TranslationsTest {
 	@Test
 	public void verifyVocabularyTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Logs.log.info("Entire Vocabulary:");
 		Logs.log.info("");
 

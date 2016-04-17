@@ -3,7 +3,6 @@ package com.automation.ui.common.tests;
 import org.testng.annotations.Test;
 
 import com.automation.ui.common.dataStructures.AttemptTracker;
-import com.automation.ui.common.dataStructures.config.ConfigRun;
 import com.automation.ui.common.utilities.Controller;
 import com.automation.ui.common.utilities.FlakinessChecks;
 import com.automation.ui.common.utilities.Logs;
@@ -16,8 +15,7 @@ public class FlakyTest {
 	@Test
 	public static void runReflectionTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runReflectionTest");
 
 		TestResults results = new TestResults();

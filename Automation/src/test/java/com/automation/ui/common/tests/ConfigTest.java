@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 
 import com.automation.ui.common.dataStructures.Comparison;
 import com.automation.ui.common.dataStructures.config.ConfigJS;
-import com.automation.ui.common.dataStructures.config.ConfigRun;
 import com.automation.ui.common.dataStructures.config.ConfigSQL;
 import com.automation.ui.common.utilities.Compare;
 import com.automation.ui.common.utilities.Controller;
@@ -21,8 +20,7 @@ public class ConfigTest {
 	@Test
 	public static void runConfigJS_Test() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runConfigJS_Test");
 
 		ConfigJS js = new ConfigJS();
@@ -50,8 +48,7 @@ public class ConfigTest {
 	@Test
 	public static void runConfigSQLTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runConfigSQLTest");
 
 		ConfigSQL sql = new ConfigSQL();

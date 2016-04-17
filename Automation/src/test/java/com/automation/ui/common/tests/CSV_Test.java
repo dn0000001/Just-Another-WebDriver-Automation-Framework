@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.automation.ui.common.dataStructures.config.ConfigRun;
 import com.automation.ui.common.utilities.CSV;
 import com.automation.ui.common.utilities.Logs;
 import com.automation.ui.common.utilities.Rand;
@@ -24,8 +23,7 @@ public class CSV_Test {
 	@Test
 	public static void unitTestA_WriteData()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 
 		Logs.log.info("unitTestWriteData:  START");
 		char delimiter = ',';
@@ -90,8 +88,7 @@ public class CSV_Test {
 	@Test
 	public static void unitTestB_GetAllData() throws FileNotFoundException
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 
 		Logs.log.info("getAllData:  START");
 		CSV csvFile = null;
@@ -122,8 +119,7 @@ public class CSV_Test {
 	@Test
 	public static void unitTestB_GetAllDataAsArray() throws FileNotFoundException
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 
 		Logs.log.info("getAllDataAsArray:  START");
 		CSV csvFile = null;

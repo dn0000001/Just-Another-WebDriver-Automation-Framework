@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import com.automation.ui.common.dataStructures.Comparison;
 import com.automation.ui.common.dataStructures.InputField;
-import com.automation.ui.common.dataStructures.config.ConfigRun;
 import com.automation.ui.common.exceptions.GenericUnexpectedException;
 import com.automation.ui.common.utilities.Compare;
 import com.automation.ui.common.utilities.Controller;
@@ -25,8 +24,7 @@ public class JSON_Test {
 	@Test
 	public static void runArrayTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runArrayTest");
 
 		TestResults results = new TestResults();
@@ -82,8 +80,7 @@ public class JSON_Test {
 	@Test(expectedExceptions = GenericUnexpectedException.class)
 	public static void runArrayErrorTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runArrayErrorTest");
 
 		String sJSON = "[\"a\", , 1]";
@@ -93,8 +90,7 @@ public class JSON_Test {
 	@Test
 	public static void runMapTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runMapTest");
 		TestResults results = new TestResults();
 		String sJSON, sLog;
@@ -173,8 +169,7 @@ public class JSON_Test {
 	@Test
 	public static void runMapListTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runMapListTest");
 		TestResults results = new TestResults();
 		String sJSON, sLog;

@@ -6,7 +6,6 @@ import java.util.TimeZone;
 import org.testng.annotations.Test;
 
 import com.automation.ui.common.dataStructures.Parameter;
-import com.automation.ui.common.dataStructures.config.ConfigRun;
 import com.automation.ui.common.utilities.Compare;
 import com.automation.ui.common.utilities.Controller;
 import com.automation.ui.common.utilities.Conversion;
@@ -90,8 +89,7 @@ public class ConversionTest {
 	@Test
 	public static void runParsingTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runParsingTest");
 
 		TestResults results = new TestResults();
@@ -875,8 +873,7 @@ public class ConversionTest {
 	@Test
 	public static void runDateConversionTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runDateConversionTest");
 
 		TestResults results = new TestResults();
@@ -964,8 +961,7 @@ public class ConversionTest {
 	@Test
 	public static void runNonNullTest()
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
-		Logs.initializeLoggers();
+		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runNonNullTest");
 
 		TestResults results = new TestResults();
