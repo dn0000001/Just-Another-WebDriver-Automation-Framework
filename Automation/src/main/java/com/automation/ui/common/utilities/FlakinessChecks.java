@@ -1201,4 +1201,48 @@ public class FlakinessChecks {
 
 		return false;
 	}
+
+	/**
+	 * Check if the number of windows becomes more, less or equal to the expected window count<BR>
+	 * <BR>
+	 * <B>Notes:</B><BR>
+	 * 1) If the number of windows will decrease, then you should use this method first to prevent WebDriver
+	 * hanging if the window(s) close while finding WebElements<BR>
+	 * 
+	 * @param expectedWindowCount - Expected Window Count
+	 * @param expectedDifference - <B>Greater than 0</B> to expect current windows to be more than the
+	 *            expected window count; <B>Less than 0</B> to expect current windows to be less than the
+	 *            expected window count; <B>Equal to 0</B> to expect current windows to be equal to the
+	 *            expected window count<BR>
+	 * @return true if current number of windows matches the expected difference criteria before timeout else
+	 *         false
+	 */
+	public boolean isWindow(int expectedWindowCount, int expectedDifference)
+	{
+		Framework f = new Framework(driver);
+		ElapsedTime e = new ElapsedTime();
+		while (!e.isTimeout(timeout))
+		{
+			List<String> current = f.getWindowHandles();
+			if (expectedDifference > 0)
+			{
+				if (current.size() > expectedWindowCount)
+					return true;
+			}
+			else if (expectedDifference < 0)
+			{
+				if (current.size() < expectedWindowCount)
+					return true;
+			}
+			else
+			{
+				if (current.size() == expectedWindowCount)
+					return true;
+			}
+
+			Framework.sleep(poll);
+		}
+
+		return false;
+	}
 }
