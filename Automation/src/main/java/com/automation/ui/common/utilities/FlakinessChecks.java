@@ -1208,7 +1208,9 @@ public class FlakinessChecks {
 	 * <B>Notes:</B><BR>
 	 * 1) If the number of windows will decrease, then you should use this method first to prevent WebDriver
 	 * hanging if the window(s) close while finding WebElements<BR>
+	 * 2) The page object is necessary to prevent WebDriver hanging on initialization of the Framework class<BR>
 	 * 
+	 * @param pageObject - Page Object to use to get the window handles
 	 * @param expectedWindowCount - Expected Window Count
 	 * @param expectedDifference - <B>Greater than 0</B> to expect current windows to be more than the
 	 *            expected window count; <B>Less than 0</B> to expect current windows to be less than the
@@ -1217,13 +1219,12 @@ public class FlakinessChecks {
 	 * @return true if current number of windows matches the expected difference criteria before timeout else
 	 *         false
 	 */
-	public boolean isWindow(int expectedWindowCount, int expectedDifference)
+	public boolean isWindow(Framework pageObject, int expectedWindowCount, int expectedDifference)
 	{
-		Framework f = new Framework(driver);
 		ElapsedTime e = new ElapsedTime();
 		while (!e.isTimeout(timeout))
 		{
-			List<String> current = f.getWindowHandles();
+			List<String> current = pageObject.getWindowHandles();
 			if (expectedDifference > 0)
 			{
 				if (current.size() > expectedWindowCount)
