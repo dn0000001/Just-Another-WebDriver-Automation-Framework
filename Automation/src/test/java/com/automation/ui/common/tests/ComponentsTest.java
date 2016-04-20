@@ -21,7 +21,6 @@ import com.automation.ui.common.dataStructures.DropDown;
 import com.automation.ui.common.dataStructures.InputField;
 import com.automation.ui.common.dataStructures.Radio;
 import com.automation.ui.common.dataStructures.Selection;
-import com.automation.ui.common.dataStructures.config.ConfigRun;
 import com.automation.ui.common.sampleProject.dataStructures.PrimeFacesTableData;
 import com.automation.ui.common.sampleProject.pages.PrimeFacesTable;
 import com.automation.ui.common.sampleProject.pages.PrimeFacesTableJS;
@@ -59,7 +58,6 @@ public class ComponentsTest {
 	@Stories("US001")
 	public static void runGenericOverlayTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
 		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runGenericOverlayTest");
 
@@ -144,7 +142,6 @@ public class ComponentsTest {
 	@Stories({ "US001", "US002" })
 	public static void runGenericFieldsTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
 		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runGenericFieldsTest");
 
@@ -199,7 +196,6 @@ public class ComponentsTest {
 	@Test(enabled = run)
 	public static void runPrimefaces_OverlayTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
 		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_OverlayTest");
 
@@ -252,7 +248,6 @@ public class ComponentsTest {
 	@Test(enabled = run)
 	public static void runPrimefaces_RadioTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
 		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_RadioTest");
 
@@ -288,7 +283,6 @@ public class ComponentsTest {
 	@Test(enabled = run)
 	public static void runPrimefaces_CheckBoxTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
 		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_CheckBoxTest");
 
@@ -341,7 +335,6 @@ public class ComponentsTest {
 	@Test(enabled = run)
 	public static void runPrimefaces_InputFieldTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
 		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_InputFieldTest");
 
@@ -378,7 +371,6 @@ public class ComponentsTest {
 	@Test(enabled = run)
 	public static void runPrimefaces_AutoCompleteTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
 		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_AutoCompleteTest");
 
@@ -409,7 +401,6 @@ public class ComponentsTest {
 	@Test(enabled = run)
 	public static void runPrimefaces_DropDownTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
 		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_DropDownTest");
 
@@ -436,7 +427,6 @@ public class ComponentsTest {
 	@Test(enabled = run)
 	public static void runPrimefaces_DropDownClickTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
 		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_DropDownClickTest");
 
@@ -469,7 +459,6 @@ public class ComponentsTest {
 	@Test(enabled = run)
 	public static void runPrimefaces_CheckBoxClickTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
 		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_CheckBoxClickTest");
 
@@ -509,7 +498,6 @@ public class ComponentsTest {
 	@Test(enabled = run)
 	public static void runPrimefaces_TableTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
 		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runPrimefaces_TableTest");
 
@@ -549,7 +537,6 @@ public class ComponentsTest {
 	@Test(enabled = false)
 	public static void runGridHostTest() throws Exception
 	{
-		Logs.LOG_PROPS = ConfigRun.UnitTestLoggerPropertiesFile;
 		Logs.initializeConsoleLoggers();
 		Controller.writeTestIDtoLog("runGridHostTest");
 
