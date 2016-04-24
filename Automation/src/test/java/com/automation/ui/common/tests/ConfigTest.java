@@ -1,5 +1,6 @@
 package com.automation.ui.common.tests;
 
+import java.io.File;
 import java.lang.reflect.Field;
 
 import org.testng.annotations.Test;
@@ -7,9 +8,11 @@ import org.testng.annotations.Test;
 import com.automation.ui.common.dataStructures.Comparison;
 import com.automation.ui.common.dataStructures.config.ConfigJS;
 import com.automation.ui.common.dataStructures.config.ConfigSQL;
+import com.automation.ui.common.dataStructures.config.RuntimeProperty;
 import com.automation.ui.common.utilities.Compare;
 import com.automation.ui.common.utilities.Controller;
 import com.automation.ui.common.utilities.Logs;
+import com.automation.ui.common.utilities.Misc;
 import com.automation.ui.common.utilities.SQL_FileReader;
 import com.automation.ui.common.utilities.TestResults;
 
@@ -73,5 +76,38 @@ public class ConfigTest {
 		results.verify("Some of the configured SQL files could not be loaded.  See above for details.");
 
 		Controller.writeTestSuccessToLog("runConfigSQLTest");
+	}
+
+	@Test(enabled = false)
+	public static void runConfigLogUsingSystemPropertyTest()
+	{
+		Misc.addProperty(RuntimeProperty.env_log_prop, "src/main/resources/config/logger.properties");
+		Logs.initializeLoggersWithFallback();
+		Controller.writeTestIDtoLog("runConfigLogUsingSystemPropertyTest");
+		Logs.log.info("Entry written to results.log");
+		File file = new File("results.log");
+		if (!file.delete())
+			Logs.logError("Could not delete results.log");
+	}
+
+	@Test(enabled = false)
+	public static void runConfigLogUsingDefaultFileTest()
+	{
+		Logs.initializeLoggersWithFallback();
+		Controller.writeTestIDtoLog("runConfigLogTest");
+		Logs.log.info("Log entries do not have thread up to this point because logger.properties is being used");
+		Controller.writeTestSuccessToLog("runConfigLogTest");
+	}
+
+	@Test(enabled = false)
+	public static void runNoLoggerPropertiesTest()
+	{
+		Logs.initializeLoggersWithFallback();
+		Logs.log.info("This test requires that logger.properties is renamed/deleted and system property "
+				+ RuntimeProperty.env_log_prop + " is not provided");
+		Controller.writeTestIDtoLog("runNoLoggerPropertiesTest");
+		Logs.log.info("Log entries have thread up to this point because the default console logger is being used which outputs the thread info first");
+
+		Controller.writeTestSuccessToLog("runNoLoggerPropertiesTest");
 	}
 }

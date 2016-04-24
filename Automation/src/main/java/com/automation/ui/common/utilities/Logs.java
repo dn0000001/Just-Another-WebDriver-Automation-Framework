@@ -1,5 +1,8 @@
 package com.automation.ui.common.utilities;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -12,6 +15,7 @@ import com.automation.ui.common.dataStructures.FindTextCriteria;
 import com.automation.ui.common.dataStructures.LogErrorLevel;
 import com.automation.ui.common.dataStructures.Parameter;
 import com.automation.ui.common.dataStructures.SelectionCriteria;
+import com.automation.ui.common.dataStructures.config.RuntimeProperty;
 import com.automation.ui.common.exceptions.GenericUnexpectedException;
 
 /**
@@ -190,6 +194,33 @@ public class Logs {
 
 		// Makes the logger ready for use. (If logger used before this, then an error occurs.)
 		PropertyConfigurator.configure(getPropertiesForConsoleLogger());
+	}
+
+	/**
+	 * Initializes the loggers for use<BR>
+	 * <BR>
+	 * <B>Order of checks:</B><BR>
+	 * 1) If system property points to valid properties files, then it is used<BR>
+	 * 2) If Logs.LOG_PROPS points to valid properties files, then it is used<BR>
+	 * 3) If "logger.properties" can be found, then it is used<BR>
+	 * 4) Default to using console logger<BR>
+	 */
+	public static void initializeLoggersWithFallback()
+	{
+		List<String> files = new ArrayList<String>();
+		files.add(Misc.getProperty(RuntimeProperty.env_log_prop, ""));
+		files.add(LOG_PROPS);
+		files.add("logger.properties");
+		Properties prop = getProperties(files);
+
+		// Fall back to console logger as unable to load properties from any known file
+		if (prop == null)
+		{
+			prop = getPropertiesForConsoleLogger();
+		}
+
+		// Makes the logger ready for use. (If logger used before this, then an error occurs.)
+		PropertyConfigurator.configure(prop);
 	}
 
 	/**
@@ -443,8 +474,48 @@ public class Logs {
 		prop.setProperty("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
 		prop.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
 		prop.setProperty("log4j.appender.stdout.layout.ConversionPattern",
-				"[%d{MM-dd-yyyy HH:mm:ss}][%-5p][%-15C{1}] - %m%n");
+				"[%t][%d{MM-dd-yyyy HH:mm:ss}][%-5p][%-15C{1}] - %m%n");
 
 		return prop;
+	}
+
+	/**
+	 * Attempt to load properties from a file
+	 * 
+	 * @param file - File to attempt to load properties from
+	 * @return null if any exception else Properties
+	 */
+	private static Properties getProperties(String file)
+	{
+		try
+		{
+			InputStream input = new FileInputStream(file);
+			Properties prop = new Properties();
+			prop.load(input);
+			return prop;
+		}
+		catch (Exception ex)
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * Return the 1st properties that can be loaded given the list of files to try
+	 * 
+	 * @param files - List of files to find the 1st that can be loaded
+	 * @return null if all files are invalid (or cause exceptions) else Properties object of 1st file that
+	 *         could be loaded
+	 */
+	private static Properties getProperties(List<String> files)
+	{
+		for (String file : files)
+		{
+			Properties prop = getProperties(file);
+			if (prop != null)
+				return prop;
+		}
+
+		return null;
 	}
 }
