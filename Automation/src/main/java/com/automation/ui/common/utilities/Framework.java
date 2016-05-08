@@ -2560,58 +2560,6 @@ public class Framework {
 	}
 
 	/**
-	 * Gets the text regardless whether visible or not (without logging) using the Cobra HTML parser<BR>
-	 * <BR>
-	 * <B>Note:</B><BR>
-	 * If there are no matches check that the xpath (which is case sensitive) is in the same case as the
-	 * HTML source (use driver.getPageSource() to write the actual source to a file/log.) <BR>
-	 * <BR>
-	 * <B>Related function:</B><BR>
-	 * Misc.xpathChangeCase(String sXpath, String sDelimiter, boolean bToUppercase) to be
-	 * used in conjunction with this function to get correct case for xpath.
-	 * 
-	 * @param driver
-	 * @param sXpath - xpath to node
-	 * @return text of node if exists or null
-	 */
-	public static String getText(WebDriver driver, String sXpath)
-	{
-		try
-		{
-			HTML html = new HTML(driver);
-			return html.getNodeValue(sXpath, null);
-		}
-		catch (Exception ex)
-		{
-			return null;
-		}
-	}
-
-	/**
-	 * Get attribute using Cobra HTML parser instead of Selenium.<BR>
-	 * <BR>
-	 * <B>Note: </B> If there are no matches check that the xpath (which is case sensitive) is in the same
-	 * case as the HTML source (use driver.getPageSource() to write the actual source to a file/log.)<BR>
-	 * 
-	 * @param driver
-	 * @param sXpath - xpath to node
-	 * @param sAttribute - attribute to get
-	 * @return null if cannot find
-	 */
-	public static String getAttribute(WebDriver driver, String sXpath, String sAttribute)
-	{
-		try
-		{
-			HTML html = new HTML(driver);
-			return html.getAttribute(sXpath, sAttribute);
-		}
-		catch (Exception ex)
-		{
-			return null;
-		}
-	}
-
-	/**
 	 * Waits for the URL to change.<BR>
 	 * Note: You need to save the initial URL before doing your action & then calling this method.<BR>
 	 * <BR>
